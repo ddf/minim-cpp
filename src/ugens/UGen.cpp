@@ -17,8 +17,8 @@
  */
 
 #include "UGen.h"
-#include "..\AudioSystem.h"
-#include "..\AudioOutput.h"
+#include "AudioSystem.h"
+#include "AudioOutput.h"
 
 namespace Minim
 {
@@ -50,7 +50,7 @@ const char * UGen::UGenInput::getInputTypeAsString() const
 void UGen::UGenInput::printInput() const
 {
 	char msg[256];
-	sprintf_s( msg, "UGenInput: signal = %s %b", getInputTypeAsString(), isPatched() );
+	sprintf( msg, "UGenInput: signal = %s %i", getInputTypeAsString(), isPatched() );
 	Minim::debug( msg );
 }
 
@@ -215,7 +215,7 @@ void UGen::printInputs() const
    for(int i = 0; itr != mUGenInputs.end(); ++itr, ++i)
    {
 	   char msg[64];
-	   sprintf_s( msg, "uGenInputs %d ", i );
+	   sprintf( msg, "uGenInputs %d ", i );
 	   Minim::debug(msg);
 	   (*itr)->printInput();
    }

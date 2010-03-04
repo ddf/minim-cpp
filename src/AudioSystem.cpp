@@ -18,8 +18,8 @@
 
 #include "AudioSystem.h"
 #include "AudioFormat.h"
-#include "interfaces\AudioOut.h"
-#include "interfaces\AudioRecordingStream.h"
+#include "AudioOut.h"
+#include "AudioRecordingStream.h"
 #include "AudioOutput.h"
 
 namespace Minim

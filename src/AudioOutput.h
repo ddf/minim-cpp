@@ -20,8 +20,8 @@
 #define AUDIOOUTPUT_H
 
 #include "AudioSource.h"
-#include "UGens\Summer.h"
-#include "interfaces\AudioStream.h"
+#include "Summer.h"
+#include "AudioStream.h"
 
 namespace Minim
 {
@@ -32,7 +32,7 @@ namespace Minim
 
 	private:
 		// UGen is our friend so that it can get to our summer
-		friend UGen;
+		friend class UGen;
 		Summer mSummer;
 
 		// an adapter class that will let us plug the Summer UGen into an AudioOut

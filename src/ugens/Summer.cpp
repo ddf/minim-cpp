@@ -17,7 +17,7 @@
  */
 
 #include "Summer.h"
-#include "..\AudioOutput.h"
+#include "AudioOutput.h"
 #include <algorithm>
 
 namespace Minim

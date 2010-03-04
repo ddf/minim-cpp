@@ -19,8 +19,8 @@
 #ifndef AUDIOSOURCE_H
 #define AUDIOSOURCE_H
 
-#include "interfaces\AudioListener.h"
-#include "interfaces\AudioOut.h"
+#include "AudioListener.h"
+#include "AudioOut.h"
 #include "MultiChannelBuffer.h"
 #include "AudioFormat.h"
 

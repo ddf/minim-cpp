@@ -19,7 +19,7 @@
 #ifndef AUDIORESOURCE_H
 #define AUDIORESOURCE_H
 
-#include "..\AudioFormat.h"
+#include "AudioFormat.h"
 
 namespace Minim
 {

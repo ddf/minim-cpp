@@ -17,7 +17,7 @@
  */
 
 #include "AudioOutput.h"
-#include "interfaces\AudioStream.h"
+#include "AudioStream.h"
 #include "AudioFormat.h"
 
 namespace Minim

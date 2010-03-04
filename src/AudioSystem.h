@@ -19,9 +19,7 @@
 #ifndef AUDIOSYSTEM_H
 #define AUDIOSYSTEM_H
 
-#define NULL 0
-
-#include "interfaces\ServiceProvider.h"
+#include "ServiceProvider.h"
 
 namespace Minim
 {

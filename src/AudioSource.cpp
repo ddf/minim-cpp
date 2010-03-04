@@ -17,7 +17,7 @@
  */
 
 #include "AudioSource.h"
-#include "interfaces\AudioOut.h"
+#include "AudioOut.h"
 
 namespace Minim
 {

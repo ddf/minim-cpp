@@ -38,7 +38,7 @@ namespace Minim
 		//      This exists so that we can tick the noteManager for the provided output.
 		//      In other words, the output passed to this constructor will always be the same output
 		//      that is constructing the bus.
-		friend AudioOutput;
+		friend class AudioOutput;
 		Summer(AudioOutput * output);
 	
 	// ddf: override because everything that patches to us

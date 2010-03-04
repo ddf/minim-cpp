@@ -1,0 +1,323 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		6D966069113F756E0096AB83 /* AudioFormat.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D966052113F756E0096AB83 /* AudioFormat.h */; };
+		6D96606A113F756E0096AB83 /* AudioOutput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6D966053113F756E0096AB83 /* AudioOutput.cpp */; };
+		6D96606B113F756E0096AB83 /* AudioOutput.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D966054113F756E0096AB83 /* AudioOutput.h */; };
+		6D96606C113F756E0096AB83 /* AudioSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6D966055113F756E0096AB83 /* AudioSource.cpp */; };
+		6D96606D113F756E0096AB83 /* AudioSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D966056113F756E0096AB83 /* AudioSource.h */; };
+		6D96606E113F756E0096AB83 /* AudioSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6D966057113F756E0096AB83 /* AudioSystem.cpp */; };
+		6D96606F113F756E0096AB83 /* AudioSystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D966058113F756E0096AB83 /* AudioSystem.h */; };
+		6D966070113F756E0096AB83 /* AudioListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D96605A113F756E0096AB83 /* AudioListener.h */; };
+		6D966071113F756E0096AB83 /* AudioMetaData.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D96605B113F756E0096AB83 /* AudioMetaData.h */; };
+		6D966072113F756E0096AB83 /* AudioOut.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D96605C113F756E0096AB83 /* AudioOut.h */; };
+		6D966073113F756E0096AB83 /* AudioRecordingStream.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D96605D113F756E0096AB83 /* AudioRecordingStream.h */; };
+		6D966074113F756E0096AB83 /* AudioResource.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D96605E113F756E0096AB83 /* AudioResource.h */; };
+		6D966075113F756E0096AB83 /* AudioStream.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D96605F113F756E0096AB83 /* AudioStream.h */; };
+		6D966076113F756E0096AB83 /* SampleRecoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D966060113F756E0096AB83 /* SampleRecoder.h */; };
+		6D966077113F756E0096AB83 /* ServiceProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D966061113F756E0096AB83 /* ServiceProvider.h */; };
+		6D966078113F756E0096AB83 /* MultiChannelBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6D966062113F756E0096AB83 /* MultiChannelBuffer.cpp */; };
+		6D966079113F756E0096AB83 /* MultiChannelBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D966063113F756E0096AB83 /* MultiChannelBuffer.h */; };
+		6D96607A113F756E0096AB83 /* Summer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6D966065113F756E0096AB83 /* Summer.cpp */; };
+		6D96607B113F756E0096AB83 /* Summer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D966066113F756E0096AB83 /* Summer.h */; };
+		6D96607C113F756E0096AB83 /* UGen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6D966067113F756E0096AB83 /* UGen.cpp */; };
+		6D96607D113F756E0096AB83 /* UGen.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D966068113F756E0096AB83 /* UGen.h */; };
+		AA747D9F0F9514B9006C5449 /* MinimTouch_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AA747D9E0F9514B9006C5449 /* MinimTouch_Prefix.pch */; };
+		AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACBBE490F95108600F1A2B1 /* Foundation.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		6D966052113F756E0096AB83 /* AudioFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioFormat.h; path = ../src/AudioFormat.h; sourceTree = SOURCE_ROOT; };
+		6D966053113F756E0096AB83 /* AudioOutput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AudioOutput.cpp; path = ../src/AudioOutput.cpp; sourceTree = SOURCE_ROOT; };
+		6D966054113F756E0096AB83 /* AudioOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioOutput.h; path = ../src/AudioOutput.h; sourceTree = SOURCE_ROOT; };
+		6D966055113F756E0096AB83 /* AudioSource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AudioSource.cpp; path = ../src/AudioSource.cpp; sourceTree = SOURCE_ROOT; };
+		6D966056113F756E0096AB83 /* AudioSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioSource.h; path = ../src/AudioSource.h; sourceTree = SOURCE_ROOT; };
+		6D966057113F756E0096AB83 /* AudioSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AudioSystem.cpp; path = ../src/AudioSystem.cpp; sourceTree = SOURCE_ROOT; };
+		6D966058113F756E0096AB83 /* AudioSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioSystem.h; path = ../src/AudioSystem.h; sourceTree = SOURCE_ROOT; };
+		6D96605A113F756E0096AB83 /* AudioListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioListener.h; path = ../src/interfaces/AudioListener.h; sourceTree = SOURCE_ROOT; };
+		6D96605B113F756E0096AB83 /* AudioMetaData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioMetaData.h; path = ../src/interfaces/AudioMetaData.h; sourceTree = SOURCE_ROOT; };
+		6D96605C113F756E0096AB83 /* AudioOut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioOut.h; path = ../src/interfaces/AudioOut.h; sourceTree = SOURCE_ROOT; };
+		6D96605D113F756E0096AB83 /* AudioRecordingStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioRecordingStream.h; path = ../src/interfaces/AudioRecordingStream.h; sourceTree = SOURCE_ROOT; };
+		6D96605E113F756E0096AB83 /* AudioResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioResource.h; path = ../src/interfaces/AudioResource.h; sourceTree = SOURCE_ROOT; };
+		6D96605F113F756E0096AB83 /* AudioStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioStream.h; path = ../src/interfaces/AudioStream.h; sourceTree = SOURCE_ROOT; };
+		6D966060113F756E0096AB83 /* SampleRecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleRecoder.h; path = ../src/interfaces/SampleRecoder.h; sourceTree = SOURCE_ROOT; };
+		6D966061113F756E0096AB83 /* ServiceProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServiceProvider.h; path = ../src/interfaces/ServiceProvider.h; sourceTree = SOURCE_ROOT; };
+		6D966062113F756E0096AB83 /* MultiChannelBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MultiChannelBuffer.cpp; path = ../src/MultiChannelBuffer.cpp; sourceTree = SOURCE_ROOT; };
+		6D966063113F756E0096AB83 /* MultiChannelBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MultiChannelBuffer.h; path = ../src/MultiChannelBuffer.h; sourceTree = SOURCE_ROOT; };
+		6D966065113F756E0096AB83 /* Summer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Summer.cpp; path = ../src/ugens/Summer.cpp; sourceTree = SOURCE_ROOT; };
+		6D966066113F756E0096AB83 /* Summer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Summer.h; path = ../src/ugens/Summer.h; sourceTree = SOURCE_ROOT; };
+		6D966067113F756E0096AB83 /* UGen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = UGen.cpp; path = ../src/ugens/UGen.cpp; sourceTree = SOURCE_ROOT; };
+		6D966068113F756E0096AB83 /* UGen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UGen.h; path = ../src/ugens/UGen.h; sourceTree = SOURCE_ROOT; };
+		AA747D9E0F9514B9006C5449 /* MinimTouch_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MinimTouch_Prefix.pch; sourceTree = SOURCE_ROOT; };
+		AACBBE490F95108600F1A2B1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		D2AAC07E0554694100DB518D /* libMinimTouch.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMinimTouch.a; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D2AAC07C0554694100DB518D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		034768DFFF38A50411DB9C8B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D2AAC07E0554694100DB518D /* libMinimTouch.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0867D691FE84028FC02AAC07 /* MinimTouch */ = {
+			isa = PBXGroup;
+			children = (
+				08FB77AEFE84172EC02AAC07 /* Classes */,
+				32C88DFF0371C24200C91783 /* Other Sources */,
+				0867D69AFE84028FC02AAC07 /* Frameworks */,
+				034768DFFF38A50411DB9C8B /* Products */,
+			);
+			name = MinimTouch;
+			sourceTree = "<group>";
+		};
+		0867D69AFE84028FC02AAC07 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AACBBE490F95108600F1A2B1 /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		08FB77AEFE84172EC02AAC07 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				6D966052113F756E0096AB83 /* AudioFormat.h */,
+				6D966053113F756E0096AB83 /* AudioOutput.cpp */,
+				6D966054113F756E0096AB83 /* AudioOutput.h */,
+				6D966055113F756E0096AB83 /* AudioSource.cpp */,
+				6D966056113F756E0096AB83 /* AudioSource.h */,
+				6D966057113F756E0096AB83 /* AudioSystem.cpp */,
+				6D966058113F756E0096AB83 /* AudioSystem.h */,
+				6D966059113F756E0096AB83 /* interfaces */,
+				6D966062113F756E0096AB83 /* MultiChannelBuffer.cpp */,
+				6D966063113F756E0096AB83 /* MultiChannelBuffer.h */,
+				6D966064113F756E0096AB83 /* ugens */,
+			);
+			name = Classes;
+			sourceTree = SOURCE_ROOT;
+		};
+		32C88DFF0371C24200C91783 /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				AA747D9E0F9514B9006C5449 /* MinimTouch_Prefix.pch */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		6D966059113F756E0096AB83 /* interfaces */ = {
+			isa = PBXGroup;
+			children = (
+				6D96605A113F756E0096AB83 /* AudioListener.h */,
+				6D96605B113F756E0096AB83 /* AudioMetaData.h */,
+				6D96605C113F756E0096AB83 /* AudioOut.h */,
+				6D96605D113F756E0096AB83 /* AudioRecordingStream.h */,
+				6D96605E113F756E0096AB83 /* AudioResource.h */,
+				6D96605F113F756E0096AB83 /* AudioStream.h */,
+				6D966060113F756E0096AB83 /* SampleRecoder.h */,
+				6D966061113F756E0096AB83 /* ServiceProvider.h */,
+			);
+			name = interfaces;
+			path = ../src/interfaces;
+			sourceTree = "<group>";
+		};
+		6D966064113F756E0096AB83 /* ugens */ = {
+			isa = PBXGroup;
+			children = (
+				6D966065113F756E0096AB83 /* Summer.cpp */,
+				6D966066113F756E0096AB83 /* Summer.h */,
+				6D966067113F756E0096AB83 /* UGen.cpp */,
+				6D966068113F756E0096AB83 /* UGen.h */,
+			);
+			name = ugens;
+			path = ../src/ugens;
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		D2AAC07A0554694100DB518D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA747D9F0F9514B9006C5449 /* MinimTouch_Prefix.pch in Headers */,
+				6D966069113F756E0096AB83 /* AudioFormat.h in Headers */,
+				6D96606B113F756E0096AB83 /* AudioOutput.h in Headers */,
+				6D96606D113F756E0096AB83 /* AudioSource.h in Headers */,
+				6D96606F113F756E0096AB83 /* AudioSystem.h in Headers */,
+				6D966070113F756E0096AB83 /* AudioListener.h in Headers */,
+				6D966071113F756E0096AB83 /* AudioMetaData.h in Headers */,
+				6D966072113F756E0096AB83 /* AudioOut.h in Headers */,
+				6D966073113F756E0096AB83 /* AudioRecordingStream.h in Headers */,
+				6D966074113F756E0096AB83 /* AudioResource.h in Headers */,
+				6D966075113F756E0096AB83 /* AudioStream.h in Headers */,
+				6D966076113F756E0096AB83 /* SampleRecoder.h in Headers */,
+				6D966077113F756E0096AB83 /* ServiceProvider.h in Headers */,
+				6D966079113F756E0096AB83 /* MultiChannelBuffer.h in Headers */,
+				6D96607B113F756E0096AB83 /* Summer.h in Headers */,
+				6D96607D113F756E0096AB83 /* UGen.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		D2AAC07D0554694100DB518D /* MinimTouch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1DEB921E08733DC00010E9CD /* Build configuration list for PBXNativeTarget "MinimTouch" */;
+			buildPhases = (
+				D2AAC07A0554694100DB518D /* Headers */,
+				D2AAC07B0554694100DB518D /* Sources */,
+				D2AAC07C0554694100DB518D /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MinimTouch;
+			productName = MinimTouch;
+			productReference = D2AAC07E0554694100DB518D /* libMinimTouch.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0867D690FE84028FC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 1DEB922208733DC00010E9CD /* Build configuration list for PBXProject "MinimTouch" */;
+			compatibilityVersion = "Xcode 3.1";
+			hasScannedForEncodings = 1;
+			mainGroup = 0867D691FE84028FC02AAC07 /* MinimTouch */;
+			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D2AAC07D0554694100DB518D /* MinimTouch */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D2AAC07B0554694100DB518D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6D96606A113F756E0096AB83 /* AudioOutput.cpp in Sources */,
+				6D96606C113F756E0096AB83 /* AudioSource.cpp in Sources */,
+				6D96606E113F756E0096AB83 /* AudioSystem.cpp in Sources */,
+				6D966078113F756E0096AB83 /* MultiChannelBuffer.cpp in Sources */,
+				6D96607A113F756E0096AB83 /* Summer.cpp in Sources */,
+				6D96607C113F756E0096AB83 /* UGen.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1DEB921F08733DC00010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = NO;
+				DSTROOT = /tmp/MinimTouch.dst;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = MinimTouch_Prefix.pch;
+				INSTALL_PATH = /usr/local/lib;
+				PRODUCT_NAME = MinimTouch;
+			};
+			name = Debug;
+		};
+		1DEB922008733DC00010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				DSTROOT = /tmp/MinimTouch.dst;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = MinimTouch_Prefix.pch;
+				INSTALL_PATH = /usr/local/lib;
+				PRODUCT_NAME = MinimTouch;
+			};
+			name = Release;
+		};
+		1DEB922308733DC00010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/src/**";
+				OTHER_LDFLAGS = "-ObjC";
+				PREBINDING = NO;
+				SDKROOT = iphoneos3.1.3;
+				USER_HEADER_SEARCH_PATHS = "";
+			};
+			name = Debug;
+		};
+		1DEB922408733DC00010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/src/**";
+				OTHER_LDFLAGS = "-ObjC";
+				PREBINDING = NO;
+				SDKROOT = iphoneos3.1.3;
+				USER_HEADER_SEARCH_PATHS = "";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEB921E08733DC00010E9CD /* Build configuration list for PBXNativeTarget "MinimTouch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB921F08733DC00010E9CD /* Debug */,
+				1DEB922008733DC00010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1DEB922208733DC00010E9CD /* Build configuration list for PBXProject "MinimTouch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB922308733DC00010E9CD /* Debug */,
+				1DEB922408733DC00010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0867D690FE84028FC02AAC07 /* Project object */;
+}
