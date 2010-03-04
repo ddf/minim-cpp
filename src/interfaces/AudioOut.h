@@ -31,35 +31,24 @@ namespace Minim
 	class AudioOut : public AudioResource
 	{
 	public:
+	  virtual ~AudioOut() {}
+
 	  /**
 	   * @return the size of the buffer used by this output.
 	   */
-	  virtual int bufferSize() const = 0;
+	  virtual const int bufferSize() const = 0;
 	  
 	  /**
-	   * Sets the AudioSignal that this output will use to generate sound.
-	   * 
-	   * @param signal
-	   *          the AudioSignal used to generate sound
-	   */
-	  virtual void setAudioSignal( AudioSignal * signal ) = 0;
-	  
-	  /**
-	   * Sets the AudioStream that this output will use to generate sound.
+	   * Sets the AudioStream that this output will read from to 
+	   * produce samples to shove into the output.
+	   *
 	   * @param stream
 	   */
 	  virtual void setAudioStream( AudioStream * stream ) = 0;
+  
+	  /**
+	   * Sets the AudioListener that will have sound broadcasted to it as the output generates it.
 
-	  /**
-	   * Sets the AudioEffect to apply to the signal.
-	   * 
-	   * @param effect
-	   *          the AudioEffect to apply to the signal
-	   */
-	  virtual void setAudioEffect( AudioEffect * effect ) = 0;
-	  
-	  /**
-	   * Sets the AudioListener that will have sound broadcasted to it as the output generates.
 	   * @param listen
 	   */
 	  virtual void setAudioListener( AudioListener * listen ) = 0;
@@ -73,7 +62,7 @@ namespace Minim
 	   * Resumes processing of the signal or stream attached to this output.
 	   */
 	  virtual void resumeProcessing() = 0;
-}
+	};
 
 };
 

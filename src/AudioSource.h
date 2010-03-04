@@ -16,25 +16,53 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifndef AUDIOLISTENER_H
-#define AUDIOLISTENER_H
+#ifndef AUDIOSOURCE_H
+#define AUDIOSOURCE_H
 
+#include "interfaces\AudioListener.h"
+#include "interfaces\AudioOut.h"
 #include "MultiChannelBuffer.h"
+#include "AudioFormat.h"
 
 namespace Minim
 {
-
-	/** 
-	  * Implementing AudioListener allows you to receive samples from an audio
-	  * generating object in a callback fashion.
-	  *
-	  */
-	class AudioListener
+	class AudioSource
 	{
 	public:
-		virtual void samples( const MultiChannelBuffer & buffer ) = 0;
-	};
+		virtual ~AudioSource();
 
+		const MultiChannelBuffer & buffer() const { return mSampleBuffer; }
+
+		float sampleRate() const;
+
+		const AudioFormat & getFormat() const { return mOutput->getFormat(); }
+
+		void close();
+
+	protected:
+		AudioSource( AudioOut * out );
+
+	private:
+		class OutputListener : public AudioListener
+		{
+		public:
+			OutputListener( MultiChannelBuffer & targetBuffer )
+				: mTargetBuffer( targetBuffer )
+			{}
+
+			void samples( const MultiChannelBuffer & inputBuffer )
+			{
+				mTargetBuffer = inputBuffer;
+			}
+
+		private:
+			MultiChannelBuffer & mTargetBuffer;
+		};
+
+		AudioOut *		   mOutput;
+		OutputListener	   mListener;
+		MultiChannelBuffer mSampleBuffer;
+	};
 };
 
-#endif // AUDIOLISTENER_H
+#endif // AUDIOSOURCE_H

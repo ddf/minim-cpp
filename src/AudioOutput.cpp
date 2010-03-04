@@ -16,21 +16,37 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifndef AUDIORESOURCE_H
-#define AUDIORESOURCE_H
-
-#include "..\AudioFormat.h"
+#include "AudioOutput.h"
+#include "interfaces\AudioStream.h"
+#include "AudioFormat.h"
 
 namespace Minim
 {
-	class AudioResource
+
+AudioOutput::AudioOutput(Minim::AudioOut *out)
+: AudioSource(out)
+, mSummer(this)
+, mSummerStream(*this)
+{
+	out->setAudioStream( &mSummerStream );
+}
+
+
+void AudioOutput::SummerStream::read( MultiChannelBuffer & buffer )
+{
+	const int nChannels = getFormat().getChannels();
+	float * tmp = new float[ nChannels ];
+	buffer.setChannelCount( nChannels );
+	for(int i = 0; i < buffer.getBufferSize(); i++)
 	{
-	public:
-		virtual void open() = 0;
-		virtual void close() = 0;
-		virtual const AudioFormat & getFormat() const = 0;
-	};
+		mOutput.mSummer.tick( tmp, nChannels );
+		for(int c = 0; c < nChannels; c++)
+		{
+			buffer.getChannel(c)[i] = tmp[i];
+		}
+	}
+}
 
-};
 
-#endif // AUDIORESOURCE_H
+
+} // namespace Minim

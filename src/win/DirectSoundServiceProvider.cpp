@@ -16,21 +16,5 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifndef AUDIORESOURCE_H
-#define AUDIORESOURCE_H
+#include "DirectSoundServiceProvider.h"
 
-#include "..\AudioFormat.h"
-
-namespace Minim
-{
-	class AudioResource
-	{
-	public:
-		virtual void open() = 0;
-		virtual void close() = 0;
-		virtual const AudioFormat & getFormat() const = 0;
-	};
-
-};
-
-#endif // AUDIORESOURCE_H

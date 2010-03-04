@@ -21,6 +21,7 @@
 #define AUDIORECORDINGSTREAM_H
 
 #include "AudioMetaData.h"
+#include "AudioStream.h"
 
 namespace Minim
 {
@@ -28,6 +29,7 @@ namespace Minim
 	class AudioRecordingStream : public AudioStream
 	{
 	public:
+		virtual ~AudioRecordingStream() {}
 		/**
 		 * Allows playback/reads of the source. 
 		 * 

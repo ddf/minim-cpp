@@ -16,21 +16,44 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifndef AUDIORESOURCE_H
-#define AUDIORESOURCE_H
+#ifndef AUDIOOUTPUT_H
+#define AUDIOOUTPUT_H
 
-#include "..\AudioFormat.h"
+#include "AudioSource.h"
+#include "UGens\Summer.h"
+#include "interfaces\AudioStream.h"
 
 namespace Minim
 {
-	class AudioResource
+	class AudioOutput : public AudioSource
 	{
 	public:
-		virtual void open() = 0;
-		virtual void close() = 0;
-		virtual const AudioFormat & getFormat() const = 0;
-	};
+		AudioOutput( AudioOut * out );
 
+	private:
+		// UGen is our friend so that it can get to our summer
+		friend UGen;
+		Summer mSummer;
+
+		// an adapter class that will let us plug the Summer UGen into an AudioOut
+		class SummerStream : public AudioStream
+		{
+		public:
+			SummerStream( AudioOutput & out ) : mOutput(out) {}
+
+			// AudioResource impl
+			virtual void open() {}
+			virtual void close() {}
+			virtual const AudioFormat & getFormat() const { return mOutput.getFormat(); }
+
+			virtual void read( MultiChannelBuffer & buffer );
+		private:
+			AudioOutput & mOutput;
+		};
+
+		SummerStream mSummerStream;
+
+	};
 };
 
-#endif // AUDIORESOURCE_H
+#endif // AUDIOOUTPUT_H

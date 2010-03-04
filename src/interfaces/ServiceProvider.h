@@ -46,6 +46,10 @@ namespace Minim
 
 	class ServiceProvider
 	{
+	public:
+	  
+	  virtual ~ServiceProvider() {}
+
 	  /**
 	   * Called inside the Minim constructor. Implementations should load any libraries and 
 	   * resources they need at this time.
@@ -81,32 +85,20 @@ namespace Minim
 	 * @param inMemory TODO
 	   * @return an AudioRecording stream that will stream the file
 	   */
-	  virtual AudioRecordingStream * getAudioRecordingStream(const char * filename, int bufferSize, bool inMemory) = 0;
+	  virtual AudioRecordingStream * getAudioRecordingStream( const char * filename, int bufferSize, bool inMemory ) = 0;
 	  
 	  /**
 	   * Should return an {@link  AudioStream} with the requested parameters. What Minim is 
 	   * expecting this stream to be reading from is the active audio input of the computer, 
 	   * such as the microphone or line-in.
-	   * 
-	   * @param type Minim.STEREO or Minim.MONO
-	   * @param bufferSize how big the in-memory buffer should be
-	   * @param sampleRate what the sample rate of the stream should be
-	   * @param bitDepth what the bit depth of the stream should be
-	   * @return an AudioStream that is reading from the active audio input of the computer
 	   */
-	  virtual AudioStream * getAudioInput(int type, int bufferSize, float sampleRate, int bitDepth) = 0;
+	  virtual AudioStream * getAudioInput( const AudioFormat & inputFormat ) = 0;
 	  
 	  /**
 	   * Should return an {@link AudioOut} that can be used to generate audio that will 
 	   * be heard through the computer's speakers.
-	   * 
-	   * @param type Minim.STEREO or Minim.MONO
-	   * @param bufferSize how big the in-memory buffer should be
-	   * @param sampleRate what the sample rate of the generated audio should be
-	   * @param bitDepth what the bit depth of the generated audio should be
-	   * @return an AudioSynthesizer that will output to the computer's speakers
 	   */
-	  virtual AudioOut * getAudioOutput(int type, int bufferSize, float sampleRate, int bitDepth) = 0;
+	  virtual AudioOut * getAudioOutput( const AudioFormat & outputFormat, int outputBufferSize ) = 0;
 	  
 	  /**
 	   * Should return an {@link AudioSample} that will load the requested file into memory.
@@ -116,7 +108,7 @@ namespace Minim
 	   * @param bufferSize how big the output buffer used for playing the sample should be
 	   * @return an AudioSample that contains the file
 	   */
-	  virtual AudioSample * getAudioSample(const char * filename, int bufferSize) = 0;
+	  virtual AudioSample * getAudioSample( const char * filename, int bufferSize ) = 0;
 	  
 	  /**
 	   * Should return an {@link AudioSample} that will store the provided samples.
@@ -130,7 +122,7 @@ namespace Minim
 	   * @return
 	   *          an AudioSample that contains the samples
 	   */
-	  virtual AudioSample * getAudioSample(MultiChannelBuffer * samples, AudioFormat * format, int bufferSize) = 0;
+	  virtual AudioSample * getAudioSample( MultiChannelBuffer * samples, const AudioFormat & format, int bufferSize ) = 0;
 	  
 	  /**
 	   * Should return a {@link SampleRecorder} that can record the <code>source</code> in a 
@@ -140,8 +132,8 @@ namespace Minim
 	   * @param buffered whether or not to buffer all recorded audio in memory or stream directly to the file
 	   * @return an appropriate SampleRecorder
 	   */
-	  virtual SampleRecorder * getSampleRecorder(Recordable * source, const char * saveTo, bool buffered) = 0;
-	}
+	  // virtual SampleRecorder * getSampleRecorder( Recordable * source, const char * saveTo, bool buffered ) = 0;
+	};
 
 };
 

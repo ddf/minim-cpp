@@ -147,7 +147,35 @@
 			Name="Core"
 			>
 			<File
+				RelativePath=".\src\AudioFormat.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\AudioOutput.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\AudioSource.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\AudioSource.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\AudioSystem.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\AudioSystem.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\MultiChannelBuffer.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\MultiChannelBuffer.h"
 				>
 			</File>
 			<Filter
@@ -163,6 +191,10 @@
 				</File>
 				<File
 					RelativePath=".\src\interfaces\AudioOut.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\AudioOutput.cpp"
 					>
 				</File>
 				<File
@@ -186,6 +218,38 @@
 					>
 				</File>
 			</Filter>
+		</Filter>
+		<Filter
+			Name="UGens"
+			>
+			<File
+				RelativePath=".\src\ugens\Summer.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ugens\Summer.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ugens\UGen.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ugens\UGen.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Win"
+			>
+			<File
+				RelativePath=".\src\win\DirectSoundServiceProvider.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\win\DirectSoundServiceProvider.h"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

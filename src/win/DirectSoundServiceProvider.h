@@ -16,21 +16,26 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifndef AUDIORESOURCE_H
-#define AUDIORESOURCE_H
-
-#include "..\AudioFormat.h"
+#include "..\interfaces\ServiceProvider.h"
 
 namespace Minim
 {
-	class AudioResource
+	class DirectSoundServiceProvider : public ServiceProvider
 	{
 	public:
-		virtual void open() = 0;
-		virtual void close() = 0;
-		virtual const AudioFormat & getFormat() const = 0;
+	  DirectSoundServiceProvider();
+	  virtual ~DirectSoundServiceProvider();
+	  
+	  virtual void start();
+	  virtual void stop();
+	  
+	  virtual void debugOn();
+	  virtual void debugOff();
+	  
+	  virtual AudioRecordingStream * getAudioRecordingStream( const char * filename, int bufferSize, bool inMemory );
+	  virtual AudioStream * getAudioInput( const AudioFormat & inputFormat );
+	  virtual AudioOut * getAudioOutput( const AudioFormat & outputFormat, int outputBufferSize );
+	  virtual AudioSample * getAudioSample( const char * filename, int bufferSize );
+	  virtual AudioSample * getAudioSample( MultiChannelBuffer * samples, const AudioFormat & format, int bufferSize );
 	};
-
 };
-
-#endif // AUDIORESOURCE_H

@@ -27,13 +27,6 @@ namespace Minim
 	class AudioStream : public AudioResource
 	{
 	public:
-		/**
-		* Reads the next sample frame.
-		* 
-		* @return an array of floats containing the value of each channel in the sample frame just read.
-		* 		 The size of the returned array will be the same size as getFormat().getChannels(). 
-		*/
-		virtual float[] read() = 0;
 
 		/**
 		* Reads buffer.getBufferSize() sample frames and puts them into buffer's channels.

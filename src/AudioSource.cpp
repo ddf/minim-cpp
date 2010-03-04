@@ -16,21 +16,33 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifndef AUDIORESOURCE_H
-#define AUDIORESOURCE_H
-
-#include "..\AudioFormat.h"
+#include "AudioSource.h"
+#include "interfaces\AudioOut.h"
 
 namespace Minim
 {
-	class AudioResource
-	{
-	public:
-		virtual void open() = 0;
-		virtual void close() = 0;
-		virtual const AudioFormat & getFormat() const = 0;
-	};
 
-};
+AudioSource::AudioSource( AudioOut * out )
+: mOutput(out)
+, mListener( mSampleBuffer )
+{
+	out->setAudioListener( &mListener );
+}
 
-#endif // AUDIORESOURCE_H
+AudioSource::~AudioSource()
+{
+	delete mOutput;
+}
+
+float AudioSource::sampleRate() const
+{
+	return mOutput->getFormat().getSampleRate();
+}
+
+void AudioSource::close()
+{
+	mOutput->close();
+}
+
+
+} // namespace Minim
