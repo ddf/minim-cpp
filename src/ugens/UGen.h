@@ -185,13 +185,15 @@ public:
 	 */
 	void tick(float * channels, int numChannels);
 
-
+protected:
 	
 	/**
 	 * Implement this method when you extend UGen.
 	 * @param channels
 	 */
 	virtual void uGenerate(float * channels, int numChannels) = 0;
+	
+public:
 	
 	// Just return the lastValues
 	const float * getLastValues() const
@@ -212,6 +214,8 @@ protected:
 	{
 		// default implementation does nothing.
 	}
+	
+	float sampleRate() const { return mSampleRate; }
 
 public:
 	

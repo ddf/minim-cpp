@@ -33,6 +33,17 @@ Summer::Summer(AudioOutput * out)
 {
 	
 }
+	
+///////////////////////////////////////////////////
+void Summer::sampleRateChanged()
+{
+	std::vector<UGen*>::iterator itr = mUGens.begin();
+	for ( ; itr != mUGens.end(); ++itr) 
+	{
+		UGen * u = *itr;
+		u->setSampleRate(sampleRate());
+	}
+}
 
 ///////////////////////////////////////////////////
 void Summer::uGenerate(float * channels, int numChannels)

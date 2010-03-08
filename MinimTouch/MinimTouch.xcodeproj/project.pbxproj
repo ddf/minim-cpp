@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6D6A9B3711432ED9003B59BA /* TouchServiceProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D6A9B3511432ED9003B59BA /* TouchServiceProvider.h */; };
+		6D6A9B3811432ED9003B59BA /* TouchServiceProvider.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6D6A9B3611432ED9003B59BA /* TouchServiceProvider.mm */; };
+		6D82014B11448761009404CA /* TouchAudioOut.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D82014911448761009404CA /* TouchAudioOut.h */; };
+		6D82014C11448761009404CA /* TouchAudioOut.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6D82014A11448761009404CA /* TouchAudioOut.mm */; };
+		6D8201E711449A7F009404CA /* Noise.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D8201E511449A7F009404CA /* Noise.h */; };
+		6D8201E811449A7F009404CA /* Noise.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6D8201E611449A7F009404CA /* Noise.cpp */; };
 		6D966069113F756E0096AB83 /* AudioFormat.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D966052113F756E0096AB83 /* AudioFormat.h */; };
 		6D96606A113F756E0096AB83 /* AudioOutput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6D966053113F756E0096AB83 /* AudioOutput.cpp */; };
 		6D96606B113F756E0096AB83 /* AudioOutput.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D966054113F756E0096AB83 /* AudioOutput.h */; };
@@ -33,6 +39,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6D6A9B3511432ED9003B59BA /* TouchServiceProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TouchServiceProvider.h; path = ../src/mac/TouchServiceProvider.h; sourceTree = SOURCE_ROOT; };
+		6D6A9B3611432ED9003B59BA /* TouchServiceProvider.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = TouchServiceProvider.mm; path = ../src/mac/TouchServiceProvider.mm; sourceTree = SOURCE_ROOT; };
+		6D82014911448761009404CA /* TouchAudioOut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TouchAudioOut.h; path = ../src/mac/TouchAudioOut.h; sourceTree = SOURCE_ROOT; };
+		6D82014A11448761009404CA /* TouchAudioOut.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = TouchAudioOut.mm; path = ../src/mac/TouchAudioOut.mm; sourceTree = SOURCE_ROOT; };
+		6D8201E511449A7F009404CA /* Noise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Noise.h; sourceTree = "<group>"; };
+		6D8201E611449A7F009404CA /* Noise.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Noise.cpp; sourceTree = "<group>"; };
 		6D966052113F756E0096AB83 /* AudioFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioFormat.h; path = ../src/AudioFormat.h; sourceTree = SOURCE_ROOT; };
 		6D966053113F756E0096AB83 /* AudioOutput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AudioOutput.cpp; path = ../src/AudioOutput.cpp; sourceTree = SOURCE_ROOT; };
 		6D966054113F756E0096AB83 /* AudioOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioOutput.h; path = ../src/AudioOutput.h; sourceTree = SOURCE_ROOT; };
@@ -101,6 +113,7 @@
 		08FB77AEFE84172EC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				6D6A9B2C1143251F003B59BA /* implementation */,
 				6D966052113F756E0096AB83 /* AudioFormat.h */,
 				6D966053113F756E0096AB83 /* AudioOutput.cpp */,
 				6D966054113F756E0096AB83 /* AudioOutput.h */,
@@ -122,6 +135,17 @@
 				AA747D9E0F9514B9006C5449 /* MinimTouch_Prefix.pch */,
 			);
 			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		6D6A9B2C1143251F003B59BA /* implementation */ = {
+			isa = PBXGroup;
+			children = (
+				6D6A9B3511432ED9003B59BA /* TouchServiceProvider.h */,
+				6D6A9B3611432ED9003B59BA /* TouchServiceProvider.mm */,
+				6D82014911448761009404CA /* TouchAudioOut.h */,
+				6D82014A11448761009404CA /* TouchAudioOut.mm */,
+			);
+			name = implementation;
 			sourceTree = "<group>";
 		};
 		6D966059113F756E0096AB83 /* interfaces */ = {
@@ -147,6 +171,8 @@
 				6D966066113F756E0096AB83 /* Summer.h */,
 				6D966067113F756E0096AB83 /* UGen.cpp */,
 				6D966068113F756E0096AB83 /* UGen.h */,
+				6D8201E511449A7F009404CA /* Noise.h */,
+				6D8201E611449A7F009404CA /* Noise.cpp */,
 			);
 			name = ugens;
 			path = ../src/ugens;
@@ -175,6 +201,9 @@
 				6D966079113F756E0096AB83 /* MultiChannelBuffer.h in Headers */,
 				6D96607B113F756E0096AB83 /* Summer.h in Headers */,
 				6D96607D113F756E0096AB83 /* UGen.h in Headers */,
+				6D6A9B3711432ED9003B59BA /* TouchServiceProvider.h in Headers */,
+				6D82014B11448761009404CA /* TouchAudioOut.h in Headers */,
+				6D8201E711449A7F009404CA /* Noise.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -227,6 +256,9 @@
 				6D966078113F756E0096AB83 /* MultiChannelBuffer.cpp in Sources */,
 				6D96607A113F756E0096AB83 /* Summer.cpp in Sources */,
 				6D96607C113F756E0096AB83 /* UGen.cpp in Sources */,
+				6D6A9B3811432ED9003B59BA /* TouchServiceProvider.mm in Sources */,
+				6D82014C11448761009404CA /* TouchAudioOut.mm in Sources */,
+				6D8201E811449A7F009404CA /* Noise.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

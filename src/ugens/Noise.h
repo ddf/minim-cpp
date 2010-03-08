@@ -16,38 +16,59 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#include "AudioOutput.h"
-#include "AudioStream.h"
-#include "AudioFormat.h"
+#ifndef NOISEUGEN_H
+#define NOISEUGEN_H
 
-namespace Minim
+#include "UGen.h"
+
+namespace Minim 
 {
-
-AudioOutput::AudioOutput(Minim::AudioOut *out)
-: AudioSource(out)
-, mSummer(this)
-, mSummerStream(*this)
-{
-	out->setAudioStream( &mSummerStream );
-	out->open();
-}
-
-
-void AudioOutput::SummerStream::read( MultiChannelBuffer & buffer )
-{
-	const int nChannels = getFormat().getChannels();
-	float * tmp = new float[ nChannels ];
-	buffer.setChannelCount( nChannels );
-	for(int i = 0; i < buffer.getBufferSize(); i++)
+#define NUMWHITEVALUES 6
+	
+	class Noise : public UGen 
 	{
-		mOutput.mSummer.tick( tmp, nChannels );
-		for(int c = 0; c < nChannels; c++)
+	public:
+		enum Tint
 		{
-			buffer.getChannel(c)[i] = tmp[i];
-		}
-	}
+			eTintWhite,
+			eTintPink,
+			eTintRed,
+			eTintBrown,
+		};
+		
+		Noise( float fAmplitude, Tint eTint );
+		
+		// override
+		virtual void sampleRateChanged();
+		
+	protected:
+		
+		virtual void uGenerate( float * channels, int numChannels );
+		
+	private:
+		
+		// initialize data for generating pink noise
+		void	initPink();
+		// generate the next pink noise value
+		float	pink();
+		
+		Tint	mTint;
+		float	mAmp;
+		float	mLastOutput;
+		
+		float	mBrownCutoffFreq;
+		float	mBrownAlpha;
+		float	mBrownAmpCorr;
+		
+		int		mMaxKey;
+		int		mKey;
+		int		mRange;
+		
+		float	mWhiteValues[NUMWHITEVALUES];
+		float	mMaxSumEver;
+	};
+	
 }
 
+#endif // NOISEUGEN_H
 
-
-} // namespace Minim

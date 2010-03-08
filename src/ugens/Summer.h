@@ -31,6 +31,7 @@ namespace Minim
 
 	public:
 		Summer();
+		virtual ~Summer() {}
 	
 
 	protected:

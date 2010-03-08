@@ -71,6 +71,13 @@ std::vector<float> & MultiChannelBuffer::getChannel( const int channelNum )
 
 	return mChannels[channelNum];
 }
+	
+//const std::vector<float> & MultiChannelBuffer::getChannel( const int channelNum ) const
+//{
+//	assert( (channelNum < (int)mChannels.size()) && "MultiChannelBuffer tried to get a channel number that doesn't exist!" );
+//		
+//	return mChannels[channelNum];
+//}
 
 ////////////////////////////////////////////////////////////
 void MultiChannelBuffer::setChannel(int channelNum, const std::vector<float> &samples)

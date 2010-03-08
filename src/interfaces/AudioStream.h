@@ -20,6 +20,7 @@
 #define AUDIOSTREAM_H
 
 #include "AudioResource.h"
+#include "MultiChannelBuffer.h"
 
 namespace Minim
 {

@@ -24,6 +24,15 @@
 
 namespace Minim
 {
+	
+void error( const char * )
+{
+	
+}
+	
+void debug( const char * )
+{
+}
 
 AudioSystem::AudioSystem(Minim::ServiceProvider *msp)
 : mServiceProvider(msp)
@@ -94,8 +103,7 @@ AudioOutput * AudioSystem::getAudioOutput( const AudioFormat & outputFormat, int
 	AudioOut * out = mServiceProvider->getAudioOutput( outputFormat, outputBufferSize );
 	if ( out != NULL )
 	{
-	  // TODO
-	  // return new AudioOutput(out);
+	  return new AudioOutput(out);
 	}
 
 	error("AudioSystem::getAudioOutput: attempt failed, could not secure an AudioOutput.");
