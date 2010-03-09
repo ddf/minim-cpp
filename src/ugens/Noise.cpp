@@ -15,7 +15,8 @@ namespace Minim
 {
 
 Noise::Noise( float amp, Tint tint )
-: mAmp(amp)
+: UGen()
+, mAmp(amp)
 , mTint(tint)
 , mLastOutput(0.f)
 , mBrownCutoffFreq(100.f)

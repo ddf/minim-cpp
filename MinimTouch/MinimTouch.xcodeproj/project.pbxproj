@@ -34,6 +34,15 @@
 		6D96607B113F756E0096AB83 /* Summer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D966066113F756E0096AB83 /* Summer.h */; };
 		6D96607C113F756E0096AB83 /* UGen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6D966067113F756E0096AB83 /* UGen.cpp */; };
 		6D96607D113F756E0096AB83 /* UGen.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D966068113F756E0096AB83 /* UGen.h */; };
+		6DCC14341145BC2500727A0A /* Frequency.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DCC14321145BC2500727A0A /* Frequency.h */; };
+		6DCC14351145BC2500727A0A /* Frequency.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DCC14331145BC2500727A0A /* Frequency.cpp */; };
+		6DCC14421145BE5F00727A0A /* Waveform.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DCC14411145BE5F00727A0A /* Waveform.h */; };
+		6DCC14451145BF0A00727A0A /* Oscil.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DCC14431145BF0A00727A0A /* Oscil.h */; };
+		6DCC14461145BF0A00727A0A /* Oscil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DCC14441145BF0A00727A0A /* Oscil.cpp */; };
+		6DCC146D1145C6E400727A0A /* Wavetable.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DCC146B1145C6E400727A0A /* Wavetable.h */; };
+		6DCC146E1145C6E400727A0A /* Wavetable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DCC146C1145C6E400727A0A /* Wavetable.cpp */; };
+		6DCC148F1145CD4600727A0A /* Waves.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DCC148D1145CD4600727A0A /* Waves.h */; };
+		6DCC14901145CD4600727A0A /* Waves.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DCC148E1145CD4600727A0A /* Waves.cpp */; };
 		AA747D9F0F9514B9006C5449 /* MinimTouch_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AA747D9E0F9514B9006C5449 /* MinimTouch_Prefix.pch */; };
 		AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACBBE490F95108600F1A2B1 /* Foundation.framework */; };
 /* End PBXBuildFile section */
@@ -66,6 +75,15 @@
 		6D966066113F756E0096AB83 /* Summer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Summer.h; path = ../src/ugens/Summer.h; sourceTree = SOURCE_ROOT; };
 		6D966067113F756E0096AB83 /* UGen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = UGen.cpp; path = ../src/ugens/UGen.cpp; sourceTree = SOURCE_ROOT; };
 		6D966068113F756E0096AB83 /* UGen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UGen.h; path = ../src/ugens/UGen.h; sourceTree = SOURCE_ROOT; };
+		6DCC14321145BC2500727A0A /* Frequency.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Frequency.h; sourceTree = "<group>"; };
+		6DCC14331145BC2500727A0A /* Frequency.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Frequency.cpp; sourceTree = "<group>"; };
+		6DCC14411145BE5F00727A0A /* Waveform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Waveform.h; sourceTree = "<group>"; };
+		6DCC14431145BF0A00727A0A /* Oscil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Oscil.h; sourceTree = "<group>"; };
+		6DCC14441145BF0A00727A0A /* Oscil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Oscil.cpp; sourceTree = "<group>"; };
+		6DCC146B1145C6E400727A0A /* Wavetable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Wavetable.h; sourceTree = "<group>"; };
+		6DCC146C1145C6E400727A0A /* Wavetable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Wavetable.cpp; sourceTree = "<group>"; };
+		6DCC148D1145CD4600727A0A /* Waves.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Waves.h; sourceTree = "<group>"; };
+		6DCC148E1145CD4600727A0A /* Waves.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Waves.cpp; sourceTree = "<group>"; };
 		AA747D9E0F9514B9006C5449 /* MinimTouch_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MinimTouch_Prefix.pch; sourceTree = SOURCE_ROOT; };
 		AACBBE490F95108600F1A2B1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D2AAC07E0554694100DB518D /* libMinimTouch.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMinimTouch.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -173,6 +191,15 @@
 				6D966068113F756E0096AB83 /* UGen.h */,
 				6D8201E511449A7F009404CA /* Noise.h */,
 				6D8201E611449A7F009404CA /* Noise.cpp */,
+				6DCC14321145BC2500727A0A /* Frequency.h */,
+				6DCC14331145BC2500727A0A /* Frequency.cpp */,
+				6DCC14411145BE5F00727A0A /* Waveform.h */,
+				6DCC14431145BF0A00727A0A /* Oscil.h */,
+				6DCC14441145BF0A00727A0A /* Oscil.cpp */,
+				6DCC146B1145C6E400727A0A /* Wavetable.h */,
+				6DCC146C1145C6E400727A0A /* Wavetable.cpp */,
+				6DCC148D1145CD4600727A0A /* Waves.h */,
+				6DCC148E1145CD4600727A0A /* Waves.cpp */,
 			);
 			name = ugens;
 			path = ../src/ugens;
@@ -204,6 +231,11 @@
 				6D6A9B3711432ED9003B59BA /* TouchServiceProvider.h in Headers */,
 				6D82014B11448761009404CA /* TouchAudioOut.h in Headers */,
 				6D8201E711449A7F009404CA /* Noise.h in Headers */,
+				6DCC14341145BC2500727A0A /* Frequency.h in Headers */,
+				6DCC14421145BE5F00727A0A /* Waveform.h in Headers */,
+				6DCC14451145BF0A00727A0A /* Oscil.h in Headers */,
+				6DCC146D1145C6E400727A0A /* Wavetable.h in Headers */,
+				6DCC148F1145CD4600727A0A /* Waves.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -259,6 +291,10 @@
 				6D6A9B3811432ED9003B59BA /* TouchServiceProvider.mm in Sources */,
 				6D82014C11448761009404CA /* TouchAudioOut.mm in Sources */,
 				6D8201E811449A7F009404CA /* Noise.cpp in Sources */,
+				6DCC14351145BC2500727A0A /* Frequency.cpp in Sources */,
+				6DCC14461145BF0A00727A0A /* Oscil.cpp in Sources */,
+				6DCC146E1145C6E400727A0A /* Wavetable.cpp in Sources */,
+				6DCC14901145CD4600727A0A /* Waves.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -16,40 +16,28 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#include "AudioOutput.h"
-#include "AudioStream.h"
-#include "AudioFormat.h"
+#ifndef FREQUENCY_H
+#define FREQUENCY_H
 
-namespace Minim
+namespace Minim 
 {
-
-AudioOutput::AudioOutput(Minim::AudioOut *out)
-: AudioSource(out)
-, mSummer(this)
-, mSummerStream(*this)
-{
-	out->setAudioStream( &mSummerStream );
-	out->open();
-}
-
-
-void AudioOutput::SummerStream::read( MultiChannelBuffer & buffer )
-{
-	const int nChannels = getFormat().getChannels();
-	float * tmp = new float[ nChannels ];
-	buffer.setChannelCount( nChannels );
-	for(int i = 0; i < buffer.getBufferSize(); i++)
+	
+	class Frequency 
 	{
-		memset(tmp, 0, sizeof(float) * nChannels);
-		mOutput.mSummer.tick( tmp, nChannels );
-		for(int c = 0; c < nChannels; c++)
-		{
-			buffer.getChannel(c)[i] = tmp[c];
-		}
-	}
-	delete tmp;
-}
+	public:
+		
+		static Frequency ofHertz( float hz );
+		
+		float asHz() const { return mFreq; }
+		
+	private:
+		Frequency( float hz );
+		
+		float mFreq;
+		
+	};
+	
+};
 
+#endif // FREQUENCY_H
 
-
-} // namespace Minim

@@ -39,8 +39,7 @@ protected:
 	 */
 	// jam3: enum is automatically static so it can't be in the nested class
 	enum InputType { CONTROL, AUDIO };
-
-private:	
+	
 	/**
 	 * This inner class, UGenInput, is used to connect the output of other UGens to this UGen
 	 * @author Anderson Mills
@@ -167,11 +166,11 @@ protected:
 	// ddf: Protected because users of UGens should never call this directly.
 	//      Sub-classes can override this to control what happens when something
 	//      is patched to them. See the Summer class.
-	void addInput( UGen * input );
+	virtual void addInput( UGen * input );
 	
 
 	// This currently does nothing, but is overridden in Summer.
-	void removeInput( UGen * input );
+	virtual void removeInput( UGen * input );
 
 public:
 	
@@ -210,7 +209,7 @@ protected:
 	 * step size for an oscillator.
 	 *
 	 */
-	void sampleRateChanged()
+	virtual void sampleRateChanged()
 	{
 		// default implementation does nothing.
 	}

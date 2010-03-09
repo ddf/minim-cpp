@@ -27,6 +27,7 @@ namespace Minim
 UGen::UGenInput::UGenInput( UGen & outerUGen, UGen::InputType inputType )
 : mOuterUGen(outerUGen) 
 , mInputType(inputType)
+, mIncoming(NULL)
 {
 	mOuterUGen.mUGenInputs.push_back(this);
 }

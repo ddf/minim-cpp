@@ -164,16 +164,19 @@ OSStatus TouchAudioOut::renderCallback( void                        *inRefCon,
 
 	// read from our stream
 	Minim::MultiChannelBuffer& buffer = output->mBuffer;
+	const int bufferSize = buffers->mBuffers[0].mDataByteSize / sizeof(SInt32);
+	buffer.setBufferSize( bufferSize );
 	output->mStream->read( buffer );
 	
 	assert(buffers->mNumberBuffers == buffer.getChannelCount());
 	
 	for( int i = 0; i < buffers->mNumberBuffers; i++)
 	{
-		AudioBuffer* outputBuffer = &buffers->mBuffers[i];
-		SInt32* data = (SInt32*)outputBuffer->mData;
+		AudioBuffer & outputBuffer = buffers->mBuffers[i];
+		SInt32* data = (SInt32*)outputBuffer.mData;
 
-		int samples = outputBuffer->mDataByteSize / sizeof(SInt32);
+		int samples = outputBuffer.mDataByteSize / sizeof(SInt32);
+		// assert( samples == buffer.getBufferSize() );
 		for (int s = 0; s < samples; ++s) 
 		{
 			data[s] = buffer.getChannel(i)[s] * 16777216L;

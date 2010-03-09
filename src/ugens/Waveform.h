@@ -16,40 +16,19 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#include "AudioOutput.h"
-#include "AudioStream.h"
-#include "AudioFormat.h"
+#ifndef WAVEFORM_H
+#define WAVEFORM_H
 
-namespace Minim
+namespace Minim 
 {
-
-AudioOutput::AudioOutput(Minim::AudioOut *out)
-: AudioSource(out)
-, mSummer(this)
-, mSummerStream(*this)
-{
-	out->setAudioStream( &mSummerStream );
-	out->open();
-}
-
-
-void AudioOutput::SummerStream::read( MultiChannelBuffer & buffer )
-{
-	const int nChannels = getFormat().getChannels();
-	float * tmp = new float[ nChannels ];
-	buffer.setChannelCount( nChannels );
-	for(int i = 0; i < buffer.getBufferSize(); i++)
+	
+	class Waveform
 	{
-		memset(tmp, 0, sizeof(float) * nChannels);
-		mOutput.mSummer.tick( tmp, nChannels );
-		for(int c = 0; c < nChannels; c++)
-		{
-			buffer.getChannel(c)[i] = tmp[c];
-		}
-	}
-	delete tmp;
-}
+	public:
+		virtual ~Waveform() {}
+		virtual float value( const float at ) const = 0;
+	};
+	
+};
 
-
-
-} // namespace Minim
+#endif // WAVEFORM_H
