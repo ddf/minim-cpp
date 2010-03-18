@@ -34,6 +34,8 @@
 		6D96607B113F756E0096AB83 /* Summer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D966066113F756E0096AB83 /* Summer.h */; };
 		6D96607C113F756E0096AB83 /* UGen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6D966067113F756E0096AB83 /* UGen.cpp */; };
 		6D96607D113F756E0096AB83 /* UGen.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D966068113F756E0096AB83 /* UGen.h */; };
+		6DA349A11151B697001B394C /* Multiplier.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DA3499F1151B697001B394C /* Multiplier.h */; };
+		6DA349A21151B697001B394C /* Multiplier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DA349A01151B697001B394C /* Multiplier.cpp */; };
 		6DCC14341145BC2500727A0A /* Frequency.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DCC14321145BC2500727A0A /* Frequency.h */; };
 		6DCC14351145BC2500727A0A /* Frequency.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DCC14331145BC2500727A0A /* Frequency.cpp */; };
 		6DCC14421145BE5F00727A0A /* Waveform.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DCC14411145BE5F00727A0A /* Waveform.h */; };
@@ -75,6 +77,8 @@
 		6D966066113F756E0096AB83 /* Summer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Summer.h; path = ../src/ugens/Summer.h; sourceTree = SOURCE_ROOT; };
 		6D966067113F756E0096AB83 /* UGen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = UGen.cpp; path = ../src/ugens/UGen.cpp; sourceTree = SOURCE_ROOT; };
 		6D966068113F756E0096AB83 /* UGen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UGen.h; path = ../src/ugens/UGen.h; sourceTree = SOURCE_ROOT; };
+		6DA3499F1151B697001B394C /* Multiplier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Multiplier.h; sourceTree = "<group>"; };
+		6DA349A01151B697001B394C /* Multiplier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Multiplier.cpp; sourceTree = "<group>"; };
 		6DCC14321145BC2500727A0A /* Frequency.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Frequency.h; sourceTree = "<group>"; };
 		6DCC14331145BC2500727A0A /* Frequency.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Frequency.cpp; sourceTree = "<group>"; };
 		6DCC14411145BE5F00727A0A /* Waveform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Waveform.h; sourceTree = "<group>"; };
@@ -200,6 +204,8 @@
 				6DCC146C1145C6E400727A0A /* Wavetable.cpp */,
 				6DCC148D1145CD4600727A0A /* Waves.h */,
 				6DCC148E1145CD4600727A0A /* Waves.cpp */,
+				6DA3499F1151B697001B394C /* Multiplier.h */,
+				6DA349A01151B697001B394C /* Multiplier.cpp */,
 			);
 			name = ugens;
 			path = ../src/ugens;
@@ -236,6 +242,7 @@
 				6DCC14451145BF0A00727A0A /* Oscil.h in Headers */,
 				6DCC146D1145C6E400727A0A /* Wavetable.h in Headers */,
 				6DCC148F1145CD4600727A0A /* Waves.h in Headers */,
+				6DA349A11151B697001B394C /* Multiplier.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -295,6 +302,7 @@
 				6DCC14461145BF0A00727A0A /* Oscil.cpp in Sources */,
 				6DCC146E1145C6E400727A0A /* Wavetable.cpp in Sources */,
 				6DCC14901145CD4600727A0A /* Waves.cpp in Sources */,
+				6DA349A21151B697001B394C /* Multiplier.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -78,8 +78,14 @@ void Summer::uGenerate(float * channels, int numChannels)
 	// now remove anything that's marked itself for removal
 	for(itr = mToRemove.begin(); itr != mToRemove.end(); ++itr)
 	{
-		mUGens.erase( std::find(mUGens.begin(), mUGens.end(), *itr) );
+		std::vector<UGen*>::iterator toRemove = std::find(mUGens.begin(), mUGens.end(), *itr);
+		if ( toRemove != mUGens.end() )
+		{
+			mUGens.erase( toRemove );
+		}
 	}
+	
+	mToRemove.clear();
 }
 
 } // namespace Minim
