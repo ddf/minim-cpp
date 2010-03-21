@@ -28,7 +28,9 @@ namespace Minim
 		
 		static Frequency ofHertz( float hz );
 		
-		float asHz() const { return mFreq; }
+		inline float asHz() const { return mFreq; }
+		
+		inline void setAsHz( const float hz ) { mFreq = hz; }
 		
 	private:
 		Frequency( float hz );

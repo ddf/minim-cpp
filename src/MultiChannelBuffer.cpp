@@ -18,6 +18,7 @@
 
 #include "MultiChannelBuffer.h"
 #include <cassert>
+#include <string.h> // for memcpy
 
 namespace Minim
 {
@@ -31,6 +32,8 @@ MultiChannelBuffer::MultiChannelBuffer()
 
 MultiChannelBuffer::MultiChannelBuffer( int numChannels, int bufferSize )
 : mBufferSize(bufferSize)
+, mChannels(NULL)
+, mChannelCount(0)
 {
 	setChannelCount( numChannels );
 }
@@ -40,18 +43,37 @@ MultiChannelBuffer::~MultiChannelBuffer()
 	deleteChannels();
 }
 	
-void MultiChannelBuffer::deleteChannels()
+MultiChannelBuffer & MultiChannelBuffer::operator=( const MultiChannelBuffer & other )
 {
-	for(int i = 0; i < mChannelCount; ++i)
+	if ( mBufferSize != other.mBufferSize )
 	{
-		if ( mChannels[i] )
-		{
-			delete [] mChannels[i];
-		}
+		setBufferSize(other.mBufferSize);
 	}
 	
+	if ( mChannelCount != other.mChannelCount ) 
+	{
+		setChannelCount(other.mChannelCount);
+	}
+	
+	for(int i = 0; i < mChannelCount; i++)
+	{
+		memcpy(mChannels[i], other.mChannels[i], sizeof(float)*mBufferSize);
+	}
+	
+	return *this;
+}
+	
+void MultiChannelBuffer::deleteChannels()
+{	
 	if ( mChannels )
 	{
+		for(int i = 0; i < mChannelCount; ++i)
+		{
+			if ( mChannels[i] )
+			{
+				delete [] mChannels[i];
+			}
+		}
 		delete [] mChannels;
 		mChannels = NULL;
 	}

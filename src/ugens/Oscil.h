@@ -50,7 +50,7 @@ namespace Minim
 		virtual void sampleRateChanged();
 		
 		// UGen impl
-		virtual void uGenerate( float * channels, int numChannels );
+		virtual void uGenerate( float * channels, const int numChannels );
 		
 	private:
 		

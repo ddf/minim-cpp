@@ -22,6 +22,10 @@
 #include "AudioRecordingStream.h"
 #include "AudioOutput.h"
 
+#ifndef NULL
+#define NULL 0
+#endif 
+
 namespace Minim
 {
 	

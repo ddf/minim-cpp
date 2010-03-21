@@ -24,9 +24,10 @@ namespace Minim
 
 AudioSource::AudioSource( AudioOut * out )
 : mOutput(out)
-, mListener( mSampleBuffer )
+, mSampleBuffer( out->getOutputBuffer() )
+// , mListener( mSampleBuffer )
 {
-	out->setAudioListener( &mListener );
+//	out->setAudioListener( &mListener );
 }
 
 AudioSource::~AudioSource()

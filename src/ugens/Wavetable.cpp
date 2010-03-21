@@ -22,6 +22,7 @@
 
 namespace Minim
 {
+	bool Wavetable::s_opt(false);
 	
 	Wavetable::Wavetable( int size )
 	: mWaveform( new float[size] )
@@ -67,8 +68,7 @@ namespace Minim
 		const int lowSamp = (int)whichSample;
 		
 		// opt: just return the low sample instead of interping
-		static bool opt = false;
-		if ( opt )
+		if ( s_opt )
 		{
 			return mWaveform[lowSamp];
 		}

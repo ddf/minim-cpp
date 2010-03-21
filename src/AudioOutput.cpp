@@ -19,6 +19,7 @@
 #include "AudioOutput.h"
 #include "AudioStream.h"
 #include "AudioFormat.h"
+#include <string.h> // for memset
 
 namespace Minim
 {
@@ -38,11 +39,12 @@ void AudioOutput::SummerStream::read( MultiChannelBuffer & buffer )
 	const int nChannels = getFormat().getChannels();
 	float tmp[ nChannels ];
 	buffer.setChannelCount( nChannels );
-	for(int i = 0; i < buffer.getBufferSize(); i++)
+	// TODO: unroll this?
+	for(int i = 0; i < buffer.getBufferSize(); ++i)
 	{
 		memset(tmp, 0, sizeof(float) * nChannels);
 		mOutput.mSummer.tick( tmp, nChannels );
-		for(int c = 0; c < nChannels; c++)
+		for(int c = 0; c < nChannels; ++c)
 		{
 			buffer.getChannel(c)[i] = tmp[c];
 		}

@@ -60,8 +60,8 @@ namespace Minim
 		};
 
 		AudioOut *		   mOutput;
-		OutputListener	   mListener;
-		MultiChannelBuffer mSampleBuffer;
+		// OutputListener	   mListener;
+		const MultiChannelBuffer & mSampleBuffer;
 	};
 };
 

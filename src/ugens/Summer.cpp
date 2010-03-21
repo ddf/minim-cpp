@@ -18,21 +18,31 @@
 
 #include "Summer.h"
 #include "AudioOutput.h"
-#include <algorithm>
+#include <string.h> // for memset
+
+#ifndef NULL
+#define NULL 0
+#endif	
 
 namespace Minim
 {
+	
+	static int kUGensDefaultSize = 10;
 
 Summer::Summer()
 : mOutput(NULL)
 , m_accum(NULL)
 , m_accumSize(0)
 {
+	initUGenList();
 }
 
 Summer::Summer(AudioOutput * out)
 : mOutput(out)
+, mUGensSize(kUGensDefaultSize)
 {
+	initUGenList();
+
 	m_accumSize = out->getFormat().getChannels();
 	m_accum = new float[ m_accumSize ];
 }
@@ -48,20 +58,52 @@ Summer::~Summer()
 ///////////////////////////////////////////////////
 void Summer::sampleRateChanged()
 {
-	std::vector<UGen*>::iterator itr = mUGens.begin();
-	for ( ; itr != mUGens.end(); ++itr) 
+	for (int i = 0; i < mUGensSize; i++)
 	{
-		UGen * u = *itr;
-		u->setSampleRate(sampleRate());
+		UGen * u = mUGens[i];
+		if ( u )
+		{
+			u->setSampleRate(sampleRate());
+		}
 	}
 }
+	
+	///////////////////////////////////////////////
+	void Summer::addInput( UGen * in )
+	{
+		// find a slot and stick it there!
+		for(int i = 0; i < mUGensSize; ++i)
+		{
+			if ( mUGens[i] == NULL )
+			{
+				mUGens[i] = in;
+				return;
+			}
+		}
+		
+		// TODO: grow the list if we run out of slots.
+	}
+	
+	///////////////////////////////////////////////
+	void Summer::removeInput( UGen * in )
+	{
+		// find it in our list and remove it!
+		for(int i = 0; i < mUGensSize; ++i)
+		{
+			if ( mUGens[i] == in )
+			{
+				mUGens[i] = NULL;
+				return;
+			}
+		}
+	}
 
 ///////////////////////////////////////////////////
 void Summer::uGenerate(float * channels, int numChannels)
 {	
 	// if we were constructed with an output
 	// we need to tick that output's noteManager!
-	if ( mOutput != NULL )
+	if ( mOutput )
 	{
 		// TODO
 		// out->noteManager.tick();
@@ -70,7 +112,7 @@ void Summer::uGenerate(float * channels, int numChannels)
 	// resize our accumulation buffer if it's not there or is too small
 	if ( m_accum == NULL || m_accumSize < numChannels )
 	{
-		if ( m_accum == NULL )
+		if ( m_accum )
 		{
 			delete [] m_accum;
 		}
@@ -79,34 +121,26 @@ void Summer::uGenerate(float * channels, int numChannels)
 		m_accumSize = numChannels;
 	}
 
-	int size = mUGens.size();
-	for(int i = 0; i < size; ++i)
+	for(int i = 0; i < mUGensSize; ++i)
 	{
-		memset(m_accum, 0, sizeof(float) * numChannels);
 		UGen * u = mUGens[i];
-		u->tick( m_accum, numChannels );
-		for(int c = 0; c < numChannels; c++)
+		if ( u )
 		{
-			channels[c] += m_accum[c];
+			memset(m_accum, 0, sizeof(float) * numChannels);
+			u->tick( m_accum, numChannels );
+			for(int c = 0; c < numChannels; ++c)
+			{
+				channels[c] += m_accum[c];
+			}
 		}
-	}
-
-	
-	// now remove anything that's marked itself for removal
-	size = mToRemove.size(); 
-	for(int i = 0; i < size; ++i)
-	{
-		std::vector<UGen*>::iterator toRemove = std::find(mUGens.begin(), mUGens.end(), mToRemove[i]);
-		if ( toRemove != mUGens.end() )
-		{
-			mUGens.erase( toRemove );
-		}
-	}
-	
-	if ( size > 0 )
-	{
-		mToRemove.clear();
 	}
 }
+	
+	void Summer::initUGenList()
+	{
+		mUGensSize = kUGensDefaultSize;
+		mUGens = new UGen*[mUGensSize];
+		memset(mUGens, 0, sizeof(UGen*)*kUGensDefaultSize);
+	}
 
 } // namespace Minim

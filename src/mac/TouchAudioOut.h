@@ -30,6 +30,8 @@ public:
 	virtual void setAudioStream( Minim::AudioStream * stream );
 	virtual void setAudioListener( Minim::AudioListener * listen );
 	
+	virtual const Minim::MultiChannelBuffer & getOutputBuffer() const { return mBuffer; }
+	
 	// TODO
 	virtual void pauseProcessing() {}
 	virtual void resumeProcessing() {}

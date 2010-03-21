@@ -53,6 +53,8 @@ namespace Minim
 		void rectify();
 		// void smooth( int windowLength );
 		
+		static bool s_opt;
+		
 	private:
 		float * mWaveform;
 		int		mSize;

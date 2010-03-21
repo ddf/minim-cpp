@@ -15,7 +15,7 @@ class TouchServiceProvider : public Minim::ServiceProvider
 {
 
 public:
-	TouchServiceProvider() {}
+	TouchServiceProvider( const float outputBufferDuration );
 	virtual ~TouchServiceProvider() {}
 	
 	virtual void start() {}

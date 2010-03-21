@@ -19,6 +19,12 @@
 #include "UGen.h"
 #include "AudioSystem.h"
 #include "AudioOutput.h"
+#include <stdio.h> // for sprintf
+#include <string.h> // for memcpy
+
+#ifndef NULL
+#define NULL 0
+#endif
 
 namespace Minim
 {
@@ -176,13 +182,14 @@ void UGen::tick(float *channels, const int numChannels)
 					{
 					case CONTROL :
 						{
-							float cval;
+							float cval(0.f);
 							input.getIncomingUGen().tick(&cval, 1);
 						}
 						break;
 					default : // includes AUDIO
 						{
 							float aval[ numChannels ];
+							memset(aval, 0, sizeof(float)*numChannels);
 							input.getIncomingUGen().tick(aval, numChannels);
 						}
 						break;

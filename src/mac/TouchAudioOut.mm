@@ -12,6 +12,7 @@
 #include "AudioListener.h"
 #import	 <AudioUnit/AudioUnitProperties.h>
 #import  <AudioUnit/AudioOutputUnit.h>
+#import  <AudioToolbox/AudioServices.h>
 
 const int kOutputBus = 0;
 
@@ -63,6 +64,7 @@ void TouchAudioOut::open()
 	}
 	
 	OSStatus status;
+	
 	// Describe audio component
 	AudioComponentDescription desc;
 	desc.componentType = kAudioUnitType_Output;
@@ -141,7 +143,7 @@ void TouchAudioOut::open()
 
 void TouchAudioOut::close()
 {
-	// TODO stop output processing, release resources.
+	AudioOutputUnitStop(mAudioUnit);
 	AudioUnitUninitialize(mAudioUnit);
 	
 	if ( mStream )
@@ -177,8 +179,8 @@ OSStatus TouchAudioOut::renderCallback( void                        *inRefCon,
 	assert( kOutputBus == inBusNumber );
 	TouchAudioOut * output = static_cast<TouchAudioOut*> (inRefCon);
 	
-	assert( output->mStream );
-	assert( output->mListener );
+	// assert( output->mStream );
+	// assert( output->mListener );
 
 	// read from our stream
 	Minim::MultiChannelBuffer& buffer = output->mBuffer;
@@ -195,13 +197,24 @@ OSStatus TouchAudioOut::renderCallback( void                        *inRefCon,
 
 		int samples = outputBuffer.mDataByteSize / sizeof(SInt32);
 		// assert( samples == buffer.getBufferSize() );
-		for (int s = 0; s < samples; ++s) 
+		// assumes power of two!
+		const float * channel = buffer.getChannel(i);
+		for (int s = 0; s < samples; s += 8)
 		{
-			data[s] = buffer.getChannel(i)[s] * 16777216L;
+			// there's got to be a faster way to make this conversion.
+			// need to go down the floating-point magic rat hole some day.
+			data[s]   = channel[s]   * 16777216L;
+			data[s+1] = channel[s+1] * 16777216L;
+			data[s+2] = channel[s+2] * 16777216L;
+			data[s+3] = channel[s+3] * 16777216L;
+			data[s+4] = channel[s+4] * 16777216L;
+			data[s+5] = channel[s+5] * 16777216L;
+			data[s+6] = channel[s+6] * 16777216L;
+			data[s+7] = channel[s+7] * 16777216L;
 		}
 	}
 	
-	output->mListener->samples( buffer );
+	// output->mListener->samples( buffer );
 	
 	return noErr;
 	

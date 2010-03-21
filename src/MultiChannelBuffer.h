@@ -26,6 +26,7 @@ namespace Minim
 	public:
 		MultiChannelBuffer();
 		MultiChannelBuffer( int numChannels, int bufferSize );
+		MultiChannelBuffer & operator=(const MultiChannelBuffer & other);
 		~MultiChannelBuffer();
 
 		int getBufferSize() const { return mBufferSize; }

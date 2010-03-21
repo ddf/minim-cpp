@@ -19,6 +19,7 @@
 #include "Oscil.h"
 #include "Frequency.h"
 #include "Waveform.h"
+#include <math.h>
 
 namespace Minim  
 {
@@ -72,7 +73,7 @@ namespace Minim
 	}
 	
 	/////////////////////////////////////////////////////////
-	void Oscil::uGenerate(float * channels, int numChannels) 
+	void Oscil::uGenerate(float * channels, const int numChannels) 
 	{		
 		// figure out our sample value
 		float outAmp(mAmp);
@@ -98,24 +99,20 @@ namespace Minim
 		// if something is plugged into frequency
 		if ( frequency.isPatched() )
 		{
-			mBaseFreq = Frequency::ofHertz( frequency.getLastValues()[0] );
+			mBaseFreq.setAsHz( frequency.getLastValues()[0] );
 			stepSizeChanged();
 		}
+		
 		// if something is plugged into frequencyModulation
 		if ( frequencyModulation.isPatched() )
 		{
-			mFreq = Frequency::ofHertz( mBaseFreq.asHz() + frequencyModulation.getLastValues()[0] );
+			mFreq.setAsHz( mBaseFreq.asHz() + frequencyModulation.getLastValues()[0] );
 			stepSizeChanged();
-		} 
-		else
-		{
-			mFreq = mBaseFreq;
 		}
 		
 		// increase time
 		mStep += mStepSize;
 		// make sure we don't exceed 1.0.
-		// truncate is less expensive than %?
 		// ideally, we'd use some fast way of dropping
 		// the integer part of the number.
 		mStep -= (int)mStep;

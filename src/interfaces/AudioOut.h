@@ -23,11 +23,6 @@
 
 namespace Minim
 {
-	class AudioSignal;
-	class AudioStream;
-	class AudioEffect;
-	class AudioListener;
-
 	class AudioOut : public AudioResource
 	{
 	public:
@@ -44,14 +39,16 @@ namespace Minim
 	   *
 	   * @param stream
 	   */
-	  virtual void setAudioStream( AudioStream * stream ) = 0;
+	  virtual void setAudioStream( class AudioStream * stream ) = 0;
   
 	  /**
 	   * Sets the AudioListener that will have sound broadcasted to it as the output generates it.
 
 	   * @param listen
 	   */
-	  virtual void setAudioListener( AudioListener * listen ) = 0;
+	  virtual void setAudioListener( class AudioListener * listen ) = 0;
+		
+	  virtual const class MultiChannelBuffer & getOutputBuffer() const = 0;
 	  
 	  /**
 	   * Pauses processing of the signal or stream attached to this output.
