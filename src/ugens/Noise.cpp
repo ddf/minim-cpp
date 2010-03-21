@@ -53,7 +53,7 @@ void Noise::uGenerate( float * pChannels, int numChannels )
 			// I admit that I'm using the filter coefficients and 
 			// amplitude correction from audacity, a great audio editor.
 			float normRand = (float)rand() / RAND_MAX;
-			assert( normRand >= 0 && normRand <= 1 );
+			// assert( normRand >= 0 && normRand <= 1 );
 			n = mAmp*(2.0f*normRand - 1.0f);
 			n = mBrownAlpha*n + ( 1 - mBrownAlpha )*mLastOutput;
 			mLastOutput = n;
@@ -68,7 +68,7 @@ void Noise::uGenerate( float * pChannels, int numChannels )
 		default :
 		{
 			float normRand = (float)rand() / (float)RAND_MAX;
-			assert( normRand >= 0 && normRand <= 1 );
+			// assert( normRand >= 0 && normRand <= 1 );
 			n = mAmp*(2.0f*normRand - 1.0f);
 		}
 			break;

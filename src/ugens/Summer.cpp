@@ -25,14 +25,25 @@ namespace Minim
 
 Summer::Summer()
 : mOutput(NULL)
+, m_accum(NULL)
+, m_accumSize(0)
 {
 }
 
 Summer::Summer(AudioOutput * out)
 : mOutput(out)
 {
-	
+	m_accumSize = out->getFormat().getChannels();
+	m_accum = new float[ m_accumSize ];
 }
+	
+Summer::~Summer()
+{
+	if ( m_accum )
+	{
+		delete [] m_accum;
+	}
+} 
 	
 ///////////////////////////////////////////////////
 void Summer::sampleRateChanged()
@@ -47,7 +58,7 @@ void Summer::sampleRateChanged()
 
 ///////////////////////////////////////////////////
 void Summer::uGenerate(float * channels, int numChannels)
-{
+{	
 	// if we were constructed with an output
 	// we need to tick that output's noteManager!
 	if ( mOutput != NULL )
@@ -55,37 +66,47 @@ void Summer::uGenerate(float * channels, int numChannels)
 		// TODO
 		// out->noteManager.tick();
 	}
-
-	// TODO: this is really the road to fragmentation city
-	//       so is probably a better idea to reuse an array
-	//       on the class. I'd declare this on the stack
-	//       but then I'd be hardcoding the max number of 
-	//       channels a Summer will ever handle.
-	float * tmp = new float[numChannels];
-	std::vector<UGen*>::iterator itr = mUGens.begin();
-	for(; itr != mUGens.end(); ++itr)
+	
+	// resize our accumulation buffer if it's not there or is too small
+	if ( m_accum == NULL || m_accumSize < numChannels )
 	{
-		memset(tmp, 0, sizeof(float) * numChannels);
-		UGen * u = *itr;
-		u->tick( tmp, numChannels );
+		if ( m_accum == NULL )
+		{
+			delete [] m_accum;
+		}
+		
+		m_accum = new float[ numChannels ];
+		m_accumSize = numChannels;
+	}
+
+	int size = mUGens.size();
+	for(int i = 0; i < size; ++i)
+	{
+		memset(m_accum, 0, sizeof(float) * numChannels);
+		UGen * u = mUGens[i];
+		u->tick( m_accum, numChannels );
 		for(int c = 0; c < numChannels; c++)
 		{
-			channels[c] += tmp[c];
+			channels[c] += m_accum[c];
 		}
 	}
-	delete [] tmp;
 
+	
 	// now remove anything that's marked itself for removal
-	for(itr = mToRemove.begin(); itr != mToRemove.end(); ++itr)
+	size = mToRemove.size(); 
+	for(int i = 0; i < size; ++i)
 	{
-		std::vector<UGen*>::iterator toRemove = std::find(mUGens.begin(), mUGens.end(), *itr);
+		std::vector<UGen*>::iterator toRemove = std::find(mUGens.begin(), mUGens.end(), mToRemove[i]);
 		if ( toRemove != mUGens.end() )
 		{
 			mUGens.erase( toRemove );
 		}
 	}
 	
-	mToRemove.clear();
+	if ( size > 0 )
+	{
+		mToRemove.clear();
+	}
 }
 
 } // namespace Minim

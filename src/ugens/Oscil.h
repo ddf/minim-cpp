@@ -40,10 +40,10 @@ namespace Minim
 		void setFrequency( float hz );
 		void setFrequency( const Frequency & freq );
 		
-		UGenInput * const amplitude;
-		UGenInput * const amplitudeModulation;
-		UGenInput * const frequency;
-		UGenInput * const frequencyModulation;
+		UGenInput amplitude;
+		UGenInput amplitudeModulation;
+		UGenInput frequency;
+		UGenInput frequencyModulation;
 		
 	protected:
 		// UGen override

@@ -30,8 +30,8 @@ namespace Minim
 		Multiplier( float mult = 0.f );
 		virtual ~Multiplier();
 		
-		UGenInput * const audio;
-		UGenInput * const amplitude;
+		UGenInput audio;
+		UGenInput amplitude;
 		
 		void setValue( float mult ) { m_mult = mult; }
 		

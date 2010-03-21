@@ -18,18 +18,26 @@
 
 #include "Wavetable.h"
 #include <math.h>
+#include <cassert>
 
 namespace Minim
 {
 	
 	Wavetable::Wavetable( int size )
-	: mWaveform(size)
+	: mWaveform( new float[size] )
+	, mSize(size)
 	{
 	}
 	
-	Wavetable::Wavetable( const std::vector<float> & waveform )
+	Wavetable::Wavetable( float * waveform, int size )
 	: mWaveform(waveform)
+	, mSize(size)
 	{
+	}
+	
+	Wavetable::~Wavetable()
+	{
+		delete mWaveform;
 	}
 	
 	////////////////////////////////////////////
@@ -49,17 +57,29 @@ namespace Minim
 	}
 	
 	//////////////////////////////////////////////
-	float Wavetable::value( float at ) const
+	float Wavetable::value( const float at ) const
 	{
-		float whichSample = (float)(size() - 1) * at;
+		const float whichSample = (float)(mSize - 1) * at;
 		
 		// linearaly interpolate between the two samples we want.
-		int lowSamp = (int)floor(whichSample);
-		int hiSamp = (int)ceil(whichSample);
+		// TODO: can we do a faster truncation than a cast?
+		// See:  http://chrishecker.com/images/f/fb/Gdmfp.pdf
+		const int lowSamp = (int)whichSample;
 		
-		float rem = whichSample - lowSamp;
+		// opt: just return the low sample instead of interping
+		static bool opt = false;
+		if ( opt )
+		{
+			return mWaveform[lowSamp];
+		}
+
+		const float rem = (whichSample - lowSamp);
 		
-		return get(lowSamp) * (1-rem) + get(hiSamp) * rem;
+		const int hiSamp = lowSamp+1;
+		
+		const float sample = mWaveform[lowSamp] * (1.f-rem) + mWaveform[hiSamp] * rem;
+		
+		return sample;
 	}
 	
 	void Wavetable::scale( float scaleBy )

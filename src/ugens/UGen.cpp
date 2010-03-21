@@ -29,7 +29,8 @@ UGen::UGenInput::UGenInput( UGen & outerUGen, UGen::InputType inputType )
 , mInputType(inputType)
 , mIncoming(NULL)
 {
-	mOuterUGen.mUGenInputs.push_back(this);
+	mOuterUGen.mInputs[mOuterUGen.mInputCount] = this;
+	mOuterUGen.mInputCount++;
 }
 
 ///////////////////////////////////////////////////
@@ -59,10 +60,30 @@ void UGen::UGenInput::printInput() const
 UGen::UGen()
 : mNumOutputs(0)
 , mCurrentTick(0)
+, mLastValues(NULL)
+, mLastValuesLength(0)
+, mInputs(NULL)
+, mInputCount(0)
+{
+}
+	
+UGen::UGen( const int numOfInputs )
+: mNumOutputs(0)
+, mCurrentTick(0)
 , mLastValues(0)
 , mLastValuesLength(0)
+, mInputs( new UGenInput*[numOfInputs] )
+, mInputCount(0)
 {
 
+}
+		  
+UGen::~UGen()
+{
+	if ( mInputs )
+	{
+		delete [] mInputs;
+	}
 }
 
 ///////////////////////////////////////////////////
@@ -113,11 +134,11 @@ void UGen::addInput( UGen * input )
 	// 		to the first input in the uGenInputs list.
 	Minim::debug("UGen addInput called.");
 	// TODO change input checking to an Exception?
-	if ( mUGenInputs.size() > 0 )
+	if ( mInputCount > 0 )
 	{
 		Minim::debug("Initializing default input on something");	
-		UGenInput* pFirstInput = *mUGenInputs.begin();
-		pFirstInput->setIncomingUGen( input );
+		UGenInput & firstInput = *mInputs[0];
+		firstInput.setIncomingUGen( input );
 	}  
 	else
 	{
@@ -134,7 +155,7 @@ void UGen::removeInput(Minim::UGen *input)
 
 
 ///////////////////////////////////////////////////
-void UGen::tick(float *channels, int numChannels)
+void UGen::tick(float *channels, const int numChannels)
 {
 	if (mNumOutputs > 0)
 	{
@@ -144,31 +165,32 @@ void UGen::tick(float *channels, int numChannels)
 
 	if (0 == mCurrentTick) 
 	{			
-		if ( mUGenInputs.size() > 0 )
+		if ( mInputCount > 0 )
 		{
-			std::list<UGenInput*>::iterator itr = mUGenInputs.begin();
-			for(; itr != mUGenInputs.end(); ++itr)
+			for(int i = 0; i < mInputCount; ++i)
 			{		
-				UGenInput* pInput = *itr;
-				if ( pInput->isPatched() )
+				UGenInput & input = *mInputs[i];
+				if ( input.isPatched() )
 				{
-					float * tmp = NULL;
-					int     tmpSize = 1;
-					switch ( pInput->getInputType() )
+					switch ( input.getInputType() )
 					{
 					case CONTROL :
-						tmp = new float[1];
+						{
+							float cval;
+							input.getIncomingUGen().tick(&cval, 1);
+						}
 						break;
 					default : // includes AUDIO
-						tmp = new float[ numChannels ];
-						tmpSize = numChannels;
+						{
+							float aval[ numChannels ];
+							input.getIncomingUGen().tick(aval, numChannels);
+						}
 						break;
 					}
-					// tick all connected inputs
-					pInput->getIncomingUGen().tick( tmp, tmpSize );
 				}
 			}
 		}
+		
 		// and then uGenerate for this UGen	
 		uGenerate( channels, numChannels );
 
@@ -181,6 +203,7 @@ void UGen::tick(float *channels, int numChannels)
 			}
 			
 			mLastValues = new float[numChannels];
+			mLastValuesLength = numChannels;
 		}
 		// need to keep the last values generated so we have something to hand multiple outputs 
 		memcpy(mLastValues, channels, sizeof(float) * numChannels);
@@ -195,16 +218,12 @@ void UGen::setSampleRate(float newSampleRate)
 		mSampleRate = newSampleRate;
 		sampleRateChanged();
 	}
-	if ( mUGenInputs.size() > 0 )
+	for(int i = 0; i < mInputCount; ++i)
 	{
-		std::list<UGenInput*>::iterator itr = mUGenInputs.begin();
-		for(; itr != mUGenInputs.end(); ++itr)
-		{		
-			UGenInput* pInput = *itr;
-			if ( pInput->isPatched() )
-			{
-				pInput->getIncomingUGen().setSampleRate(newSampleRate);
-			}
+		UGenInput & input = *mInputs[i];
+		if ( input.isPatched() )
+		{
+			input.getIncomingUGen().setSampleRate(newSampleRate);
 		}			
 	}
 }
@@ -212,14 +231,13 @@ void UGen::setSampleRate(float newSampleRate)
 ////////////////////////////////////////////////////
 void UGen::printInputs() const
 {
-   std::list<UGenInput*>::const_iterator itr = mUGenInputs.begin();
-   for(int i = 0; itr != mUGenInputs.end(); ++itr, ++i)
-   {
+	for(int i = 0; i < mInputCount; ++i)
+	{
 	   char msg[64];
 	   sprintf( msg, "uGenInputs %d ", i );
 	   Minim::debug(msg);
-	   (*itr)->printInput();
-   }
+	   mInputs[i]->printInput();
+	}
 }
 
 } // namespace Minim

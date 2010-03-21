@@ -19,17 +19,16 @@
 #include "Oscil.h"
 #include "Frequency.h"
 #include "Waveform.h"
-#include <math.h>
 
 namespace Minim  
 {
 	
 	Oscil::Oscil( const Frequency & freq, float amp, Waveform * wave )
-	: UGen()
-	, amplitude( new UGenInput(*this, CONTROL) )
-	, amplitudeModulation( new UGenInput(*this, CONTROL) )
-	, frequency( new UGenInput(*this, CONTROL) )
-	, frequencyModulation( new UGenInput(*this, CONTROL) )
+	: UGen(4)
+	, amplitude( *this, CONTROL ) 
+	, amplitudeModulation( *this, CONTROL )
+	, frequency( *this, CONTROL )
+	, frequencyModulation( *this, CONTROL )
 	, mWaveform(wave)
 	, mBaseFreq(freq)
 	, mFreq(freq)
@@ -40,10 +39,6 @@ namespace Minim
 	
 	Oscil::~Oscil()
 	{
-		delete amplitude;
-		delete amplitudeModulation;
-		delete frequency;
-		delete frequencyModulation;
 		delete mWaveform;
 	}
 	
@@ -80,39 +75,36 @@ namespace Minim
 	void Oscil::uGenerate(float * channels, int numChannels) 
 	{		
 		// figure out our sample value
-		float tmpAmp(0.f);
+		float outAmp(mAmp);
 		// if something is plugged into amplitude
-		if ( amplitude->isPatched() )
+		if ( amplitude.isPatched() )
 		{
-			tmpAmp = amplitude->getLastValues()[0];
-		} 
-		else 
-		{
-			tmpAmp = mAmp;
+			outAmp = amplitude.getLastValues()[0];
 		}
+		
 		// if something has been plugged into amplitudeModulation
-		if ( amplitudeModulation->isPatched() )
+		if ( amplitudeModulation.isPatched() )
 		{
-			tmpAmp += amplitudeModulation->getLastValues()[0];
+			outAmp += amplitudeModulation.getLastValues()[0];
 		}
 		
 		// calculte the sample values
-		float sample = tmpAmp * mWaveform->value(mStep);
+		float sample = outAmp * mWaveform->value(mStep);
 		for(int i = 0; i < numChannels; i++)
 		{
 			channels[i] = sample;
 		}
 		
 		// if something is plugged into frequency
-		if ( frequency->isPatched() )
+		if ( frequency.isPatched() )
 		{
-			mBaseFreq = Frequency::ofHertz( frequency->getLastValues()[0] );
+			mBaseFreq = Frequency::ofHertz( frequency.getLastValues()[0] );
 			stepSizeChanged();
 		}
 		// if something is plugged into frequencyModulation
-		if ( frequencyModulation->isPatched() )
+		if ( frequencyModulation.isPatched() )
 		{
-			mFreq = Frequency::ofHertz( mBaseFreq.asHz() + frequencyModulation->getLastValues()[0] );
+			mFreq = Frequency::ofHertz( mBaseFreq.asHz() + frequencyModulation.getLastValues()[0] );
 			stepSizeChanged();
 		} 
 		else
@@ -123,8 +115,10 @@ namespace Minim
 		// increase time
 		mStep += mStepSize;
 		// make sure we don't exceed 1.0.
-		// floor is less expensive than %?
-		mStep -= (float)floor(mStep);
+		// truncate is less expensive than %?
+		// ideally, we'd use some fast way of dropping
+		// the integer part of the number.
+		mStep -= (int)mStep;
 	}
 	
 }

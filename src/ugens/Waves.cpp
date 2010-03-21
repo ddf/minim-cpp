@@ -87,7 +87,7 @@ namespace Minim
 			}
 			
 			Wavetable * table = new Wavetable(size);
-			std::vector<float> & waveform = table->getWaveform();
+			float * waveform = table->getWaveform();
 			
 			int i = 0;
 			for (int j = 1; j < nVals; j++)
@@ -100,7 +100,7 @@ namespace Minim
 				}
 				i += dists[j - 1];
 			}
-			waveform[waveform.size() - 1] = vals[nVals - 1];
+			waveform[size - 1] = vals[nVals - 1];
 			
 			// for(int n = 0; n < waveform.length; n++)
 			// System.out.println(waveform[n]);
@@ -123,7 +123,7 @@ namespace Minim
 			}
 			
 			Wavetable * table = new Wavetable( size );
-			std::vector<float> & waveform = table->getWaveform();
+			float * waveform = table->getWaveform();
 			
 			float index = 0;
 			for (int i = 0; i < size; i++)
@@ -141,7 +141,7 @@ namespace Minim
 		Wavetable * gen10( int size, float * amps, int nAmps )
 		{
 			Wavetable * table = new Wavetable(size);
-			std::vector<float> & waveform = table->getWaveform();
+			float * waveform = table->getWaveform();
 			
 			float index = 0;
 			for (int i = 0; i < size; i++)

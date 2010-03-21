@@ -19,8 +19,6 @@
 #ifndef MULTICHANNELBUFFER_H
 #define MULTICHANNELBUFFER_H
 
-#include <vector>
-
 namespace Minim
 {
 	class MultiChannelBuffer
@@ -33,24 +31,21 @@ namespace Minim
 		int getBufferSize() const { return mBufferSize; }
 		void setBufferSize( const int bufferSize );
 		
-		int getChannelCount() const { return (int)mChannels.size(); }
+		int getChannelCount() const { return mChannelCount; }
 		void setChannelCount( const int numChannels );
 
-		std::vector<float> & getChannel( const int channelNum );
-		// TODO: why doesn't this work?
-		const std::vector<float> & getChannel( const int channelNum ) const;
-
-		// will copy the values in samples into the channel number requested
-		// asserts if the provided sample buffer is not the same length
-		// as this buffer's size.
-		void setChannel( int channelNum, const std::vector<float> & samples );
+		float * getChannel( const int channelNum );
+		const float * getChannel( const int channelNum ) const;
 
 	private:
+		
+		void deleteChannels();
 
 		int mBufferSize;
 
-		typedef std::vector<float> Buffer;
-		std::vector<Buffer> mChannels;		
+		typedef float* Buffer;
+		Buffer *mChannels;
+		int		mChannelCount;
 	};
 };
 

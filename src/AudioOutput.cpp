@@ -36,7 +36,7 @@ AudioOutput::AudioOutput(Minim::AudioOut *out)
 void AudioOutput::SummerStream::read( MultiChannelBuffer & buffer )
 {
 	const int nChannels = getFormat().getChannels();
-	float * tmp = new float[ nChannels ];
+	float tmp[ nChannels ];
 	buffer.setChannelCount( nChannels );
 	for(int i = 0; i < buffer.getBufferSize(); i++)
 	{
@@ -47,7 +47,6 @@ void AudioOutput::SummerStream::read( MultiChannelBuffer & buffer )
 			buffer.getChannel(c)[i] = tmp[c];
 		}
 	}
-	delete tmp;
 }
 
 

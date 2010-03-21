@@ -31,7 +31,7 @@ namespace Minim
 
 	public:
 		Summer();
-		virtual ~Summer() {}
+		virtual ~Summer();
 	
 
 	protected:
@@ -41,6 +41,8 @@ namespace Minim
 		//      that is constructing the bus.
 		friend class AudioOutput;
 		Summer(AudioOutput * output);
+		
+	// TODO: addInput and removeInput need to be thread-safe!
 	
 	// ddf: override because everything that patches to us
 	//      goes into our list. then when we generate a sample
@@ -69,6 +71,11 @@ namespace Minim
 		AudioOutput * mOutput;
 		std::vector<UGen*> mUGens;
 		std::vector<UGen*> mToRemove;
+		
+		// array we accumulate samples into when we do our summing
+		float * m_accum;
+		int     m_accumSize;
+		
 	};
 };
 

@@ -36,6 +36,8 @@
 		6D96607D113F756E0096AB83 /* UGen.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D966068113F756E0096AB83 /* UGen.h */; };
 		6DA349A11151B697001B394C /* Multiplier.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DA3499F1151B697001B394C /* Multiplier.h */; };
 		6DA349A21151B697001B394C /* Multiplier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DA349A01151B697001B394C /* Multiplier.cpp */; };
+		6DAA3DE71155699A0095F300 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DAA3DE61155699A0095F300 /* AudioUnit.framework */; };
+		6DAA3E2411556D160095F300 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DAA3E2311556D160095F300 /* AudioToolbox.framework */; };
 		6DCC14341145BC2500727A0A /* Frequency.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DCC14321145BC2500727A0A /* Frequency.h */; };
 		6DCC14351145BC2500727A0A /* Frequency.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DCC14331145BC2500727A0A /* Frequency.cpp */; };
 		6DCC14421145BE5F00727A0A /* Waveform.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DCC14411145BE5F00727A0A /* Waveform.h */; };
@@ -73,12 +75,14 @@
 		6D966061113F756E0096AB83 /* ServiceProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServiceProvider.h; path = ../src/interfaces/ServiceProvider.h; sourceTree = SOURCE_ROOT; };
 		6D966062113F756E0096AB83 /* MultiChannelBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MultiChannelBuffer.cpp; path = ../src/MultiChannelBuffer.cpp; sourceTree = SOURCE_ROOT; };
 		6D966063113F756E0096AB83 /* MultiChannelBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MultiChannelBuffer.h; path = ../src/MultiChannelBuffer.h; sourceTree = SOURCE_ROOT; };
-		6D966065113F756E0096AB83 /* Summer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Summer.cpp; path = ../src/ugens/Summer.cpp; sourceTree = SOURCE_ROOT; };
+		6D966065113F756E0096AB83 /* Summer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Summer.cpp; sourceTree = "<group>"; };
 		6D966066113F756E0096AB83 /* Summer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Summer.h; path = ../src/ugens/Summer.h; sourceTree = SOURCE_ROOT; };
 		6D966067113F756E0096AB83 /* UGen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = UGen.cpp; path = ../src/ugens/UGen.cpp; sourceTree = SOURCE_ROOT; };
 		6D966068113F756E0096AB83 /* UGen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UGen.h; path = ../src/ugens/UGen.h; sourceTree = SOURCE_ROOT; };
 		6DA3499F1151B697001B394C /* Multiplier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Multiplier.h; sourceTree = "<group>"; };
 		6DA349A01151B697001B394C /* Multiplier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Multiplier.cpp; sourceTree = "<group>"; };
+		6DAA3DE61155699A0095F300 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
+		6DAA3E2311556D160095F300 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		6DCC14321145BC2500727A0A /* Frequency.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Frequency.h; sourceTree = "<group>"; };
 		6DCC14331145BC2500727A0A /* Frequency.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Frequency.cpp; sourceTree = "<group>"; };
 		6DCC14411145BE5F00727A0A /* Waveform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Waveform.h; sourceTree = "<group>"; };
@@ -99,6 +103,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */,
+				6DAA3DE71155699A0095F300 /* AudioUnit.framework in Frameworks */,
+				6DAA3E2411556D160095F300 /* AudioToolbox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -128,6 +134,8 @@
 			isa = PBXGroup;
 			children = (
 				AACBBE490F95108600F1A2B1 /* Foundation.framework */,
+				6DAA3DE61155699A0095F300 /* AudioUnit.framework */,
+				6DAA3E2311556D160095F300 /* AudioToolbox.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -312,7 +320,7 @@
 		1DEB921F08733DC00010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COPY_PHASE_STRIP = NO;
 				DSTROOT = /tmp/MinimTouch.dst;
@@ -322,8 +330,10 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MinimTouch_Prefix.pch;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				INSTALL_PATH = /usr/local/lib;
 				PRODUCT_NAME = MinimTouch;
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Debug;
 		};
@@ -336,6 +346,7 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MinimTouch_Prefix.pch;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				INSTALL_PATH = /usr/local/lib;
 				PRODUCT_NAME = MinimTouch;
 			};
@@ -345,14 +356,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/src/**";
 				OTHER_LDFLAGS = "-ObjC";
 				PREBINDING = NO;
-				SDKROOT = iphoneos3.1.3;
+				PROVISIONING_PROFILE = "";
+				SDKROOT = iphoneos2.2.1;
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Debug;
@@ -361,13 +375,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/src/**";
 				OTHER_LDFLAGS = "-ObjC";
 				PREBINDING = NO;
-				SDKROOT = iphoneos3.1.3;
+				PROVISIONING_PROFILE = "";
+				SDKROOT = iphoneos2.2.1;
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Release;

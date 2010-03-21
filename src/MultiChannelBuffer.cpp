@@ -24,6 +24,8 @@ namespace Minim
 
 MultiChannelBuffer::MultiChannelBuffer()
 : mBufferSize(0)
+, mChannels(NULL)
+, mChannelCount(0)
 {
 }
 
@@ -35,6 +37,24 @@ MultiChannelBuffer::MultiChannelBuffer( int numChannels, int bufferSize )
 
 MultiChannelBuffer::~MultiChannelBuffer()
 {
+	deleteChannels();
+}
+	
+void MultiChannelBuffer::deleteChannels()
+{
+	for(int i = 0; i < mChannelCount; ++i)
+	{
+		if ( mChannels[i] )
+		{
+			delete [] mChannels[i];
+		}
+	}
+	
+	if ( mChannels )
+	{
+		delete [] mChannels;
+		mChannels = NULL;
+	}
 }
 
 ////////////////////////////////////////////////////////////
@@ -42,11 +62,17 @@ void MultiChannelBuffer::setBufferSize( const int bufferSize )
 {
 	if ( bufferSize != mBufferSize )
 	{
-		for( std::vector<Buffer>::iterator itr = mChannels.begin(); itr != mChannels.end(); ++itr )
+		if ( mChannels )
 		{
-			itr->resize( bufferSize );
+			for(int i = 0; i < mChannelCount; ++i)
+			{
+				if ( mChannels[i] )
+				{
+					delete [] mChannels[i];
+				}
+				mChannels[i] = new float[bufferSize];
+			}
 		}
-
 		mBufferSize = bufferSize;
 	}
 }
@@ -54,37 +80,31 @@ void MultiChannelBuffer::setBufferSize( const int bufferSize )
 ////////////////////////////////////////////////////////////
 void MultiChannelBuffer::setChannelCount( int numChannels )
 {
-	if ( numChannels != (int)mChannels.size() )
+	if ( numChannels !=  mChannelCount )
 	{
-		mChannels.resize( numChannels );
-		for( std::vector<Buffer>::iterator itr = mChannels.begin(); itr != mChannels.end(); ++itr )
+		deleteChannels();
+		mChannels = new Buffer[numChannels];
+		mChannelCount = numChannels;
+		for(int i = 0; i < mChannelCount; ++i)
 		{
-			itr->resize( mBufferSize );
+			mChannels[i] = new float[mBufferSize];
 		}
 	}
 }
 
 ////////////////////////////////////////////////////////////
-std::vector<float> & MultiChannelBuffer::getChannel( const int channelNum )
+float * MultiChannelBuffer::getChannel( const int channelNum )
 {
-	assert( (channelNum < (int)mChannels.size()) && "MultiChannelBuffer tried to get a channel number that doesn't exist!" );
+	assert( (channelNum < mChannelCount) && "MultiChannelBuffer tried to get a channel number that doesn't exist!" );
 
 	return mChannels[channelNum];
 }
 	
-const std::vector<float> & MultiChannelBuffer::getChannel( const int channelNum ) const
+const float * MultiChannelBuffer::getChannel( const int channelNum ) const
 {
-	assert( (channelNum < (int)mChannels.size()) && "MultiChannelBuffer tried to get a channel number that doesn't exist!" );
+	assert( (channelNum < mChannelCount) && "MultiChannelBuffer tried to get a channel number that doesn't exist!" );
 		
 	return mChannels[channelNum];
-}
-
-////////////////////////////////////////////////////////////
-void MultiChannelBuffer::setChannel(int channelNum, const std::vector<float> &samples)
-{
-	Buffer channel = getChannel( channelNum );
-	assert( (channel.size() == samples.size()) && "MultiChannelBuffer setChannel passed a vector of samples that is the wrong size!" );
-	channel = samples;
 }
 
 } // namespace Minim

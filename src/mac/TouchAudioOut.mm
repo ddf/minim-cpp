@@ -10,6 +10,8 @@
 #include "AudioStream.h"
 #include "MultiChannelBuffer.h"
 #include "AudioListener.h"
+#import	 <AudioUnit/AudioUnitProperties.h>
+#import  <AudioUnit/AudioOutputUnit.h>
 
 const int kOutputBus = 0;
 
@@ -20,13 +22,13 @@ TouchAudioOut::TouchAudioOut( const Minim::AudioFormat & format, int bufferSize 
 {
 	// iPhone apparently has preferred settings, which are the values
 	// behind the comments. but we go ahead and set what the format says.
-	mStreamDesc.mSampleRate = format.getSampleRate(); // 44100.0;
+	mStreamDesc.mSampleRate = 44100.0;
 	mStreamDesc.mFormatID = kAudioFormatLinearPCM;
 	mStreamDesc.mFormatFlags  = kAudioFormatFlagsAudioUnitCanonical;
-	mStreamDesc.mBytesPerPacket = format.getChannels() * sizeof(AudioUnitSampleType);
+	mStreamDesc.mBytesPerPacket = sizeof(AudioUnitSampleType);
 	mStreamDesc.mFramesPerPacket = 1;
 	mStreamDesc.mBytesPerFrame = sizeof(AudioUnitSampleType);
-	mStreamDesc.mChannelsPerFrame = format.getChannels(); // 1;
+	mStreamDesc.mChannelsPerFrame = 1;
 	mStreamDesc.mBitsPerChannel = 8 * sizeof(AudioUnitSampleType);
 	mStreamDesc.mReserved = 0;
 }
@@ -34,6 +36,22 @@ TouchAudioOut::TouchAudioOut( const Minim::AudioFormat & format, int bufferSize 
 TouchAudioOut::~TouchAudioOut()
 {
 	close();
+}
+
+void displayErrorAndExit( NSString* message, OSStatus status )
+{
+	if (status != noErr) 
+	{
+		NSLog(@"%@: %@", message,
+			  [[NSError errorWithDomain:NSOSStatusErrorDomain
+								   code:status
+							   userInfo:nil] localizedDescription]);
+	} 
+	else 
+	{
+		NSLog(message);
+	}
+	exit(1);
 }
 
 
@@ -55,16 +73,16 @@ void TouchAudioOut::open()
 	
 	// Get component
 	AudioComponent outputComponent = AudioComponentFindNext(NULL, &desc);
-	if (outputComponent == NULL) {
-//		[AudioOutput displayErrorAndExit:@"AudioComponentFindNext"
-//							   errorCode:0];
+	if (outputComponent == NULL) 
+	{
+		displayErrorAndExit( @"AudioComponentFindNext", 0 );
 	}
 	
 	// Get audio units
 	status = AudioComponentInstanceNew(outputComponent, &mAudioUnit);
-	if (status) {
-//		[AudioOutput displayErrorAndExit:@"AudioComponentInstanceNew"
-//							   errorCode:status];
+	if (status) 
+	{
+		displayErrorAndExit(@"AudioComponentInstanceNew", status);
 	}
 	
 	// Enable playback
@@ -75,9 +93,9 @@ void TouchAudioOut::open()
 								  kOutputBus,
 								  &enableIO,
 								  sizeof(UInt32));
-	if (status) {
-//		[AudioOutput displayErrorAndExit:@"AudioUnitSetProperty EnableIO (out)"
-//							   errorCode:status];
+	if (status) 
+	{
+		displayErrorAndExit(@"AudioUnitSetProperty EnableIO (out)", status);
 	}
 	
 	// Apply format
@@ -87,9 +105,9 @@ void TouchAudioOut::open()
 								  kOutputBus,
 								  &mStreamDesc,
 								  sizeof(AudioStreamBasicDescription));
-	if (status) {
-//		[AudioOutput displayErrorAndExit:@"AudioUnitSetProperty StreamFormat"
-//							   errorCode:status];
+	if (status) 
+	{
+		displayErrorAndExit(@"AudioUnitSetProperty StreamFormat", status);
 	}
 	
 	AURenderCallbackStruct callback;
@@ -103,21 +121,21 @@ void TouchAudioOut::open()
 								  kOutputBus,
 								  &callback,
 								  sizeof(AURenderCallbackStruct));
-	if (status) {
-//		[AudioOutput displayErrorAndExit:@"AudioUnitSetProperty SetRenderCallback"
-//							   errorCode:status];
+	if (status) 
+	{
+		displayErrorAndExit(@"AudioUnitSetProperty SetRenderCallback", status);
 	} 
 	
 	status = AudioUnitInitialize( mAudioUnit );
-	if (status) {
-//		[AudioOutput displayErrorAndExit:@"AudioUnitInitialize"
-//							   errorCode:status];
+	if (status) 
+	{
+		displayErrorAndExit(@"AudioUnitInitialize", status);
 	}
 	
 	status = AudioOutputUnitStart( mAudioUnit );
-	if (status) {
-//		[AudioOutput displayErrorAndExit:@"AudioOutputUnitStart"
-//							   errorCode:status];
+	if (status) 
+	{
+		displayErrorAndExit(@"AudioOutputUnitStart", status);
 	}
 }
 

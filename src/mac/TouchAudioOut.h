@@ -10,10 +10,8 @@
 #define	TOUCHAUDIOOUT_H
 
 #include "AudioOut.h"
-#include <AudioUnit/AudioUnitProperties.h>
-#include <AudioUnit/AudioOutputUnit.h>
-#include <AudioToolbox/AudioServices.h>
 #include "MultiChannelBuffer.h"
+#import	 <AudioUnit/AUComponent.h>
 
 class TouchAudioOut : public Minim::AudioOut
 {

@@ -21,7 +21,6 @@
 #define WAVETABLE_H
 
 #include "Waveform.h"
-#include <vector>
 
 namespace Minim  
 {
@@ -30,20 +29,21 @@ namespace Minim
 	{
 	public:
 		Wavetable( int size );
-		Wavetable( const std::vector<float> & wave );
+		Wavetable( float * waveform, int size );
+		virtual ~Wavetable();
 		
-		void setWaveform( const std::vector<float> & waveform ) { mWaveform = waveform; }
+		void setWaveform( float * waveform, int size ) { mWaveform = waveform; }
 		
 		float get( int index ) const;
 		void  set( int index, float value );
 		
-		int size() const { return (int)mWaveform.size(); }
+		int size() const { return mSize; }
 		
 		// Waveform impl: at should be between 0 and 1.
-		virtual float value( float at ) const;
+		virtual float value( const float at ) const;
 		
-		std::vector<float> & getWaveform() { return mWaveform; }
-		const std::vector<float> & getWaveform() const { return mWaveform; }
+		float * getWaveform() { return mWaveform; }
+		const float * getWaveform() const { return mWaveform; }
 		
 		// tranforms
 		void scale( float scaleBy );
@@ -54,7 +54,8 @@ namespace Minim
 		// void smooth( int windowLength );
 		
 	private:
-		std::vector<float> mWaveform;
+		float * mWaveform;
+		int		mSize;
 		
 	};
 	
