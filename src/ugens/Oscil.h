@@ -40,6 +40,8 @@ namespace Minim
 		void setFrequency( float hz );
 		void setFrequency( const Frequency & freq );
 		
+		void setAmplitude( float amp ) { mAmp = amp; }
+		
 		UGenInput amplitude;
 		UGenInput amplitudeModulation;
 		UGenInput frequency;

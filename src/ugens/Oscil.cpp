@@ -83,14 +83,15 @@ namespace Minim
 			outAmp = amplitude.getLastValues()[0];
 		}
 		
+		// calculte the sample values
+		float sample = outAmp * mWaveform->value(mStep);
+		
 		// if something has been plugged into amplitudeModulation
 		if ( amplitudeModulation.isPatched() )
 		{
-			outAmp += amplitudeModulation.getLastValues()[0];
+			sample += sample * amplitudeModulation.getLastValues()[0];
 		}
 		
-		// calculte the sample values
-		float sample = outAmp * mWaveform->value(mStep);
 		for(int i = 0; i < numChannels; i++)
 		{
 			channels[i] = sample;
