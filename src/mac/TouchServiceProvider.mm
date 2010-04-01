@@ -24,6 +24,14 @@ TouchServiceProvider::TouchServiceProvider( float preferredBufferSize )
 		displayErrorAndExit( @"Couldn't initialize an audio sesson.", status );
 	}
 	
+	UInt32 category = kAudioSessionCategory_MediaPlayback;
+	status = AudioSessionSetProperty(kAudioSessionProperty_AudioCategory, sizeof(category), &category);
+	
+	if ( status )
+	{
+		displayErrorAndExit(@"Couldn't set the AudioCategory to MediaPlayback.", status);
+	}
+	
 	status = AudioSessionSetProperty( kAudioSessionProperty_PreferredHardwareIOBufferDuration, 
 									 sizeof(preferredBufferSize), 
 									 &preferredBufferSize
@@ -49,6 +57,13 @@ TouchServiceProvider::TouchServiceProvider( float preferredBufferSize )
 	if ( preferredBufferSize != checkBufferSize )
 	{
 		displayErrorAndExit( @"Preferred buffer size not equal to actual buffer size!", 0 );
+	}
+	
+	status = AudioSessionSetActive(true);
+	
+	if ( status )
+	{
+		displayErrorAndExit(@"Couldn't set the audio session active!", status);
 	}
 	
 	// We really need to do the no-interp optimization on iPhone!
