@@ -62,33 +62,33 @@ protected:
 	     *  returns the outer UGen of which this is an input.
 	     * @return
 	     */
-		UGen & getOuterUGen() {	return mOuterUGen; }
-		const UGen & getOuterUGen() const { return mOuterUGen; }
+		inline UGen & getOuterUGen() {	return mOuterUGen; }
+		inline const UGen & getOuterUGen() const { return mOuterUGen; }
 	    
 	    /**
 	     *  returns the UGen which is giving values to this input.
 	     * @return
 	     */
-		UGen & getIncomingUGen() { return *mIncoming; }
-		const UGen & getIncomingUGen() const { return *mIncoming; }
+		inline UGen & getIncomingUGen() { return *mIncoming; }
+		inline const UGen & getIncomingUGen() const { return *mIncoming; }
 
 	    /**
 	     *  set the UGen which is giving values to this input
 	     * @param in
 	     */
-		void setIncomingUGen( UGen * in ) { mIncoming = in; }
+		inline void setIncomingUGen( UGen * in ) { mIncoming = in; }
 
 	    /**
 	     *  returns true if this input has an incoming UGen
 	     * @return
 	     */
-	    bool isPatched() const { return (mIncoming); }
+	    inline bool isPatched() const { return (mIncoming); }
 
 	    /**
 	     *  returns the last values provided to this input from it's incoming UGen
 	     * @return
 	     */
-		const float * getLastValues() const
+		inline const float * getLastValues() const
 		{
 			return getIncomingUGen().getLastValues();
 		}

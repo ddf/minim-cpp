@@ -58,6 +58,7 @@ namespace Minim
 	private:
 		float * mWaveform;
 		int		mSize;
+		float	mSizeForLookup;
 		
 	};
 	

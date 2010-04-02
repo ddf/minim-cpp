@@ -40,7 +40,8 @@ void AudioOutput::SummerStream::read( MultiChannelBuffer & buffer )
 	float tmp[ nChannels ];
 	buffer.setChannelCount( nChannels );
 	// TODO: unroll this?
-	for(int i = 0; i < buffer.getBufferSize(); ++i)
+	const int bsize = buffer.getBufferSize();
+	for(int i = 0; i < bsize; ++i)
 	{
 		memset(tmp, 0, sizeof(float) * nChannels);
 		mOutput.mSummer.tick( tmp, nChannels );

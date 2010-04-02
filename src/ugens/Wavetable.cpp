@@ -27,6 +27,7 @@ namespace Minim
 	Wavetable::Wavetable( int size )
 	: mWaveform( new float[size] )
 	, mSize(size)
+	, mSizeForLookup(size-1)
 	{
 	}
 	
@@ -60,7 +61,7 @@ namespace Minim
 	//////////////////////////////////////////////
 	float Wavetable::value( const float at ) const
 	{
-		const float whichSample = (float)(mSize - 1) * at;
+		const float whichSample = mSizeForLookup * at;
 		
 		// linearaly interpolate between the two samples we want.
 		// TODO: can we do a faster truncation than a cast?
