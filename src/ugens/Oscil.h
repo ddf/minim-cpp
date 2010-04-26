@@ -25,7 +25,6 @@
 namespace Minim 
 {
 	
-	class Frequency;
 	class Waveform;
 	
 	class Oscil : public UGen 
@@ -34,32 +33,46 @@ namespace Minim
 		// TODO: I kind of hate that I'm gonna write it such that you 
 		//       have to make a new waveform for each oscillator, but 
 		//       I can't wrap my head around how to do it better right now.
+		Oscil( const float freqInHz, float amplitude, Waveform * wave );
 		Oscil( const Frequency & freq, float amplitude, Waveform * wave );
 		virtual ~Oscil();
 		
-		void setFrequency( float hz );
-		void setFrequency( const Frequency & freq );
+		inline void setFrequency( float hz ) 
+		{ 
+			mFreq = hz;
+			updateStepSize(); 
+		}
 		
-		void setAmplitude( float amp ) { mAmp = amp; }
+		inline void setFrequency( const Frequency & freq ) 
+		{ 
+			mFreq = freq.asHz(); 
+			updateStepSize();
+		}
+		
+		inline void setAmplitude( float amp ) { mAmp = amp; }
 		
 		UGenInput amplitude;
-		UGenInput amplitudeModulation;
 		UGenInput frequency;
-		UGenInput frequencyModulation;
 		
 	protected:
 		// UGen override
-		virtual void sampleRateChanged();
+		inline virtual void sampleRateChanged()
+		{
+			oneOverSampleRate = 1.f / sampleRate();
+			updateStepSize();
+		}
 		
 		// UGen impl
 		virtual void uGenerate( float * channels, const int numChannels );
 		
 	private:
 		
-		void stepSizeChanged();
+		inline void updateStepSize()
+		{
+			mStepSize = mFreq * oneOverSampleRate;
+		}
 		
-		Frequency mBaseFreq;
-		Frequency mFreq;
+		float mFreq;
 		
 		Waveform * mWaveform;
 		
@@ -67,6 +80,7 @@ namespace Minim
 		
 		float mStep;
 		float mStepSize;
+		float oneOverSampleRate;
 	};
 	
 }

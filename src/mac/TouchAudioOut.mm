@@ -13,6 +13,7 @@
 #import	 <AudioUnit/AudioUnitProperties.h>
 #import  <AudioUnit/AudioOutputUnit.h>
 #import  <AudioToolbox/AudioServices.h>
+#include "CodeTimer.h"
 
 const int kOutputBus = 0;
 
@@ -186,10 +187,15 @@ OSStatus TouchAudioOut::renderCallback( void                        *inRefCon,
 	Minim::MultiChannelBuffer& buffer = output->mBuffer;
 	const int bufferSize = buffers->mBuffers[0].mDataByteSize / sizeof(SInt32);
 	buffer.setBufferSize( bufferSize );
-	output->mStream->read( buffer );
 	
-	assert(buffers->mNumberBuffers == buffer.getChannelCount());
+	{
+		// CodeTimer streamTimer("renderCallback: output->mStream->read");
+		output->mStream->read( buffer );
+	}
 	
+	
+	// assert(buffers->mNumberBuffers == buffer.getChannelCount());
+	// CodeTimer timer("renderCallback: copy to data");
 	for( int i = 0; i < buffers->mNumberBuffers; i++)
 	{
 		AudioBuffer & outputBuffer = buffers->mBuffers[i];

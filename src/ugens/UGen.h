@@ -42,70 +42,19 @@ protected:
 	 * This inner class, UGenInput, is used to connect the output of other UGens to this UGen
 	 * @author Anderson Mills
 	 */
-	// TODO make this package-protected if IIRFilter can be brougt into the ugens package
 	class UGenInput
 	{
 	public:
-	    /**
-	     *  This constructor generates a UGenInput of the specified type.
-	     * @param it
-	     */
-	    explicit UGenInput( UGen & outerUGen, InputType inputType = AUDIO );
-
-	    /**
-	     *  returns the inputType
-	     * @return
-	     */
-		InputType getInputType() const { return mInputType; }
-
-	    /**
-	     *  returns the outer UGen of which this is an input.
-	     * @return
-	     */
-		inline UGen & getOuterUGen() {	return mOuterUGen; }
-		inline const UGen & getOuterUGen() const { return mOuterUGen; }
-	    
-	    /**
-	     *  returns the UGen which is giving values to this input.
-	     * @return
-	     */
-		inline UGen & getIncomingUGen() { return *mIncoming; }
-		inline const UGen & getIncomingUGen() const { return *mIncoming; }
-
-	    /**
-	     *  set the UGen which is giving values to this input
-	     * @param in
-	     */
-		inline void setIncomingUGen( UGen * in ) { mIncoming = in; }
-
-	    /**
-	     *  returns true if this input has an incoming UGen
-	     * @return
-	     */
-	    inline bool isPatched() const { return (mIncoming); }
-
-	    /**
-	     *  returns the last values provided to this input from it's incoming UGen
-	     * @return
-	     */
-		inline const float * getLastValues() const
-		{
-			return getIncomingUGen().getLastValues();
-		}
-
-	    /**
-	     *  return the inputType as a string (for debugging)
-	     * @return
-	     */
-	    const char * getInputTypeAsString() const;
-
-	    /**
-	     *  print information about this UGenInput (for debugging)
-	     */
-	    void printInput() const;
-
-	private:
-		UGen & mOuterUGen;
+		UGenInput(UGen* outer, InputType type);
+		
+		const char * getInputTypeAsString() const;
+		
+		inline bool isPatched() const { return mIncoming != 0; }
+		inline void tick( float * channels, int numChannels ) { mIncoming->tick(channels, numChannels); }
+		inline void setSampleRate( float sampleRate ) { mIncoming->setSampleRate(sampleRate); }
+		inline const float * getLastValues() const { return mIncoming->getLastValues(); }
+		
+		UGen * mOuterUGen;
 		UGen * mIncoming;
 		InputType mInputType;
 	};  // ends the UGenInput inner class

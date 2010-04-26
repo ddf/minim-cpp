@@ -30,7 +30,7 @@ namespace Minim
 	public:
 		AudioOutput( AudioOut * out );
 
-	private:
+	// private:
 		// UGen is our friend so that it can get to our summer
 		friend class UGen;
 		Summer mSummer;
@@ -39,17 +39,23 @@ namespace Minim
 		class SummerStream : public AudioStream
 		{
 		public:
-			SummerStream( AudioOutput & out ) : mOutput(out) {}
+			SummerStream( Summer & summer, const AudioFormat & format );
+			~SummerStream();
 
 			// AudioResource impl
 			virtual void open() {}
 			virtual void close() {}
-			virtual const AudioFormat & getFormat() const { return mOutput.getFormat(); }
+			virtual const AudioFormat & getFormat() const { return mFormat; }
 
 			virtual void read( MultiChannelBuffer & buffer );
 		private:
-			AudioOutput & mOutput;
+			Summer & mSummer;
+			const AudioFormat & mFormat;
+			float * mTickBuffer;
 		};
+		
+		
+	private:
 
 		SummerStream mSummerStream;
 

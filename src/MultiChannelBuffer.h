@@ -29,10 +29,10 @@ namespace Minim
 		MultiChannelBuffer & operator=(const MultiChannelBuffer & other);
 		~MultiChannelBuffer();
 
-		int getBufferSize() const { return mBufferSize; }
+		inline int getBufferSize() const { return mBufferSize; }
 		void setBufferSize( const int bufferSize );
 		
-		int getChannelCount() const { return mChannelCount; }
+		inline int getChannelCount() const { return mChannelCount; }
 		void setChannelCount( const int numChannels );
 
 		float * getChannel( const int channelNum );

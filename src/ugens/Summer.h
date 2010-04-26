@@ -55,16 +55,21 @@ namespace Minim
 		// override
 		virtual void sampleRateChanged();
 
+	public:
 		// UGen impl
 		virtual void uGenerate(float * channels, const int numChannels);
 
 	private:
 		AudioOutput * mOutput;
 		
-		void initUGenList();
+		struct Node
+		{
+			Node( UGen * u ) : ugen(u), next(0) {}
+			UGen * ugen;
+			Node * next;
+		};
 		
-		UGen **mUGens;
-		int    mUGensSize;
+		Node * head;
 		
 		// array we accumulate samples into when we do our summing
 		float * m_accum;

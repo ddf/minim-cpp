@@ -27,22 +27,20 @@
 namespace Minim
 {
 	
-	static int kUGensDefaultSize = 10;
+	// static int kUGensDefaultSize = 10;
 
 Summer::Summer()
 : mOutput(NULL)
 , m_accum(NULL)
 , m_accumSize(0)
+, head(NULL)
 {
-	initUGenList();
 }
 
 Summer::Summer(AudioOutput * out)
 : mOutput(out)
-, mUGensSize(kUGensDefaultSize)
+, head(NULL)
 {
-	initUGenList();
-
 	m_accumSize = out->getFormat().getChannels();
 	m_accum = new float[ m_accumSize ];
 }
@@ -58,55 +56,86 @@ Summer::~Summer()
 ///////////////////////////////////////////////////
 void Summer::sampleRateChanged()
 {
-	for (int i = 0; i < mUGensSize; i++)
+	Node* n = head;
+	while ( n )
 	{
-		UGen * u = mUGens[i];
-		if ( u )
-		{
-			u->setSampleRate(sampleRate());
-		}
+		n->ugen->setSampleRate(sampleRate());
+		n = n->next;
 	}
+	
+//	for (int i = 0; i < mUGensSize; i++)
+//	{
+//		UGen * u = mUGens[i];
+//		if ( u )
+//		{
+//			u->setSampleRate(sampleRate());
+//		}
+//	}
 }
 	
 	///////////////////////////////////////////////
 	void Summer::addInput( UGen * in )
 	{
-		// find a slot and stick it there!
-		for(int i = 0; i < mUGensSize; ++i)
-		{
-			if ( mUGens[i] == NULL )
-			{
-				mUGens[i] = in;
-				return;
-			}
-		}
+		Node * newNode = new Node(in);
 		
-		// TODO: grow the list if we run out of slots.
+		if ( head == NULL )
+		{
+			head = newNode;
+		}
+		else 
+		{
+			// insert at end of list
+			Node * n = head;
+			
+			while ( n->next ) 
+			{
+				n = n->next;
+			}
+			
+			n->next = newNode;
+		}
 	}
 	
 	///////////////////////////////////////////////
 	void Summer::removeInput( UGen * in )
 	{
-		// find it in our list and remove it!
-		for(int i = 0; i < mUGensSize; ++i)
+		if ( head == NULL )
 		{
-			if ( mUGens[i] == in )
+			return;
+		}
+		
+		// special case first element
+		if ( head->ugen == in )
+		{
+			Node* del = head;
+			head = head->next;
+			delete del;
+			return;
+		}
+		
+		// find it in our list and remove it!
+		Node* n = head;
+		
+		while( n->next != NULL )
+		{
+			if ( n->next->ugen == in )
 			{
-				mUGens[i] = NULL;
+				Node* del = n->next;
+				n->next = n->next->next;
+				delete del;
 				return;
 			}
+			n = n->next;
 		}
 	}
 
 ///////////////////////////////////////////////////
 void Summer::uGenerate(float * channels, int numChannels)
-{	
-	// if we were constructed with an output
-	// we need to tick that output's noteManager!
-	if ( mOutput )
+{		
+	if ( head == NULL )
 	{
-		// TODO
-		// out->noteManager.tick();
+		memset(channels, 0, sizeof(float) * numChannels);
+		return;
 	}
 	
 	// resize our accumulation buffer if it's not there or is too small
@@ -120,27 +149,48 @@ void Summer::uGenerate(float * channels, int numChannels)
 		m_accum = new float[ numChannels ];
 		m_accumSize = numChannels;
 	}
-
-	for(int i = 0; i < mUGensSize; ++i)
-	{
-		UGen * u = mUGens[i];
-		if ( u )
-		{
-			memset(m_accum, 0, sizeof(float) * numChannels);
-			u->tick( m_accum, numChannels );
-			for(int c = 0; c < numChannels; ++c)
-			{
-				channels[c] += m_accum[c];
-			}
-		}
-	}
-}
 	
-	void Summer::initUGenList()
+	// first one in the list, just do an = instead of +=
+	// so that people that call this method don't have to
+	// worry about what's in channels when we get it
+	// memset(m_accum, 0, sizeof(float) * numChannels);
+	head->ugen->tick( m_accum, numChannels );
+	for(int c = 0; c < numChannels; ++c)
 	{
-		mUGensSize = kUGensDefaultSize;
-		mUGens = new UGen*[mUGensSize];
-		memset(mUGens, 0, sizeof(UGen*)*kUGensDefaultSize);
+		// the ugen may have been ticked already
+		// in which case tick will not put anything in m_accum
+		// so we always need to get the data from last values
+		channels[c] = head->ugen->getLastValues()[c];
 	}
+	
+	// now do the rest
+	
+	Node* n = head->next;
+	
+	while( n )
+	{
+		// memset(m_accum, 0, sizeof(float) * numChannels);
+		n->ugen->tick( m_accum, numChannels );
+		for(int c = 0; c < numChannels; ++c)
+		{
+			channels[c] += n->ugen->getLastValues()[c];
+		}
+		n = n->next;
+	}
+
+//	for(int i = 0; i < mUGensSize; ++i)
+//	{
+//		UGen * u = mUGens[i];
+//		if ( u )
+//		{
+//			memset(m_accum, 0, sizeof(float) * numChannels);
+//			u->tick( m_accum, numChannels );
+//			for(int c = 0; c < numChannels; ++c)
+//			{
+//				channels[c] += m_accum[c];
+//			}
+//		}
+//	}
+}
 
 } // namespace Minim

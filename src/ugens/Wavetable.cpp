@@ -19,6 +19,7 @@
 #include "Wavetable.h"
 #include <math.h>
 #include <cassert>
+#include "CodeTimer.h"
 
 namespace Minim
 {
@@ -61,6 +62,8 @@ namespace Minim
 	//////////////////////////////////////////////
 	float Wavetable::value( const float at ) const
 	{
+		// CodeTimer timer("Wavetable::value");
+		
 		const float whichSample = mSizeForLookup * at;
 		
 		// linearaly interpolate between the two samples we want.

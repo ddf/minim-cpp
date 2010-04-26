@@ -32,18 +32,18 @@ namespace Minim
 		Wavetable( float * waveform, int size );
 		virtual ~Wavetable();
 		
-		void setWaveform( float * waveform, int size ) { mWaveform = waveform; }
+		inline void setWaveform( float * waveform, int size ) { mWaveform = waveform; }
 		
 		float get( int index ) const;
 		void  set( int index, float value );
 		
-		int size() const { return mSize; }
+		inline int size() const { return mSize; }
 		
 		// Waveform impl: at should be between 0 and 1.
 		virtual float value( const float at ) const;
 		
-		float * getWaveform() { return mWaveform; }
-		const float * getWaveform() const { return mWaveform; }
+		inline float * getWaveform() { return mWaveform; }
+		inline const float * getWaveform() const { return mWaveform; }
 		
 		// tranforms
 		void scale( float scaleBy );

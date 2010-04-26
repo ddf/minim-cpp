@@ -20,6 +20,7 @@
 #include "AudioStream.h"
 #include "AudioFormat.h"
 #include <string.h> // for memset
+#include "CodeTimer.h"
 
 namespace Minim
 {
@@ -27,31 +28,42 @@ namespace Minim
 AudioOutput::AudioOutput(Minim::AudioOut *out)
 : AudioSource(out)
 , mSummer(this)
-, mSummerStream(*this)
+, mSummerStream(mSummer, out->getFormat())
 {
 	out->setAudioStream( &mSummerStream );
 	out->open();
 }
+	
+AudioOutput::SummerStream::SummerStream( Summer & summer, const AudioFormat & format )
+	: mSummer(summer)
+	, mFormat(format)
+{
+	mTickBuffer = new float[format.getChannels()];
+}
 
+AudioOutput::SummerStream::~SummerStream()
+{
+	delete [] mTickBuffer;
+}
 
 void AudioOutput::SummerStream::read( MultiChannelBuffer & buffer )
 {
-	const int nChannels = getFormat().getChannels();
-	float tmp[ nChannels ];
-	buffer.setChannelCount( nChannels );
-	// TODO: unroll this?
+	// CodeTimer timer("SummerStream::read");
+	
+	int nChannels = buffer.getChannelCount();
 	const int bsize = buffer.getBufferSize();
 	for(int i = 0; i < bsize; ++i)
 	{
-		memset(tmp, 0, sizeof(float) * nChannels);
-		mOutput.mSummer.tick( tmp, nChannels );
+		// don't need to memset our tick buffer
+		// because the summer will assign for the first ugen it ticks
+		// and then sum after that.
+		mSummer.uGenerate( mTickBuffer, nChannels );
 		for(int c = 0; c < nChannels; ++c)
 		{
-			buffer.getChannel(c)[i] = tmp[c];
+			buffer.getChannel(c)[i] = mTickBuffer[c];
 		}
 	}
 }
-
 
 
 } // namespace Minim

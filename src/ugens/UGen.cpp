@@ -30,13 +30,13 @@ namespace Minim
 {
 
 ///////////////////////////////////////////////////////////////
-UGen::UGenInput::UGenInput( UGen & outerUGen, UGen::InputType inputType )
+UGen::UGenInput::UGenInput( UGen * outerUGen, UGen::InputType inputType )
 : mOuterUGen(outerUGen) 
 , mInputType(inputType)
 , mIncoming(NULL)
 {
-	mOuterUGen.mInputs[mOuterUGen.mInputCount] = this;
-	mOuterUGen.mInputCount++;
+	mOuterUGen->mInputs[mOuterUGen->mInputCount] = this;
+	mOuterUGen->mInputCount++;
 }
 
 ///////////////////////////////////////////////////
@@ -52,14 +52,6 @@ const char * UGen::UGenInput::getInputTypeAsString() const
 		break;
 	}
 	return "";
-}
-
-///////////////////////////////////////////////////
-void UGen::UGenInput::printInput() const
-{
-	char msg[256];
-	sprintf( msg, "UGenInput: signal = %s %i", getInputTypeAsString(), isPatched() );
-	Minim::debug( msg );
 }
 
 ///////////////////////////////////////////////////
@@ -106,11 +98,11 @@ UGen & UGen::patch( UGen & connectToUGen )
 ////////////////////////////////////////////////////
 UGen & UGen::patch( UGenInput & connectToInput )
 {
-	connectToInput.setIncomingUGen( this );
+	connectToInput.mIncoming = this;
 
 	mNumOutputs += 1;
 
-	return connectToInput.getOuterUGen();
+	return *connectToInput.mOuterUGen;
 }
 
 ///////////////////////////////////////////////////
@@ -144,7 +136,7 @@ void UGen::addInput( UGen * input )
 	{
 		Minim::debug("Initializing default input on something");	
 		UGenInput & firstInput = *mInputs[0];
-		firstInput.setIncomingUGen( input );
+		firstInput.mIncoming = input;
 	}  
 	else
 	{
@@ -163,34 +155,29 @@ void UGen::removeInput(Minim::UGen *input)
 ///////////////////////////////////////////////////
 void UGen::tick(float *channels, const int numChannels)
 {
-	if (mNumOutputs > 0)
-	{
-		// only tick once per sampleframe when multiple outputs
-		mCurrentTick = (mCurrentTick + 1)%(mNumOutputs);
-	}
-
 	if (0 == mCurrentTick) 
 	{			
 		if ( mInputCount > 0 )
 		{
+			// it's possible to reuse this for all of our inputs
+			// because all UGens assign to the channels buffer they
+			// are passed.
+			float tmp[ numChannels ];
 			for(int i = 0; i < mInputCount; ++i)
 			{		
 				UGenInput & input = *mInputs[i];
-				if ( input.isPatched() )
+				if ( input.mIncoming )
 				{
-					switch ( input.getInputType() )
+					switch ( input.mInputType )
 					{
 					case CONTROL :
 						{
-							float cval(0.f);
-							input.getIncomingUGen().tick(&cval, 1);
+							input.mIncoming->tick(tmp, 1);
 						}
 						break;
 					default : // includes AUDIO
 						{
-							float aval[ numChannels ];
-							memset(aval, 0, sizeof(float)*numChannels);
-							input.getIncomingUGen().tick(aval, numChannels);
+							input.mIncoming->tick(tmp, numChannels);
 						}
 						break;
 					}
@@ -215,6 +202,12 @@ void UGen::tick(float *channels, const int numChannels)
 		// need to keep the last values generated so we have something to hand multiple outputs 
 		memcpy(mLastValues, channels, sizeof(float) * numChannels);
 	}
+	
+	if (mNumOutputs > 0)
+	{
+		// only tick once per sampleframe when multiple outputs
+		mCurrentTick = (mCurrentTick + 1)%(mNumOutputs);
+	}
 }
 
 /////////////////////////////////////////////////////
@@ -228,9 +221,9 @@ void UGen::setSampleRate(float newSampleRate)
 	for(int i = 0; i < mInputCount; ++i)
 	{
 		UGenInput & input = *mInputs[i];
-		if ( input.isPatched() )
+		if ( input.mIncoming )
 		{
-			input.getIncomingUGen().setSampleRate(newSampleRate);
+			input.mIncoming->setSampleRate(newSampleRate);
 		}			
 	}
 }
@@ -243,7 +236,7 @@ void UGen::printInputs() const
 	   char msg[64];
 	   sprintf( msg, "uGenInputs %d ", i );
 	   Minim::debug(msg);
-	   mInputs[i]->printInput();
+	   // mInputs[i]->printInput();
 	}
 }
 

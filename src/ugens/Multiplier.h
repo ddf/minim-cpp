@@ -33,7 +33,7 @@ namespace Minim
 		UGenInput audio;
 		UGenInput amplitude;
 		
-		void setValue( float mult ) { m_mult = mult; }
+		inline void setValue( float mult ) { m_mult = mult; }
 		
 	protected:
 		

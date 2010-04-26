@@ -15,8 +15,8 @@ namespace Minim
 	Multiplier::Multiplier( float mult )
 	: UGen(2)
 	, m_mult(mult)
-	, audio( *this, AUDIO )
-	, amplitude( *this, CONTROL )
+	, audio( this, AUDIO )
+	, amplitude( this, CONTROL )
 	{
 	}
 	
@@ -29,13 +29,13 @@ namespace Minim
 		for(int i = 0; i < numChannels; i++)
 		{
 			float tmp = audio.getLastValues()[i];
-			if ( !amplitude.isPatched() )
+			if ( amplitude.isPatched()  )
 			{
-				tmp *= m_mult;
+				tmp *= amplitude.mIncoming->getLastValues()[i];
 			} 
 			else 
 			{
-				tmp *= amplitude.getLastValues()[i];
+				tmp *= m_mult;
 			}
 			channels[i] = tmp;
 		}
