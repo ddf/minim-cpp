@@ -21,6 +21,7 @@
 #include "AudioOut.h"
 #include "AudioRecordingStream.h"
 #include "AudioOutput.h"
+#include <stdio.h>
 
 #ifndef NULL
 #define NULL 0
@@ -29,13 +30,14 @@
 namespace Minim
 {
 	
-void error( const char * )
+void error( const char * msg )
 {
-	
+	printf("\nMinim Error: %s\n", msg);
 }
 	
-void debug( const char * )
+void debug( const char * msg )
 {
+	printf("\nMinim Debug: %s\n", msg);
 }
 
 AudioSystem::AudioSystem(Minim::ServiceProvider *msp)
@@ -75,7 +77,7 @@ AudioPlayer * AudioSystem::loadFile( const char * filename, const int bufferSize
 	}
 
 	// TODO
-	// error("Couldn't load the file " + filename);
+	//error("Couldn't load the file " + filename);
 	return NULL;
 }
 

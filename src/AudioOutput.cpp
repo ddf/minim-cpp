@@ -19,51 +19,68 @@
 #include "AudioOutput.h"
 #include "AudioStream.h"
 #include "AudioFormat.h"
-#include <string.h> // for memset
 #include "CodeTimer.h"
 
 namespace Minim
 {
 
-AudioOutput::AudioOutput(Minim::AudioOut *out)
-: AudioSource(out)
-, mSummer(this)
-, mSummerStream(mSummer, out->getFormat())
-{
-	out->setAudioStream( &mSummerStream );
-	out->open();
-}
-	
-AudioOutput::SummerStream::SummerStream( Summer & summer, const AudioFormat & format )
-	: mSummer(summer)
-	, mFormat(format)
-{
-	mTickBuffer = new float[format.getChannels()];
-}
-
-AudioOutput::SummerStream::~SummerStream()
-{
-	delete [] mTickBuffer;
-}
-
-void AudioOutput::SummerStream::read( MultiChannelBuffer & buffer )
-{
-	// CodeTimer timer("SummerStream::read");
-	
-	int nChannels = buffer.getChannelCount();
-	const int bsize = buffer.getBufferSize();
-	for(int i = 0; i < bsize; ++i)
+	AudioOutput::AudioOutput(Minim::AudioOut *out)
+	: AudioSource(out)
+	, mSummer(this)
+	, mNoteManager( *this )
+	, mSummerStream(mSummer, mNoteManager, out->getFormat())
 	{
-		// don't need to memset our tick buffer
-		// because the summer will assign for the first ugen it ticks
-		// and then sum after that.
-		mSummer.uGenerate( mTickBuffer, nChannels );
-		for(int c = 0; c < nChannels; ++c)
+		out->setAudioStream( &mSummerStream );
+		out->open();
+	}
+	
+	void AudioOutput::pauseNotes()
+	{
+		mNoteManager.pause();
+	}
+	
+	void AudioOutput::resumeNotes()
+	{
+		mNoteManager.resume();
+	}
+	
+	void AudioOutput::playNote( float startTime, float duration, Instrument & instrument )
+	{
+		mNoteManager.addEvent(startTime, duration, instrument);
+	}
+	
+	AudioOutput::SummerStream::SummerStream( Summer & summer, NoteManager & noteManager, const AudioFormat & format )
+		: mSummer(summer)
+		, mNoteManager(noteManager)
+		, mFormat(format)
+	{
+		mTickBuffer = new float[format.getChannels()];
+	}
+
+	AudioOutput::SummerStream::~SummerStream()
+	{
+		delete [] mTickBuffer;
+	}
+
+	void AudioOutput::SummerStream::read( MultiChannelBuffer & buffer )
+	{
+		// CodeTimer timer("SummerStream::read");
+		
+		int nChannels = buffer.getChannelCount();
+		const int bsize = buffer.getBufferSize();
+		for(int i = 0; i < bsize; ++i)
 		{
-			buffer.getChannel(c)[i] = mTickBuffer[c];
+			mNoteManager.tick();
+			// don't need to memset our tick buffer
+			// because the summer will assign for the first ugen it ticks
+			// and then sum after that.
+			mSummer.uGenerate( mTickBuffer, nChannels );
+			for(int c = 0; c < nChannels; ++c)
+			{
+				buffer.getChannel(c)[i] = mTickBuffer[c];
+			}
 		}
 	}
-}
 
 
 } // namespace Minim

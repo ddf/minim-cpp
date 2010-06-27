@@ -73,7 +73,5 @@ TouchServiceProvider::TouchServiceProvider( float preferredBufferSize )
 
 Minim::AudioOut * TouchServiceProvider::getAudioOutput( const Minim::AudioFormat & outputFormat, int outputBufferSize )
 {
-	// TODO return an instance of a class that wraps the functionality required 
-	//      to make audio output work. AudioOutput in mobilesynth is a good place to start	
 	return new TouchAudioOut( outputFormat, outputBufferSize );
 }
