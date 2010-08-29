@@ -27,6 +27,7 @@
 
 namespace Minim
 {
+	class UGen;
 	
 	class AudioOutput : public AudioSource
 	{
@@ -37,13 +38,15 @@ namespace Minim
 		void resumeNotes();
 		
 		void playNote(const float startTime, const float duration, Instrument & instrument);
+		
+		inline void setVolume( const float volume ) { mSummerStream.setVolume(volume); }
+		inline float getVolume() const { return mSummerStream.getVolume(); }
 
-	// private:
+	private:
 		// UGen is our friend so that it can get to our summer
-		friend class UGen;
+		friend class Minim::UGen;
 		Summer mSummer;
 		
-	// private:
 
 		// an adapter class that will let us plug the Summer UGen into an AudioOut
 		class SummerStream : public AudioStream
@@ -60,11 +63,16 @@ namespace Minim
 
 			virtual void read( MultiChannelBuffer & buffer );
 			
+			void setVolume( const float volume ) { mVolume = volume; }
+			float getVolume() const { return mVolume; }
+			
 		private:
 			Summer & mSummer;
 			const AudioFormat & mFormat;
 			float * mTickBuffer;
 			NoteManager & mNoteManager;
+			// scalar applied to samples before being written into the output buffer
+			float mVolume;
 			
 		} mSummerStream;
 		

@@ -53,6 +53,7 @@ namespace Minim
 		: mSummer(summer)
 		, mNoteManager(noteManager)
 		, mFormat(format)
+		, mVolume(1.f)
 	{
 		mTickBuffer = new float[format.getChannels()];
 	}
@@ -77,7 +78,7 @@ namespace Minim
 			mSummer.uGenerate( mTickBuffer, nChannels );
 			for(int c = 0; c < nChannels; ++c)
 			{
-				buffer.getChannel(c)[i] = mTickBuffer[c];
+				buffer.getChannel(c)[i] = mTickBuffer[c] * mVolume;
 			}
 		}
 	}
