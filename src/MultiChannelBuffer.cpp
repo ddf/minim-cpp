@@ -113,6 +113,15 @@ void MultiChannelBuffer::setChannelCount( int numChannels )
 		}
 	}
 }
+	
+////////////////////////////////////////////////////////////
+void MultiChannelBuffer::makeSilence()
+{
+	for(int i = 0; i < mChannelCount; ++i )
+	{
+		memset(mChannels[i], 0, sizeof(float) * mBufferSize);
+	}
+}
 
 ////////////////////////////////////////////////////////////
 float * MultiChannelBuffer::getChannel( const int channelNum )

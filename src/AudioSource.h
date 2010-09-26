@@ -38,6 +38,9 @@ namespace Minim
 		const AudioFormat & getFormat() const { return mOutput->getFormat(); }
 
 		void close();
+		
+		void pauseProcessing() { mOutput->pauseProcessing(); }
+		void resumeProcessing() { mOutput->resumeProcessing(); }
 
 	protected:
 		AudioSource( AudioOut * out );

@@ -10,17 +10,52 @@
 #define TOUCHSERVICEPROVIDER_H
 
 #include "ServiceProvider.h"
+#import  <AudioToolbox/AudioServices.h>
 
 class TouchServiceProvider : public Minim::ServiceProvider
 {
 
 public:
-	TouchServiceProvider( const float outputBufferDuration );
+	
+	struct AudioSessionParameters
+	{
+		AudioSessionParameters()
+		: interruptRunLoop(NULL)
+		, interruptRunLoopMode(NULL)
+		, interruptListener(NULL)
+		, interruptUserData(NULL)
+		, outputBufferDuration(-1.f) // means we won't attempt to set the property
+		, audioCategory(kAudioSessionCategory_MediaPlayback)
+		, setActiveImmediately(true)
+		{
+		}
+		
+		
+		// arguments for AudioSessionInitialize
+		CFRunLoopRef                      interruptRunLoop;		
+		CFStringRef                       interruptRunLoopMode; 
+		AudioSessionInterruptionListener  interruptListener;    
+		void                              *interruptUserData;
+		
+		// for setting the preferred IO buffer duration
+		float							  outputBufferDuration; 
+		
+		// for setting the AudioCategory for this audio session
+		UInt32							  audioCategory;		
+		
+		// to indicate whether or not the audio session should be set active immediately
+		bool                              setActiveImmediately;  
+		
+	};
+	
+	// this will set the outputBufferDuration member of the provided parameters
+	// to what the device actually chooses, which might be different than what you ask for.
+	TouchServiceProvider( AudioSessionParameters & rParameters );
 	virtual ~TouchServiceProvider() {}
 	
 	virtual void start() {}
 	
-	virtual void stop() {}
+	virtual void stop();
 	
 	virtual void debugOn() {}
 

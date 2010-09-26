@@ -296,7 +296,14 @@
 			isa = PBXProject;
 			buildConfigurationList = 1DEB922208733DC00010E9CD /* Build configuration list for PBXProject "MinimTouch" */;
 			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
 			mainGroup = 0867D691FE84028FC02AAC07 /* MinimTouch */;
 			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
 			projectDirPath = "";
@@ -377,7 +384,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = MinimTouch;
 				PROVISIONING_PROFILE = "B9524F6B-3E36-4D3D-B3BC-3BB6781F5CB9";
-				SDKROOT = iphoneos4.0;
+				SDKROOT = iphoneos3.2;
 			};
 			name = Release;
 		};

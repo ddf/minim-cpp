@@ -134,8 +134,18 @@ void TouchAudioOut::open()
 	{
 		displayErrorAndExit(@"AudioUnitInitialize", status);
 	}
-	
-	status = AudioOutputUnitStart( mAudioUnit );
+
+	resumeProcessing();
+}
+
+void TouchAudioOut::pauseProcessing()
+{
+	AudioOutputUnitStop(mAudioUnit);
+}
+
+void TouchAudioOut::resumeProcessing()
+{
+	OSStatus status = AudioOutputUnitStart( mAudioUnit );
 	if (status) 
 	{
 		displayErrorAndExit(@"AudioOutputUnitStart", status);
@@ -179,6 +189,7 @@ OSStatus TouchAudioOut::renderCallback( void                        *inRefCon,
 {
 	assert( kOutputBus == inBusNumber );
 	TouchAudioOut * output = static_cast<TouchAudioOut*> (inRefCon);
+
 	
 	// assert( output->mStream );
 	// assert( output->mListener );
@@ -192,7 +203,6 @@ OSStatus TouchAudioOut::renderCallback( void                        *inRefCon,
 		// CodeTimer streamTimer("renderCallback: output->mStream->read");
 		output->mStream->read( buffer );
 	}
-	
 	
 	// assert(buffers->mNumberBuffers == buffer.getChannelCount());
 	// CodeTimer timer("renderCallback: copy to data");

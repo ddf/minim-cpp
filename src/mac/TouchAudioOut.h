@@ -32,9 +32,8 @@ public:
 	
 	virtual const Minim::MultiChannelBuffer & getOutputBuffer() const { return mBuffer; }
 	
-	// TODO
-	virtual void pauseProcessing() {}
-	virtual void resumeProcessing() {}
+	virtual void pauseProcessing();
+	virtual void resumeProcessing();
 	
 private:
 	

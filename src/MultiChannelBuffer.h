@@ -37,6 +37,8 @@ namespace Minim
 
 		float * getChannel( const int channelNum );
 		const float * getChannel( const int channelNum ) const;
+		
+		void makeSilence();
 
 	private:
 		
