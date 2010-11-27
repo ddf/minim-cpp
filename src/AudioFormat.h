@@ -19,11 +19,27 @@
 #ifndef AUDIOFORMAT_H
 #define AUDIOFORMAT_H
 
+/*
+ *	You can't make instances of AudioFormat because some platforms have restrictions on 
+ *  the kinds of formats you can request. For this reason, a particular implementation
+ *	should provide you with a subclass of AudioFormat with an appropriate constructor.
+ *
+ */
+
 namespace Minim
 {
 	class AudioFormat
 	{
-	public:
+	protected:
+		AudioFormat()
+		: mChannels(0)
+		, mFrameRate(0)
+		, mFrameSize(0)
+		, mSampleRate(0)
+		, mSampleSizeInBits(0)
+		, mBigEndian(false)
+		{}
+		
 		AudioFormat(float sampleRate, int sampleSizeInBits, int channels, bool isSigned, bool bigEndian)
 			: mChannels(channels)
 			, mFrameRate(0)
@@ -32,26 +48,18 @@ namespace Minim
 			, mSampleSizeInBits(sampleSizeInBits)
 			, mBigEndian(bigEndian)
 		{}
-
-		class Encoding
-		{
-		public:
-			Encoding( const char * encodingName ) : mEncodingName(encodingName) {}
-
-			const char * toString() { return mEncodingName; }
-
-		private:
-			const char * mEncodingName;
-		};
 		
-		int		getChannels() const { return mChannels; }
-		float	getFrameRate() const { return mFrameRate; }
-		int		getFrameSize() const { return mFrameSize; }
-		float	getSampleRate() const { return mSampleRate; }
-		int		getSampleSizeInBits() const { return mSampleSizeInBits; }
-		bool	isBigEndian() const	{ return mBigEndian; }
+	public:
+		
+		inline int		getChannels() const { return mChannels; }
+		inline float	getFrameRate() const { return mFrameRate; }
+		inline int		getFrameSize() const { return mFrameSize; }
+		inline float	getSampleRate() const { return mSampleRate; }
+		inline int		getSampleSizeInBits() const { return mSampleSizeInBits; }
+		inline bool		isBigEndian() const	{ return mBigEndian; }
+		
+	protected:
 
-	private:
 		int		mChannels; // how many channels
 		float	mFrameRate; // the number of frames recorded per second
 		int		mFrameSize; // the number of bytes in each frame

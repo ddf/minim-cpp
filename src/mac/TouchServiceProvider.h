@@ -61,7 +61,7 @@ public:
 
 	virtual void debugOff() {}
 
-	virtual Minim::AudioRecordingStream * getAudioRecordingStream( const char * filename, int bufferSize, bool inMemory ) { return NULL; }
+	virtual Minim::AudioRecordingStream * getAudioRecordingStream( const char * filename, int bufferSize, bool inMemory );
 	
 	virtual Minim::AudioStream * getAudioInput( const Minim::AudioFormat & inputFormat ) { return NULL; }
 	

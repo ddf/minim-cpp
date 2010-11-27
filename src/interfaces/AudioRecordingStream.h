@@ -44,6 +44,8 @@ namespace Minim
 		virtual void pause() = 0;
 
 		virtual bool isPlaying() const = 0;
+		
+		virtual int bufferSize() const = 0;
 
 		/**
 		 * Starts looping playback from the current position. Playback will continue

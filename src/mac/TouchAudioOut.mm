@@ -24,14 +24,28 @@ TouchAudioOut::TouchAudioOut( const Minim::AudioFormat & format, int bufferSize 
 {
 	// iPhone apparently has preferred settings, which are the values
 	// behind the comments. but we go ahead and set what the format says.
-	mStreamDesc.mSampleRate = 44100.0;
+	mStreamDesc.mSampleRate = format.getSampleRate(); // 44100.f
 	mStreamDesc.mFormatID = kAudioFormatLinearPCM;
-	mStreamDesc.mFormatFlags  = kAudioFormatFlagsAudioUnitCanonical;
-	mStreamDesc.mBytesPerPacket = sizeof(AudioUnitSampleType);
+	
+	// when working with fixed point, which we do on iOS, we need canonical flags
+	// as well as the field indicating how many bits are used to represent audio.
+	// turns out that if you don't have that extra flag, audio will work, but it
+	// will be much quieter than you expect, probably because the system thinks you
+	// are using more bits to represent the audio than you actually are.
+	// Also, we use kAudioFormatFlagsCanonical here and not kAudioFormatFlagsAudioUnitCanonical
+	// because the latter flag is non-interleaved, but we need to interleave for stereo output.
+	// Using the flags below is consistent with the code found in CAStreamBasicDescription::SetAUCanonical.
+#if CA_PREFER_FIXED_POINT
+	mStreamDesc.mFormatFlags = kAudioFormatFlagsCanonical | (kAudioUnitSampleFractionBits << kLinearPCMFormatFlagsSampleFractionShift);
+#else
+	mStreamDesc.mFormatFlags = kAudioFormatFlagsCanonical;
+#endif
+	
+	mStreamDesc.mBytesPerPacket = format.getFrameSize(); // sizeof(AudioUnitSampleType);
 	mStreamDesc.mFramesPerPacket = 1;
-	mStreamDesc.mBytesPerFrame = sizeof(AudioUnitSampleType);
-	mStreamDesc.mChannelsPerFrame = 1;
-	mStreamDesc.mBitsPerChannel = 8 * sizeof(AudioUnitSampleType);
+	mStreamDesc.mBytesPerFrame = format.getFrameSize(); // sizeof(AudioUnitSampleType);
+	mStreamDesc.mChannelsPerFrame = format.getChannels(); // 1
+	mStreamDesc.mBitsPerChannel = format.getSampleSizeInBits(); // 8 * sizeof(AudioUnitSampleType);
 	mStreamDesc.mReserved = 0;
 }
 
@@ -196,7 +210,8 @@ OSStatus TouchAudioOut::renderCallback( void                        *inRefCon,
 
 	// read from our stream
 	Minim::MultiChannelBuffer& buffer = output->mBuffer;
-	const int bufferSize = buffers->mBuffers[0].mDataByteSize / sizeof(SInt32);
+	const int channelCount = buffer.getChannelCount();
+	const int bufferSize = buffers->mBuffers[0].mDataByteSize / sizeof(SInt32) / buffer.getChannelCount();
 	buffer.setBufferSize( bufferSize );
 	
 	{
@@ -208,25 +223,27 @@ OSStatus TouchAudioOut::renderCallback( void                        *inRefCon,
 	// CodeTimer timer("renderCallback: copy to data");
 	for( int i = 0; i < buffers->mNumberBuffers; i++)
 	{
-		AudioBuffer & outputBuffer = buffers->mBuffers[i];
-		SInt32* data = (SInt32*)outputBuffer.mData;
-
-		int samples = outputBuffer.mDataByteSize / sizeof(SInt32);
-		// assert( samples == buffer.getBufferSize() );
-		// assumes power of two!
-		const float * channel = buffer.getChannel(i);
-		for (int s = 0; s < samples; s += 8)
+		if ( i == 0 )
 		{
-			// there's got to be a faster way to make this conversion.
-			// need to go down the floating-point magic rat hole some day.
-			data[s]   = channel[s]   * 16777216L;
-			data[s+1] = channel[s+1] * 16777216L;
-			data[s+2] = channel[s+2] * 16777216L;
-			data[s+3] = channel[s+3] * 16777216L;
-			data[s+4] = channel[s+4] * 16777216L;
-			data[s+5] = channel[s+5] * 16777216L;
-			data[s+6] = channel[s+6] * 16777216L;
-			data[s+7] = channel[s+7] * 16777216L;
+			AudioBuffer & outputBuffer = buffers->mBuffers[i];
+			SInt32* data = (SInt32*)outputBuffer.mData;
+
+			for( int c = 0; c < channelCount; ++c)
+			{
+				float * channel = buffer.getChannel(c);
+				for (int s = 0; s < bufferSize; ++s)
+				{
+					// there's got to be a faster way to make this conversion.
+					// need to go down the floating-point magic rat hole some day.
+					const float fsamp = channel[s];
+					const SInt32 sampleValue = fsamp * 16777216L;
+					data[s*channelCount + c] = sampleValue;
+				}
+			}
+		}
+		else
+		{
+			buffers->mBuffers[i].mDataByteSize = 0;
 		}
 	}
 	

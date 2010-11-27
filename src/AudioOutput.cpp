@@ -67,7 +67,7 @@ namespace Minim
 	{
 		// CodeTimer timer("SummerStream::read");
 		
-		int nChannels = buffer.getChannelCount();
+		const int nChannels = buffer.getChannelCount();
 		const int bsize = buffer.getBufferSize();
 		for(int i = 0; i < bsize; ++i)
 		{
