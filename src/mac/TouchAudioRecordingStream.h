@@ -40,15 +40,15 @@ public:
 	virtual void pause() { m_bIsPlaying = false; }
 	virtual bool isPlaying() const { return m_bIsPlaying; }
 	
-	virtual int bufferSize() const { return m_bufferSize; }
+	virtual unsigned int bufferSize() const { return m_bufferSize; }
 	
-	virtual void loop(int count) {}
-	virtual void setLoopPoints(int start, int stop) {}
-	virtual int getLoopCount() const { return 0; }
+	virtual void loop(const unsigned int count) {}
+	virtual void setLoopPoints(const unsigned int start, const unsigned int stop) {}
+	virtual unsigned int getLoopCount() const { return 0; }
 	
-	virtual int getMillisecondPosition() const { return 0; }
-	virtual void setMillisecondPosition(int pos) {}
-	virtual int getMillisecondLength() const { return 0; }
+	virtual unsigned int getMillisecondPosition() const;
+	virtual void setMillisecondPosition(const unsigned int pos);
+	virtual unsigned int getMillisecondLength() const { return m_fileMillisLength; }
 	
 	virtual const Minim::AudioMetaData & getMetaData() const { return m_metaData; }
 	
@@ -78,9 +78,12 @@ private:
 	bool m_bIsPlaying;
 	
 	// how many sample frames we expect to be asked to read at a time
-	int  m_bufferSize;
+	UInt32   m_bufferSize;
 	// where we read the data to
 	SInt16 * m_readBuffer;
+	
+	// how long is this file, in milliseconds
+	UInt32   m_fileMillisLength;
 };
 
 #endif // TOUCHAUDIORECORDINGSTREAM_H

@@ -71,7 +71,7 @@
 		6D82014A11448761009404CA /* TouchAudioOut.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = TouchAudioOut.mm; path = ../src/mac/TouchAudioOut.mm; sourceTree = SOURCE_ROOT; };
 		6D8201E511449A7F009404CA /* Noise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Noise.h; sourceTree = "<group>"; };
 		6D8201E611449A7F009404CA /* Noise.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Noise.cpp; sourceTree = "<group>"; };
-		6D8E21151165937B003ACAC5 /* CodeTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CodeTimer.h; sourceTree = "<group>"; };
+		6D8E21151165937B003ACAC5 /* CodeTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CodeTimer.h; path = ../src/CodeTimer.h; sourceTree = "<group>"; };
 		6D91D15912A0481800B42F24 /* TouchAudioFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TouchAudioFormat.h; path = ../src/mac/TouchAudioFormat.h; sourceTree = SOURCE_ROOT; };
 		6D966052113F756E0096AB83 /* AudioFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioFormat.h; path = ../src/AudioFormat.h; sourceTree = SOURCE_ROOT; };
 		6D966053113F756E0096AB83 /* AudioOutput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AudioOutput.cpp; path = ../src/AudioOutput.cpp; sourceTree = SOURCE_ROOT; };

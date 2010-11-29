@@ -45,7 +45,7 @@ namespace Minim
 
 		virtual bool isPlaying() const = 0;
 		
-		virtual int bufferSize() const = 0;
+		virtual unsigned int bufferSize() const = 0;
 
 		/**
 		 * Starts looping playback from the current position. Playback will continue
@@ -70,7 +70,7 @@ namespace Minim
 		 *           Minim.LOOP_CONTINUOUSLY to indicate that looping should continue
 		 *           until interrupted
 		 */
-		virtual void loop(int count) = 0;
+		virtual void loop(const unsigned int count) = 0;
 
 		/**
 		 * Sets the loops points in the source, in milliseconds
@@ -80,7 +80,7 @@ namespace Minim
 		 * @param stop
 		 *           the position of the end of the loop
 		 */
-		virtual void setLoopPoints(int start, int stop) = 0;
+		virtual void setLoopPoints(const unsigned int start, const unsigned int stop) = 0;
 
 		/**
 		 * How many loops are left to go. 0 means this isn't looping and -1 means
@@ -88,14 +88,14 @@ namespace Minim
 		 * 
 		 * @return how many loops left
 		 */
-		virtual int getLoopCount() const = 0;
+		virtual unsigned int getLoopCount() const = 0;
 
 		/**
 		 * Gets the current millisecond position of the source.
 		 * 
 		 * @return the current possition, in milliseconds in the source
 		 */
-		virtual int getMillisecondPosition() const = 0;
+		virtual unsigned int getMillisecondPosition() const = 0;
 
 		/**
 		 * Sets the current millisecond position of the source.
@@ -103,7 +103,7 @@ namespace Minim
 		 * @param pos
 		 *           the posititon to cue the playback head to
 		 */
-		virtual void setMillisecondPosition(int pos) = 0;
+		virtual void setMillisecondPosition(const unsigned int pos) = 0;
 
 		/**
 		 * Returns the length of the source in milliseconds. Infinite sources, such
@@ -111,7 +111,7 @@ namespace Minim
 		 * 
 		 * @return the length of the source, in milliseconds
 		 */
-		virtual int getMillisecondLength() const = 0;
+		virtual unsigned int getMillisecondLength() const = 0;
 
 		/**
 		 * Returns meta data about the recording, such as duration, name, ID3 tags

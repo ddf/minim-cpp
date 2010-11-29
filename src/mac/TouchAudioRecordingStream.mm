@@ -27,16 +27,7 @@ TouchAudioRecordingStream::~TouchAudioRecordingStream()
 	CFRelease( m_fileURL );
 	
 	// just in case they forgot to close this
-	if ( m_audioFileRef )
-	{
-		ExtAudioFileDispose( m_audioFileRef );
-		m_audioFileRef = NULL;
-	}
-	
-	if ( m_readBuffer )
-	{
-		delete [] m_readBuffer;
-	}
+	close();
 }
 
 ////////////////////////////////////////////
@@ -58,6 +49,11 @@ void TouchAudioRecordingStream::open()
 		m_clientFormat.SetCanonical( fileFormat.NumberChannels(), true );
 		ExtAudioFileSetProperty( m_audioFileRef, kExtAudioFileProperty_ClientDataFormat, size, &m_clientFormat );
 		
+		SInt64 fileFrameLength;
+		UInt32 propSize = sizeof(fileFrameLength);
+		ExtAudioFileGetProperty(m_audioFileRef, kExtAudioFileProperty_FileLengthFrames, &propSize, &fileFrameLength);
+		m_fileMillisLength = (UInt32)( (Float64)fileFrameLength / m_fileFormat.getFrameRate() * 1000.f );
+		
 		// allocate the buffer we'll use for reading
 		m_readBuffer = new SInt16[ m_bufferSize * fileFormat.NumberChannels() ];
 	}
@@ -77,6 +73,8 @@ void TouchAudioRecordingStream::close()
 		delete [] m_readBuffer;
 		m_readBuffer = NULL;
 	}
+	
+	m_fileMillisLength = 0;
 }
 
 ////////////////////////////////////////////
@@ -84,9 +82,16 @@ void TouchAudioRecordingStream::read( Minim::MultiChannelBuffer & buffer )
 {
 	if ( m_audioFileRef )
 	{
-		UInt32 outBufferSize = buffer.getBufferSize();
+		const UInt32 outBufferSize = buffer.getBufferSize();
+		assert(outBufferSize <= m_bufferSize && "You requested to read more sample frames than this recording stream can read at one time.");
+			   
+		UInt32 samplesToRead = outBufferSize;
 		const UInt32 numberChannels = m_clientFormat.NumberChannels();
 		buffer.setChannelCount( numberChannels );
+		// start with silence, we may not be playing, in which case we should return silence
+		// or we might read fewer samples than the full buffer, in which case the rest of it
+		// should be filled with silence.
+		buffer.makeSilence();
 		
 		if ( m_bIsPlaying )
 		{
@@ -98,23 +103,28 @@ void TouchAudioRecordingStream::read( Minim::MultiChannelBuffer & buffer )
 			
 			// client format is always linear PCM - so here we determine how many frames of lpcm
 			// we can read/write given our buffer size
-			ExtAudioFileRead( m_audioFileRef, &outBufferSize, &fillBufList );
+			ExtAudioFileRead( m_audioFileRef, &samplesToRead, &fillBufList );
 			
+			// 0 read means EOF
+			if ( samplesToRead == 0 )
+			{
+				// might need to wrap back to beginning loop point if looping,
+				// but for now we just stop playing.
+				m_bIsPlaying = false;
+				return;
+			}
 			
 			// and now we should be able to de-interleave our read buffer into buffer
-			for(UInt32 i = 0; i < outBufferSize; ++i)
+			for(UInt32 c = 0; c < numberChannels; ++c)
 			{
-				for(UInt32 c = 0; c < numberChannels; ++c)
+				float * channel = buffer.getChannel(c);
+				for(UInt32 i = 0; i < samplesToRead; ++i)
 				{
 					const UInt32 offset = (i * numberChannels) + c; 
 					const SInt16 sample = m_readBuffer[offset];
-					buffer.getChannel(c)[i] = (float)sample / 32767.f;
+					channel[i] = (float)sample / 32767.f;
 				}
 			}
-		}
-		else 
-		{
-			buffer.makeSilence();
 		}
 	}
 	else 
@@ -124,7 +134,29 @@ void TouchAudioRecordingStream::read( Minim::MultiChannelBuffer & buffer )
 
 }
 
+//////////////////////////////////////////////////////
+unsigned int TouchAudioRecordingStream::getMillisecondPosition() const
+{
+	unsigned int position(0);
+	if ( m_audioFileRef )
+	{
+		SInt64 currentFramePosition;
+		ExtAudioFileTell(m_audioFileRef, &currentFramePosition);
+		position = (unsigned int)( (Float64)currentFramePosition / m_fileFormat.getFrameRate() * 1000.f );
+	}
+		
+	return position;
+}
 
-
-
+///////////////////////////////////////////////////////
+void TouchAudioRecordingStream::setMillisecondPosition( const unsigned int pos )
+{
+	if ( m_audioFileRef )
+	{
+		// convert this millisecond position to a frame position
+		const float seconds = (float)pos / 1000.f;
+		const SInt64 closestFrame = (SInt64)roundf( seconds * m_fileFormat.getFrameRate() );
+		ExtAudioFileSeek(m_audioFileRef, closestFrame);
+	}
+}
 

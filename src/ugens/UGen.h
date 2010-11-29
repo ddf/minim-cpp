@@ -144,7 +144,7 @@ protected:
 public:
 	
 	// Just return the lastValues
-	const float * getLastValues() const
+	inline const float * getLastValues() const
 	{
 		return mLastValues;
 	}
@@ -163,7 +163,7 @@ protected:
 		// default implementation does nothing.
 	}
 	
-	float sampleRate() const { return mSampleRate; }
+	inline float sampleRate() const { return mSampleRate; }
 
 public:
 	

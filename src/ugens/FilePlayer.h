@@ -29,10 +29,28 @@ namespace Minim
 		inline void pause() { m_pStream->pause(); }
 		inline bool isPlaying() { return m_pStream->isPlaying(); }
 		
+		void setMillisecondPosition( const unsigned int pos );
+		unsigned int getMillisecondPosition() const;
+		inline unsigned int getMillisecondLength() const { return m_pStream->getMillisecondLength(); }
+		
 	protected:
 		virtual void uGenerate( float * channels, const int numberOfChannels );
 		
 	private:
+		// fill the buffer and reset our output position
+		void fillBuffer();
+		
+		// conversion functions
+		inline unsigned int millisToFrames( const unsigned int millis ) const
+		{
+			return (unsigned int)( (float)millis / 1000.f * sampleRate() );
+		}
+		
+		inline unsigned int framesToMillis( const unsigned int frames ) const
+		{
+			return (unsigned int)( (float)frames / sampleRate() * 1000.f );
+		}
+		
 		// the stream we read from
 		AudioRecordingStream * m_pStream;
 		
