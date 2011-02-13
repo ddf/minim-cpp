@@ -13,7 +13,9 @@
 class CodeTimer
 {
 public:
-	CodeTimer(const char * tag) : mTag(tag)
+	CodeTimer(const char * tag, long int printThreshold = 0) 
+	: mTag(tag)
+	, mPrintThreshold(printThreshold)
 	{
 		gettimeofday(&mStart, NULL);
 	}
@@ -21,12 +23,18 @@ public:
 	~CodeTimer()
 	{
 		gettimeofday(&mEnd, NULL);
-		printf("%s took %d seconds and %d microseconds.\n", mTag, mEnd.tv_sec - mStart.tv_sec, mEnd.tv_usec - mStart.tv_usec);
+		timeval dur;
+		timersub(&mEnd, &mStart, &dur);
+		if ( dur.tv_sec * 100000 + dur.tv_usec > mPrintThreshold )
+		{
+			printf("%s took %d seconds and %d microseconds.\n", mTag, dur.tv_sec, dur.tv_usec);
+		}
 	}
 	
 private:
 	
 	const char * mTag;
+	long int     mPrintThreshold;
 	timeval		 mStart;
 	timeval		 mEnd;
 	

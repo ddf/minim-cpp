@@ -65,7 +65,7 @@ void displayErrorAndExit( NSString* message, OSStatus status )
 	} 
 	else 
 	{
-		NSLog(message);
+		NSLog(@"%@\n", message);
 	}
 	exit(1);
 }
@@ -215,7 +215,7 @@ OSStatus TouchAudioOut::renderCallback( void                        *inRefCon,
 	buffer.setBufferSize( bufferSize );
 	
 	{
-		// CodeTimer streamTimer("renderCallback: output->mStream->read");
+		//CodeTimer streamTimer("renderCallback: output->mStream->read", 0);
 		output->mStream->read( buffer );
 	}
 	

@@ -1,4 +1,7 @@
 /*
+ *  TickRate.h
+ *  MinimTouch
+ *
  *   Author: Damien Di Fede <ddf@compartmental.net>
  *
  *   This program is free software; you can redistribute it and/or modify
@@ -16,29 +19,41 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifndef MULTIPLIER_H
-#define MULTIPLIER_H
+#ifndef TICKRATE_H
+#define TICKRATE_H
 
 #include "UGen.h"
 
-namespace Minim 
+namespace Minim
 {
-	
-	class Multiplier : public UGen 
+	class TickRate : public UGen
 	{
 	public:
-		Multiplier( float mult = 0.f );
-		virtual ~Multiplier();
+		TickRate( const float tickRate = 1.f );
+		virtual ~TickRate();
 		
-		UGenInput audio;
-		UGenInput amplitude;
+		UGenInput value;
+		
+		void setInterpolation( const bool doInterpolate ) { m_bInterpolate = doInterpolate; }
+		bool isInterpolating() const { return m_bInterpolate; }
 		
 	protected:
+		// UGen overrides
+		virtual void addInput( UGen * input );
+		virtual void removeInput( UGen * input );
+		virtual void sampleRateChanged();
+		virtual void channelCountChanged();
+		virtual void uGenerate( float * sampleFrame, const int numberOfChannels );
 		
-		// UGen impl
-		void uGenerate( float * channels, int numChannels );
+	private:
+		UGen *  m_pAudio;
+		float * m_currentSampleFrame;
+		float * m_nextSampleFrame;
+		int		m_sampleFrameSize;
+		float   m_sampleCount;
+		bool    m_bInterpolate;
+		
 	};
-	
 }
 
-#endif // MULTIPLIER_H
+#endif // TICKRATE_H

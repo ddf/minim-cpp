@@ -38,10 +38,15 @@ namespace Minim
 		
 		Noise( float fAmplitude, Tint eTint );
 		
-		// override
-		virtual void sampleRateChanged();
+		/**
+		 * Patch to this to control the amplitude of the noise with another UGen.
+		 */
+		UGenInput amplitude;
 		
 	protected:
+		
+		// override
+		virtual void sampleRateChanged();
 		
 		virtual void uGenerate( float * channels, int numChannels );
 		
@@ -53,7 +58,6 @@ namespace Minim
 		float	pink();
 		
 		Tint	mTint;
-		float	mAmp;
 		float	mLastOutput;
 		
 		float	mBrownCutoffFreq;

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6D33B3B11307A280006EE9DD /* Waveshaper.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D33B3AF1307A280006EE9DD /* Waveshaper.h */; };
+		6D33B3B21307A280006EE9DD /* Waveshaper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6D33B3B01307A280006EE9DD /* Waveshaper.cpp */; };
 		6D6A9B3711432ED9003B59BA /* TouchServiceProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D6A9B3511432ED9003B59BA /* TouchServiceProvider.h */; };
 		6D6A9B3811432ED9003B59BA /* TouchServiceProvider.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6D6A9B3611432ED9003B59BA /* TouchServiceProvider.mm */; };
 		6D82014B11448761009404CA /* TouchAudioOut.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D82014911448761009404CA /* TouchAudioOut.h */; };
@@ -43,6 +45,8 @@
 		6DAFF2B611CDCD56007CD1AA /* NoteManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DAFF2B411CDCD56007CD1AA /* NoteManager.h */; };
 		6DAFF2B711CDCD56007CD1AA /* NoteManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DAFF2B511CDCD56007CD1AA /* NoteManager.cpp */; };
 		6DAFF2C311CDD407007CD1AA /* Instrument.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DAFF2C211CDD407007CD1AA /* Instrument.h */; };
+		6DC7CE4512ED05A400513240 /* TickRate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DC7CE4312ED05A400513240 /* TickRate.h */; };
+		6DC7CE4612ED05A400513240 /* TickRate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DC7CE4412ED05A400513240 /* TickRate.cpp */; };
 		6DCC14341145BC2500727A0A /* Frequency.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DCC14321145BC2500727A0A /* Frequency.h */; };
 		6DCC14351145BC2500727A0A /* Frequency.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DCC14331145BC2500727A0A /* Frequency.cpp */; };
 		6DCC14421145BE5F00727A0A /* Waveform.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DCC14411145BE5F00727A0A /* Waveform.h */; };
@@ -65,6 +69,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6D33B3AF1307A280006EE9DD /* Waveshaper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Waveshaper.h; sourceTree = "<group>"; };
+		6D33B3B01307A280006EE9DD /* Waveshaper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Waveshaper.cpp; sourceTree = "<group>"; };
 		6D6A9B3511432ED9003B59BA /* TouchServiceProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TouchServiceProvider.h; path = ../src/mac/TouchServiceProvider.h; sourceTree = SOURCE_ROOT; };
 		6D6A9B3611432ED9003B59BA /* TouchServiceProvider.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = TouchServiceProvider.mm; path = ../src/mac/TouchServiceProvider.mm; sourceTree = SOURCE_ROOT; };
 		6D82014911448761009404CA /* TouchAudioOut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TouchAudioOut.h; path = ../src/mac/TouchAudioOut.h; sourceTree = SOURCE_ROOT; };
@@ -101,6 +107,8 @@
 		6DAFF2B411CDCD56007CD1AA /* NoteManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NoteManager.h; path = ../src/NoteManager.h; sourceTree = SOURCE_ROOT; };
 		6DAFF2B511CDCD56007CD1AA /* NoteManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NoteManager.cpp; path = ../src/NoteManager.cpp; sourceTree = SOURCE_ROOT; };
 		6DAFF2C211CDD407007CD1AA /* Instrument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Instrument.h; sourceTree = "<group>"; };
+		6DC7CE4312ED05A400513240 /* TickRate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TickRate.h; sourceTree = "<group>"; };
+		6DC7CE4412ED05A400513240 /* TickRate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TickRate.cpp; sourceTree = "<group>"; };
 		6DCC14321145BC2500727A0A /* Frequency.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Frequency.h; sourceTree = "<group>"; };
 		6DCC14331145BC2500727A0A /* Frequency.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Frequency.cpp; sourceTree = "<group>"; };
 		6DCC14411145BE5F00727A0A /* Waveform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Waveform.h; sourceTree = "<group>"; };
@@ -253,6 +261,10 @@
 				6DAFF2C211CDD407007CD1AA /* Instrument.h */,
 				6DE50030129F63DD00BF2732 /* FilePlayer.h */,
 				6DE50031129F63DD00BF2732 /* FilePlayer.cpp */,
+				6DC7CE4312ED05A400513240 /* TickRate.h */,
+				6DC7CE4412ED05A400513240 /* TickRate.cpp */,
+				6D33B3AF1307A280006EE9DD /* Waveshaper.h */,
+				6D33B3B01307A280006EE9DD /* Waveshaper.cpp */,
 			);
 			name = ugens;
 			path = ../src/ugens;
@@ -299,6 +311,8 @@
 				6DE5002D129F61CB00BF2732 /* CAMath.h in Headers */,
 				6DE50032129F63DD00BF2732 /* FilePlayer.h in Headers */,
 				6D91D15A12A0481800B42F24 /* TouchAudioFormat.h in Headers */,
+				6DC7CE4512ED05A400513240 /* TickRate.h in Headers */,
+				6D33B3B11307A280006EE9DD /* Waveshaper.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -370,6 +384,8 @@
 				6DE5FFF6129EF08300BF2732 /* TouchAudioRecordingStream.mm in Sources */,
 				6DE5FFFA129F56EE00BF2732 /* CAStreamBasicDescription.cpp in Sources */,
 				6DE50033129F63DD00BF2732 /* FilePlayer.cpp in Sources */,
+				6DC7CE4612ED05A400513240 /* TickRate.cpp in Sources */,
+				6D33B3B21307A280006EE9DD /* Waveshaper.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

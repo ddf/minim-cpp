@@ -15,8 +15,8 @@ namespace Minim
 {
 
 Noise::Noise( float amp, Tint tint )
-: UGen()
-, mAmp(amp)
+: UGen( 1 )
+, amplitude( *this, CONTROL )
 , mTint(tint)
 , mLastOutput(0.f)
 , mBrownCutoffFreq(100.f)
@@ -27,6 +27,8 @@ Noise::Noise( float amp, Tint tint )
 	{
 		initPink();
 	}
+	
+	amplitude.setLastValue( amp );
 }
 
 //////////////////////////////////////////
@@ -54,7 +56,7 @@ void Noise::uGenerate( float * pChannels, int numChannels )
 			// amplitude correction from audacity, a great audio editor.
 			float normRand = (float)rand() / RAND_MAX;
 			// assert( normRand >= 0 && normRand <= 1 );
-			n = mAmp*(2.0f*normRand - 1.0f);
+			n = amplitude.getLastValue()*(2.0f*normRand - 1.0f);
 			n = mBrownAlpha*n + ( 1 - mBrownAlpha )*mLastOutput;
 			mLastOutput = n;
 			n *= mBrownAmpCorr;
@@ -62,14 +64,14 @@ void Noise::uGenerate( float * pChannels, int numChannels )
 			break;
 			// PINK noise has a 10db/decade (3db/octave) slope
 		case eTintPink :
-			n = mAmp*pink();
+			n = amplitude.getLastValue()*pink();
 			break;
 		case eTintWhite :
 		default :
 		{
 			float normRand = (float)rand() / (float)RAND_MAX;
 			// assert( normRand >= 0 && normRand <= 1 );
-			n = mAmp*(2.0f*normRand - 1.0f);
+			n = amplitude.getLastValue()*(2.0f*normRand - 1.0f);
 		}
 			break;
 	}

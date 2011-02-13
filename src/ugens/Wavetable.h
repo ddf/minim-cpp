@@ -28,14 +28,18 @@ namespace Minim
 	class Wavetable : public Waveform
 	{
 	public:
-		Wavetable( int size );
-		Wavetable( float * waveform, int size );
+		/// create a wavetable with a waveform that is size samples long.
+		/// does NOT initialize the waveform values.
+		Wavetable( const int size );
+		/// create a wavetable that holds a copy of the first size samples of waveform
+		Wavetable( const float * waveform, const int size );
 		virtual ~Wavetable();
 		
-		inline void setWaveform( float * waveform, int size ) { mWaveform = waveform; }
+		/// change our waveform to be a copy of the first size samples of our waveform.
+		inline void setWaveform( const float * waveform, const int size );
 		
-		float get( int index ) const;
-		void  set( int index, float value );
+		float get( const int index ) const;
+		void  set( const int index, const float value );
 		
 		inline int size() const { return mSize; }
 		

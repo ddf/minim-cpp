@@ -48,7 +48,8 @@ public:
 	
 	virtual unsigned int getMillisecondPosition() const;
 	virtual void setMillisecondPosition(const unsigned int pos);
-	virtual unsigned int getMillisecondLength() const { return m_fileMillisLength; }
+	virtual int getMillisecondLength() const { return m_fileMillisLength; }
+	virtual long getSampleFrameLength() const { return m_fileFrameLength; }
 	
 	virtual const Minim::AudioMetaData & getMetaData() const { return m_metaData; }
 	
@@ -84,6 +85,9 @@ private:
 	
 	// how long is this file, in milliseconds
 	UInt32   m_fileMillisLength;
+	
+	// how long is this file, in sample frames
+	SInt64	 m_fileFrameLength;
 };
 
 #endif // TOUCHAUDIORECORDINGSTREAM_H

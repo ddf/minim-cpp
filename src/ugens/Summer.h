@@ -34,13 +34,6 @@ namespace Minim
 	
 
 	protected:
-		// ddf: I do not expect users of the library to construct busses that they pass their output to.
-		//      This exists so that we can tick the noteManager for the provided output.
-		//      In other words, the output passed to this constructor will always be the same output
-		//      that is constructing the bus.
-		friend class AudioOutput;
-		Summer(AudioOutput * output);
-		
 		// TODO: addInput and removeInput need to be thread-safe!
 		
 		// ddf: override because everything that patches to us
@@ -54,6 +47,9 @@ namespace Minim
 
 		// override
 		virtual void sampleRateChanged();
+		
+		// override
+		virtual void channelCountChanged();
 
 	public:
 		// UGen impl

@@ -37,22 +37,23 @@ namespace Minim
 		Oscil( const Frequency & freq, float amplitude, Waveform * wave );
 		virtual ~Oscil();
 		
-		inline void setFrequency( float hz ) 
-		{ 
-			mFreq = hz;
-			updateStepSize(); 
-		}
-		
-		inline void setFrequency( const Frequency & freq ) 
-		{ 
-			mFreq = freq.asHz(); 
-			updateStepSize();
-		}
-		
-		inline void setAmplitude( float amp ) { mAmp = amp; }
-		
 		UGenInput amplitude;
 		UGenInput frequency;
+		UGenInput phase;
+		UGenInput offset;
+		
+		/**
+		 * Resets the time-step used by the oscillator to be equal to the 
+		 * current phase value.  You will typically use this when starting a 
+		 * new note with an Oscil that you have already used so that the 
+		 * waveform will begin sounding at the beginning of its period, 
+		 * which will typically be a zero-crossing. In other words, use this
+		 * to prevent clicks when starting Oscils that have been used before.
+		 */
+		void reset()
+		{
+			mStep = phase.getLastValue();
+		}
 		
 	protected:
 		// UGen override
@@ -69,14 +70,12 @@ namespace Minim
 		
 		inline void updateStepSize()
 		{
-			mStepSize = mFreq * oneOverSampleRate;
+			mStepSize = frequency.getLastValue() * oneOverSampleRate;
 		}
 		
-		float mFreq;
+		float mPrevFreq;
 		
 		Waveform * mWaveform;
-		
-		float mAmp;
 		
 		float mStep;
 		float mStepSize;

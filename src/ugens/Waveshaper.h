@@ -1,4 +1,7 @@
 /*
+ *  Waveshaper.h
+ *  MinimTouch
+ *
  *   Author: Damien Di Fede <ddf@compartmental.net>
  *
  *   This program is free software; you can redistribute it and/or modify
@@ -16,29 +19,50 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifndef MULTIPLIER_H
-#define MULTIPLIER_H
+#ifndef WAVESHAPER_H
+#define WAVESHAPER_H
 
 #include "UGen.h"
 
 namespace Minim 
 {
+	class Wavetable;
 	
-	class Multiplier : public UGen 
+	class WaveShaper : public UGen
 	{
 	public:
-		Multiplier( float mult = 0.f );
-		virtual ~Multiplier();
+		// will delete mapShape on deconstruction
+		WaveShaper( const float outAmp, const float mapAmp, Wavetable * mapShape, const bool bWrapMap = false );
+		virtual ~WaveShaper();
 		
+		/**
+		 * The default input is "audio."
+		 */
 		UGenInput audio;
-		UGenInput amplitude;
+		
+		/**
+		 * The output amplitude
+		 */
+		UGenInput outAmplitude;
+		
+		/**
+		 * The mapping amplitude of the input signal
+		 */
+		UGenInput mapAmplitude;
 		
 	protected:
 		
-		// UGen impl
-		void uGenerate( float * channels, int numChannels );
+		// ugen implementation
+		virtual void uGenerate( float * channels, const int numChannels );
+		
+	private:
+		
+		// the wavetable we use to shape our input
+		Wavetable * m_pMapShape;
+		// whether or not to wrap around or clamp at the edges of the map shape.
+		bool		m_bWrapMap;
 	};
-	
 }
 
-#endif // MULTIPLIER_H
+#endif // WAVESHAPER_H
+

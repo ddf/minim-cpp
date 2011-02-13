@@ -25,27 +25,37 @@
 namespace Minim  
 {
 	Oscil::Oscil( const float freq, float amp, Waveform * wave )
-	: UGen(2)
-	, amplitude( this, CONTROL ) 
-	, frequency( this, CONTROL )
+	: UGen( 4 )
+	, amplitude( *this, CONTROL ) 
+	, frequency( *this, CONTROL )
+	, phase( *this, CONTROL )
+	, offset( *this, CONTROL )
 	, mWaveform(wave)
-	, mFreq(freq)
-	, mAmp(amp)
+	, mPrevFreq(freq)
 	, mStep(0.f)
 	, oneOverSampleRate(0)
 	{
+		amplitude.setLastValue( amp );
+		frequency.setLastValue( freq );
+		phase.setLastValue( 0.f );
+		offset.setLastValue( 0.f );
 	}
 	
 	Oscil::Oscil( const Frequency & freq, float amp, Waveform * wave )
-	: UGen(2)
-	, amplitude( this, CONTROL ) 
-	, frequency( this, CONTROL )
+	: UGen( 4 )
+	, amplitude( *this, CONTROL ) 
+	, frequency( *this, CONTROL )
+	, phase( *this, CONTROL )
+	, offset( *this, CONTROL )
 	, mWaveform(wave)
-	, mFreq(freq.asHz())
-	, mAmp(amp)
+	, mPrevFreq(freq.asHz())
 	, mStep(0.f)
 	, oneOverSampleRate(0)
 	{
+		amplitude.setLastValue( amp );
+		frequency.setLastValue( freq.asHz() );
+		phase.setLastValue( 0.f );
+		offset.setLastValue( 0.f );
 	}
 	
 	Oscil::~Oscil()
@@ -59,33 +69,48 @@ namespace Minim
 		// CodeTimer timer("Oscil:uGenerate");
 		
 		// figure out our sample value
-		float outAmp(mAmp);
-		// if something is plugged into amplitude
-		if ( amplitude.isPatched() )
+		const float outAmp( amplitude.getLastValue() );
+		
+		float tmpStep = mStep + phase.getLastValue();
+		// don't be less than zero
+		if ( tmpStep < 0.f )
 		{
-			outAmp = amplitude.getLastValues()[0];
+			tmpStep -= static_cast<int>(tmpStep) - 1.f;
+		}
+		// don't exceed 1.
+		else if ( tmpStep > 1.0f )
+		{
+			tmpStep -= static_cast<int>(tmpStep);
 		}
 		
 		// calculate the sample values
-		float sample = outAmp * mWaveform->value(mStep);
+		const float sample = outAmp * mWaveform->value( tmpStep ) + offset.getLastValue();
 		
 		for(int i = 0; i < numChannels; i++)
 		{
 			channels[i] = sample;
 		}
 		
-		// if something is plugged into frequency
-		if ( frequency.isPatched() )
+		// update our step size if the frequency changed.
+		if ( frequency.getLastValue() != mPrevFreq )
 		{
-			setFrequency( frequency.getLastValues()[0] );
+			updateStepSize();
+			mPrevFreq = frequency.getLastValue();
 		}
 		
 		// increase time
 		mStep += mStepSize;
-		// make sure we don't exceed 1.0.
-		// ideally, we'd use some fast way of dropping
-		// the integer part of the number.
-		mStep -= (int)mStep;
+		
+		// don't be less than zero
+		if ( mStep < 0.f )
+		{
+			mStep -= static_cast<int>(mStep) - 1.f;
+		}
+		// don't exceed 1.
+		else if ( mStep > 1.0f )
+		{
+			mStep -= static_cast<int>(mStep);
+		}	
 	}
 	
 }

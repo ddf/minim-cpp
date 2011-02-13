@@ -18,6 +18,8 @@ TouchAudioRecordingStream::TouchAudioRecordingStream( CFURLRef fileURL, const in
 , m_bufferSize(bufferSize)
 , m_bIsPlaying(false)
 , m_fileFormat(0) // don't know how many channels yet
+, m_fileMillisLength(0)
+, m_fileFrameLength(0)
 {
 }
 
@@ -49,10 +51,9 @@ void TouchAudioRecordingStream::open()
 		m_clientFormat.SetCanonical( fileFormat.NumberChannels(), true );
 		ExtAudioFileSetProperty( m_audioFileRef, kExtAudioFileProperty_ClientDataFormat, size, &m_clientFormat );
 		
-		SInt64 fileFrameLength;
-		UInt32 propSize = sizeof(fileFrameLength);
-		ExtAudioFileGetProperty(m_audioFileRef, kExtAudioFileProperty_FileLengthFrames, &propSize, &fileFrameLength);
-		m_fileMillisLength = (UInt32)( (Float64)fileFrameLength / m_fileFormat.getFrameRate() * 1000.f );
+		UInt32 propSize = sizeof(m_fileFrameLength);
+		ExtAudioFileGetProperty(m_audioFileRef, kExtAudioFileProperty_FileLengthFrames, &propSize, &m_fileFrameLength);
+		m_fileMillisLength = (UInt32)( (Float64)m_fileFrameLength / m_fileFormat.getFrameRate() * 1000.f );
 		
 		// allocate the buffer we'll use for reading
 		m_readBuffer = new SInt16[ m_bufferSize * fileFormat.NumberChannels() ];

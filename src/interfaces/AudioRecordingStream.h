@@ -111,7 +111,12 @@ namespace Minim
 		 * 
 		 * @return the length of the source, in milliseconds
 		 */
-		virtual unsigned int getMillisecondLength() const = 0;
+		virtual int getMillisecondLength() const = 0;
+		
+		/**
+		 * Returns the length of the source in sample frames.
+		 */
+		virtual long getSampleFrameLength() const = 0;
 
 		/**
 		 * Returns meta data about the recording, such as duration, name, ID3 tags

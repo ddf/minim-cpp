@@ -26,12 +26,15 @@ namespace Minim
 
 	AudioOutput::AudioOutput(Minim::AudioOut *out)
 	: AudioSource(out)
-	, mSummer(this)
+	, mSummer()
 	, mNoteManager( *this )
 	, mSummerStream(mSummer, mNoteManager, out->getFormat())
 	{
 		out->setAudioStream( &mSummerStream );
 		out->open();
+		
+		mSummer.setSampleRate( getFormat().getSampleRate() );
+		mSummer.setAudioChannelCount( getFormat().getChannels() );
 	}
 	
 	void AudioOutput::pauseNotes()

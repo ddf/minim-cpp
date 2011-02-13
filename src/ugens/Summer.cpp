@@ -30,19 +30,10 @@ namespace Minim
 	// static int kUGensDefaultSize = 10;
 
 Summer::Summer()
-: mOutput(NULL)
-, m_accum(NULL)
-, m_accumSize(0)
+: m_accum( new float[1] ) // assume mono, same as UGen
+, m_accumSize(1)
 , head(NULL)
 {
-}
-
-Summer::Summer(AudioOutput * out)
-: mOutput(out)
-, head(NULL)
-{
-	m_accumSize = out->getFormat().getChannels();
-	m_accum = new float[ m_accumSize ];
 }
 	
 Summer::~Summer()
@@ -73,81 +64,92 @@ void Summer::sampleRateChanged()
 //	}
 }
 	
-	///////////////////////////////////////////////
-	void Summer::addInput( UGen * in )
+///////////////////////////////////////////////////
+void Summer::channelCountChanged()
+{
+	if ( m_accumSize < getAudioChannelCount() )
 	{
-		Node * newNode = new Node(in);
-		
-		if ( head == NULL )
-		{
-			head = newNode;
-		}
-		else 
-		{
-			// insert at end of list
-			Node * n = head;
-			
-			while ( n->next ) 
-			{
-				n = n->next;
-			}
-			
-			n->next = newNode;
-		}
+		delete [] m_accum;
+		m_accum = new float[getAudioChannelCount()];
+		memset(m_accum, 0, sizeof(float)*getAudioChannelCount());
 	}
 	
-	///////////////////////////////////////////////
-	void Summer::removeInput( UGen * in )
+	m_accumSize = getAudioChannelCount();
+	
+	Node* n = head;
+	while ( n )
 	{
-		if ( head == NULL )
+		n->ugen->setAudioChannelCount( getAudioChannelCount() );
+		n = n->next;
+	}
+}
+	
+///////////////////////////////////////////////
+void Summer::addInput( UGen * in )
+{
+	Node * newNode = new Node(in);
+	
+	if ( head == NULL )
+	{
+		head = newNode;
+	}
+	else 
+	{
+		// insert at end of list
+		Node * n = head;
+		
+		while ( n->next ) 
 		{
-			return;
+			n = n->next;
 		}
 		
-		// special case first element
-		if ( head->ugen == in )
+		n->next = newNode;
+	}
+	
+	in->setAudioChannelCount(m_accumSize);
+	in->setSampleRate( sampleRate() );
+}
+
+///////////////////////////////////////////////
+void Summer::removeInput( UGen * in )
+{
+	if ( head == NULL )
+	{
+		return;
+	}
+	
+	// special case first element
+	if ( head->ugen == in )
+	{
+		Node* del = head;
+		head = head->next;
+		delete del;
+		return;
+	}
+	
+	// find it in our list and remove it!
+	Node* n = head;
+	
+	while( n->next != NULL )
+	{
+		if ( n->next->ugen == in )
 		{
-			Node* del = head;
-			head = head->next;
+			Node* del = n->next;
+			n->next = n->next->next;
 			delete del;
 			return;
 		}
-		
-		// find it in our list and remove it!
-		Node* n = head;
-		
-		while( n->next != NULL )
-		{
-			if ( n->next->ugen == in )
-			{
-				Node* del = n->next;
-				n->next = n->next->next;
-				delete del;
-				return;
-			}
-			n = n->next;
-		}
+		n = n->next;
 	}
+}
 
 ///////////////////////////////////////////////////
 void Summer::uGenerate(float * channels, int numChannels)
-{		
+{	
 	if ( head == NULL )
 	{
 		memset(channels, 0, sizeof(float) * numChannels);
 		return;
-	}
-	
-	// resize our accumulation buffer if it's not there or is too small
-	if ( m_accum == NULL || m_accumSize < numChannels )
-	{
-		if ( m_accum )
-		{
-			delete [] m_accum;
-		}
-		
-		m_accum = new float[ numChannels ];
-		m_accumSize = numChannels;
 	}
 	
 	// first one in the list, just do an = instead of +=

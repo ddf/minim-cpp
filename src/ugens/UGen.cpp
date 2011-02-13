@@ -30,13 +30,23 @@ namespace Minim
 {
 
 ///////////////////////////////////////////////////////////////
-UGen::UGenInput::UGenInput( UGen * outerUGen, UGen::InputType inputType )
+UGen::UGenInput::UGenInput( UGen & outerUGen, UGen::InputType inputType )
 : mOuterUGen(outerUGen) 
 , mInputType(inputType)
 , mIncoming(NULL)
+, mChannelCount(1)
 {
-	mOuterUGen->mInputs[mOuterUGen->mInputCount] = this;
-	mOuterUGen->mInputCount++;
+	mOuterUGen.mInputs[mOuterUGen.mInputCount] = this;
+	mOuterUGen.mInputCount++;
+	
+	mLastValues = new float[1];
+	mLastValues[0] = 0.f;
+}
+	
+///////////////////////////////////////////////////
+UGen::UGenInput::~UGenInput()
+{
+	delete [] mLastValues;
 }
 
 ///////////////////////////////////////////////////
@@ -53,13 +63,31 @@ const char * UGen::UGenInput::getInputTypeAsString() const
 	}
 	return "";
 }
+	
+///////////////////////////////////////////////////
+void UGen::UGenInput::setChannelCount( const int numChannels )
+{
+	if ( mChannelCount < numChannels )
+	{
+		delete [] mLastValues;
+		mLastValues = new float[numChannels];
+		memset(mLastValues, 0, sizeof(float)*numChannels);
+	}
+	
+	mChannelCount = numChannels;
+	
+	if ( mInputType == AUDIO && isPatched() )
+	{
+		mIncoming->setAudioChannelCount( numChannels );
+	}
+}
 
 ///////////////////////////////////////////////////
 UGen::UGen()
 : mNumOutputs(0)
 , mCurrentTick(0)
-, mLastValues(NULL)
-, mLastValuesLength(0)
+, mLastValues( new float[1] ) // assume mono
+, mChannelCount(1)
 , mInputs(NULL)
 , mInputCount(0)
 {
@@ -68,8 +96,8 @@ UGen::UGen()
 UGen::UGen( const int numOfInputs )
 : mNumOutputs(0)
 , mCurrentTick(0)
-, mLastValues(0)
-, mLastValuesLength(0)
+, mLastValues( new float[1] ) // assume mono
+, mChannelCount(1)
 , mInputs( new UGenInput*[numOfInputs] )
 , mInputCount(0)
 {
@@ -82,6 +110,8 @@ UGen::~UGen()
 	{
 		delete [] mInputs;
 	}
+	
+	delete [] mLastValues;
 }
 
 ///////////////////////////////////////////////////
@@ -98,11 +128,11 @@ UGen & UGen::patch( UGen & connectToUGen )
 ////////////////////////////////////////////////////
 UGen & UGen::patch( UGenInput & connectToInput )
 {
-	connectToInput.mIncoming = this;
+	connectToInput.setIncomingUGen( this );
 
 	mNumOutputs += 1;
 
-	return *connectToInput.mOuterUGen;
+	return connectToInput.getOuterUGen();
 }
 
 ///////////////////////////////////////////////////
@@ -136,7 +166,7 @@ void UGen::addInput( UGen * input )
 	{
 		Minim::debug("Initializing default input on something");	
 		UGenInput & firstInput = *mInputs[0];
-		firstInput.mIncoming = input;
+		firstInput.setIncomingUGen( input );
 	}  
 	else
 	{
@@ -155,50 +185,25 @@ void UGen::removeInput(Minim::UGen *input)
 ///////////////////////////////////////////////////
 void UGen::tick(float *channels, const int numChannels)
 {
+	if( mChannelCount != numChannels )
+	{
+		Minim::error("Tried to tick a UGen with the wrong number of channels!" );
+		return;
+	}
+	
 	if (0 == mCurrentTick) 
 	{			
 		if ( mInputCount > 0 )
 		{
-			// it's possible to reuse this for all of our inputs
-			// because all UGens assign to the channels buffer they
-			// are passed.
-			float tmp[ numChannels ];
 			for(int i = 0; i < mInputCount; ++i)
 			{		
-				UGenInput & input = *mInputs[i];
-				if ( input.mIncoming )
-				{
-					switch ( input.mInputType )
-					{
-					case CONTROL :
-						{
-							input.mIncoming->tick(tmp, 1);
-						}
-						break;
-					default : // includes AUDIO
-						{
-							input.mIncoming->tick(tmp, numChannels);
-						}
-						break;
-					}
-				}
+				mInputs[i]->tick();
 			}
 		}
 		
 		// and then uGenerate for this UGen	
 		uGenerate( channels, numChannels );
-
-		// make sure our last values array matches with the size of channels
-		if ( mLastValuesLength != numChannels )
-		{
-			if ( mLastValues )
-			{
-				delete [] mLastValues;
-			}
-			
-			mLastValues = new float[numChannels];
-			mLastValuesLength = numChannels;
-		}
+		
 		// need to keep the last values generated so we have something to hand multiple outputs 
 		memcpy(mLastValues, channels, sizeof(float) * numChannels);
 	}
@@ -221,10 +226,36 @@ void UGen::setSampleRate(float newSampleRate)
 	for(int i = 0; i < mInputCount; ++i)
 	{
 		UGenInput & input = *mInputs[i];
-		if ( input.mIncoming )
+		if ( input.isPatched() )
 		{
-			input.mIncoming->setSampleRate(newSampleRate);
+			input.setSampleRate(newSampleRate);
 		}			
+	}
+}
+
+/////////////////////////////////////////////////////
+void UGen::setAudioChannelCount( int numberOfChannels )
+{
+    if ( mChannelCount != numberOfChannels )
+	{
+		if ( mChannelCount < numberOfChannels )
+		{
+			delete [] mLastValues;
+			mLastValues = new float[numberOfChannels];
+			memset(mLastValues, 0, sizeof(float)*numberOfChannels);
+		}
+		
+		mChannelCount = numberOfChannels;
+		channelCountChanged();
+	}
+	
+	for(int i = 0; i < mInputCount; ++i)
+	{
+		UGenInput & input = *mInputs[i];
+		if ( input.getInputType() == AUDIO )
+		{
+			input.setChannelCount(numberOfChannels);
+		}
 	}
 }
 

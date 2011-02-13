@@ -123,7 +123,7 @@ namespace Minim
 		   * rather than wrapping it in an AudioPlayer that does the work for you.
 		   * 
 		   * @param filename the file to load
-		   * @param bufferSize the bufferSize to use
+		   * @param bufferSize the maximum number of sample frames that can be read from the stream at once.
 		   * @param inMemory whether or not the file should be cached in memory as it is read
 		   * @return and AudioRecordingStream that you can use to read from the file.
 		   */
@@ -131,6 +131,12 @@ namespace Minim
 		  {
 			  return mServiceProvider->getAudioRecordingStream(filename, bufferSize, inMemory);
 		  }
+		
+		  /**
+		   * Loads the requested file into the provided MultiChannelBuffer.
+		   *
+		   */
+		  void loadFileIntoBuffer( const char * filename, MultiChannelBuffer & buffer );
 
 		  /**
 		   * Creates an {@link AudioRecorder} that will use <code>source</code> as its 

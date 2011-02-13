@@ -82,6 +82,49 @@ AudioPlayer * AudioSystem::loadFile( const char * filename, const int bufferSize
 }
 
 //////////////////////////////////////////////////////
+void AudioSystem::loadFileIntoBuffer( const char * filename, MultiChannelBuffer & buffer )
+{
+	const int readBufferSize = 4096;
+	AudioRecordingStream * pStream = loadFileStream( filename, readBufferSize, false );
+	if ( pStream )
+	{
+		pStream->open();
+		const int channelCount = pStream->getFormat().getChannels();
+		// for reading the file in, in chunks.
+		MultiChannelBuffer readBuffer( channelCount, readBufferSize );
+		// make sure the out buffer is the correct size and type.
+		buffer.setChannelCount( channelCount );
+		// how many samples to read total
+		const long totalSampleCount = pStream->getSampleFrameLength();
+		buffer.setBufferSize( totalSampleCount );
+		
+		// now read in chunks.
+		long totalSamplesRead = 0;
+		while( totalSamplesRead < totalSampleCount )
+		{
+			// is the remainder smaller than our buffer?
+			if ( totalSampleCount - totalSamplesRead < readBufferSize )
+			{
+				readBuffer.setBufferSize( totalSampleCount - totalSamplesRead );
+			}
+			
+			pStream->read( readBuffer );
+			
+			// copy data from one buffer to the other.
+			for(int i = 0; i < channelCount; ++i)
+			{
+				memcpy(buffer.getChannel(i) + totalSamplesRead, readBuffer.getChannel(i), sizeof(float)*readBuffer.getBufferSize());
+			}
+			
+			totalSamplesRead += readBuffer.getBufferSize();
+		}
+		
+		pStream->close();
+		delete pStream;
+	}
+}
+	
+//////////////////////////////////////////////////////
 AudioInput * AudioSystem::getAudioInput( const AudioFormat & inputFormat, int outputBufferSize )
 {
 	AudioStream * stream = mServiceProvider->getAudioInput( inputFormat );
