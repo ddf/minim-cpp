@@ -89,6 +89,7 @@ void AudioSystem::loadFileIntoBuffer( const char * filename, MultiChannelBuffer 
 	if ( pStream )
 	{
 		pStream->open();
+		pStream->play();
 		const int channelCount = pStream->getFormat().getChannels();
 		// for reading the file in, in chunks.
 		MultiChannelBuffer readBuffer( channelCount, readBufferSize );

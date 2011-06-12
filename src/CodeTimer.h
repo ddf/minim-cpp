@@ -27,7 +27,7 @@ public:
 		timersub(&mEnd, &mStart, &dur);
 		if ( dur.tv_sec * 100000 + dur.tv_usec > mPrintThreshold )
 		{
-			printf("%s took %d seconds and %d microseconds.\n", mTag, dur.tv_sec, dur.tv_usec);
+			printf("%s took %lu seconds and %lu microseconds.\n", mTag, (long unsigned int)dur.tv_sec, (long unsigned int)dur.tv_usec);
 		}
 	}
 	

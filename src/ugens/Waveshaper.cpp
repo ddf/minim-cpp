@@ -51,14 +51,14 @@ namespace Minim
 		for( int i = 0; i < numChannels; ++i )
 		{
 			// bring in the audio as index, scale by the map amplitude, and normalize
-			float tmpIndex = ( mapAmplitude.getLastValue()*audio.getLastValues()[i] )/2.0f + 0.5f;
+			const float in = audio.getLastValues()[i];
+			float tmpIndex = ( mapAmplitude.getLastValue()*in )/2.0f + 0.5f;
 			
 			// handle the cases where it goes out of bouds
 			if ( m_bWrapMap )  // wrap oround
 			{
 				// get the fractional part
-				float tmpIntegral;
-				tmpIndex = modff(tmpIndex, &tmpIntegral);
+				tmpIndex = tmpIndex - static_cast<int>(tmpIndex);
 				// I don't like that remaider gives the same sign as the first argument
 				if ( tmpIndex < 0.0f )
 				{

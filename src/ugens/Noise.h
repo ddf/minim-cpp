@@ -30,10 +30,11 @@ namespace Minim
 	public:
 		enum Tint
 		{
-			eTintWhite,
+			eTintWhite = 0,
 			eTintPink,
 			eTintRed,
 			eTintBrown,
+			eTintCount
 		};
 		
 		Noise( float fAmplitude, Tint eTint );
@@ -42,6 +43,19 @@ namespace Minim
 		 * Patch to this to control the amplitude of the noise with another UGen.
 		 */
 		UGenInput amplitude;
+		
+		inline Tint getTint() const { return mTint; }
+		inline void setTint( const Tint noiseType )
+		{
+			if ( mTint != noiseType )
+			{
+				if ( noiseType == eTintPink )
+				{
+					initPink();
+				}
+				mTint = noiseType;
+			}
+		}
 		
 	protected:
 		

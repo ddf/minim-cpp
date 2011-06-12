@@ -26,9 +26,10 @@ namespace Minim
 	
 	void Multiplier::uGenerate( float * channels, int numChannels )
 	{
+		const float amp = amplitude.getLastValue();
 		for(int i = 0; i < numChannels; i++)
 		{
-			channels[i] = audio.getLastValues()[i] * amplitude.getLastValue();
+			channels[i] = audio.getLastValues()[i] * amp;
 		}
 	}
 }

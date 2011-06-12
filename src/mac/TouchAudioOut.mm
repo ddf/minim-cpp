@@ -67,7 +67,8 @@ void displayErrorAndExit( NSString* message, OSStatus status )
 	{
 		NSLog(@"%@\n", message);
 	}
-	exit(1);
+	
+	// exit(1);
 }
 
 

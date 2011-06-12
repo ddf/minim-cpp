@@ -121,6 +121,8 @@ UGen & UGen::patch( UGen & connectToUGen )
 
 	// TODO jam3: nOutputs should only increase when this chain will be ticked!
 	mNumOutputs += 1;
+	
+	setSampleRate( connectToUGen.sampleRate() );
 
 	return connectToUGen;
 }
@@ -131,6 +133,8 @@ UGen & UGen::patch( UGenInput & connectToInput )
 	connectToInput.setIncomingUGen( this );
 
 	mNumOutputs += 1;
+	
+	setSampleRate( connectToInput.getOuterUGen().sampleRate() );
 
 	return connectToInput.getOuterUGen();
 }
@@ -140,6 +144,7 @@ void UGen::patch( AudioOutput & output )
 {
 	patch( output.mSummer );
 	setSampleRate( output.sampleRate() );
+	setAudioChannelCount( output.getFormat().getChannels() );
 }
 
 ///////////////////////////////////////////////////
@@ -178,7 +183,15 @@ void UGen::addInput( UGen * input )
 void UGen::removeInput(Minim::UGen *input)
 {
 	Minim::debug("UGen removeInput called.");
-	// TODO Need to set default behavior for normal UGens on removeInput
+	// see if any of our ugen inputs currently have input as the incoming ugen
+	// set their incoming ugen to null if that's the case
+	for( int i = 0; i < mInputCount; i++)
+	{
+		if ( mInputs[i]->getIncomingUGen() == input )
+		{
+			mInputs[i]->setIncomingUGen( NULL );
+		}
+	}
 }
 
 
