@@ -21,6 +21,7 @@ TouchAudioOut::TouchAudioOut( const Minim::AudioFormat & format, int bufferSize 
 : mAudioFormat(format)
 , mBufferSize(bufferSize)
 , mBuffer( format.getChannels(), bufferSize )
+, mListener( NULL )
 {
 	// iPhone apparently has preferred settings, which are the values
 	// behind the comments. but we go ahead and set what the format says.
@@ -248,7 +249,10 @@ OSStatus TouchAudioOut::renderCallback( void                        *inRefCon,
 		}
 	}
 	
-	// output->mListener->samples( buffer );
+	if ( output->mListener )
+	{
+		output->mListener->samples( buffer );
+	}
 	
 	return noErr;
 	

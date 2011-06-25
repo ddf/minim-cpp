@@ -18,32 +18,68 @@
 
 #include "AudioSource.h"
 #include "AudioOut.h"
+#include <string> // for memset
 
 namespace Minim
 {
 
-AudioSource::AudioSource( AudioOut * out )
-: mOutput(out)
-, mSampleBuffer( out->getOutputBuffer() )
-// , mListener( mSampleBuffer )
-{
-//	out->setAudioListener( &mListener );
-}
+	AudioSource::AudioSource( AudioOut * out )
+	: mOutput(out)
+	, mSampleBuffer( out->getOutputBuffer() )
+	, mListener( *this )
+	{
+		out->setAudioListener( &mListener );
+		
+		memset( mListenerList, 0, sizeof(AudioListener*) * kMaxListeners );
+	}
 
-AudioSource::~AudioSource()
-{
-	delete mOutput;
-}
+	AudioSource::~AudioSource()
+	{
+		delete mOutput;
+	}
 
-float AudioSource::sampleRate() const
-{
-	return mOutput->getFormat().getSampleRate();
-}
+	float AudioSource::sampleRate() const
+	{
+		return mOutput->getFormat().getSampleRate();
+	}
 
-void AudioSource::close()
-{
-	mOutput->close();
-}
+	void AudioSource::close()
+	{
+		mOutput->close();
+	}
+	
+	void AudioSource::addListener( AudioListener * pListener )
+	{
+		for( int i = 0; i < kMaxListeners; ++i )
+		{
+			if ( mListenerList[i] == NULL )
+			{
+				mListenerList[i] = pListener;
+				return;
+			}
+		}
+	}
+	
+	void AudioSource::removeListener( AudioListener * pListener )
+	{
+		for( int i = 0; i < kMaxListeners; ++i )
+		{
+			if ( mListenerList[i] == pListener )
+			{
+				mListenerList[i] = NULL;
+			}
+		}
+	}
 
 
+	void AudioSource::OutputListener::samples( const MultiChannelBuffer & buffer )
+	{
+		for( int i = 0; i < kMaxListeners; ++i )
+		{
+			if ( mOwner.mListenerList[i] != NULL )
+			{
+				mOwner.mListenerList[i]->samples( buffer );
+			}
+		}
+	}
 } // namespace Minim

@@ -50,6 +50,8 @@ namespace Minim
 		 */
 		UGenInput mapAmplitude;
 		
+		Wavetable & getWavetable() { return *m_pMapShape; }
+		
 	protected:
 		
 		// ugen implementation

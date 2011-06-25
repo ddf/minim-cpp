@@ -71,6 +71,8 @@ public:
 	
 	virtual Minim::AudioSample * getAudioSample( Minim::MultiChannelBuffer * samples, const Minim::AudioFormat & format, int bufferSize ) { return NULL; }
 	
+	virtual Minim::SampleRecorder * getSampleRecorder( Minim::AudioSource * sourceToRecord, const char * fileName, const bool buffered );
+	
 };
 
 #endif // TOUCHSERVICEPROVIDER_H

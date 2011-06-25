@@ -21,6 +21,7 @@
 #include "AudioOutput.h"
 #include <stdio.h> // for sprintf
 #include <string.h> // for memcpy
+#include <algorithm> // for fill
 
 #ifndef NULL
 #define NULL 0
@@ -281,6 +282,24 @@ void UGen::printInputs() const
 	   sprintf( msg, "uGenInputs %d ", i );
 	   Minim::debug(msg);
 	   // mInputs[i]->printInput();
+	}
+}
+	
+////////////////////////////////////////////////////
+void UGen::fill( float * sampleFrame, const float value, const int numChannels )
+{
+	switch (numChannels)
+	{
+		case 2:
+			sampleFrame[1] = value;
+			//fallthrough
+		case 1:
+			sampleFrame[0] = value;
+			break;
+			
+		default:
+			std::fill(sampleFrame, sampleFrame + numChannels, value );
+			break;
 	}
 }
 

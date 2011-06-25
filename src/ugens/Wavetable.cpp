@@ -96,6 +96,11 @@ namespace Minim
 
 		const float rem = (whichSample - lowSamp);
 		
+		if ( rem == 0.f )
+		{
+			return mWaveform[lowSamp];
+		}
+		
 		const int hiSamp = lowSamp+1;
 		
 		const float sample = mWaveform[lowSamp] * (1.f-rem) + mWaveform[hiSamp] * rem;

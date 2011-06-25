@@ -36,7 +36,7 @@ namespace Minim
 		virtual ~Wavetable();
 		
 		/// change our waveform to be a copy of the first size samples of our waveform.
-		inline void setWaveform( const float * waveform, const int size );
+		void setWaveform( const float * waveform, const int size );
 		
 		float get( const int index ) const;
 		void  set( const int index, const float value );

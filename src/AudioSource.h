@@ -41,6 +41,9 @@ namespace Minim
 		
 		void pauseProcessing() { mOutput->pauseProcessing(); }
 		void resumeProcessing() { mOutput->resumeProcessing(); }
+		
+		void addListener( AudioListener * pListener );
+		void removeListener( AudioListener * pListener );
 
 	protected:
 		AudioSource( AudioOut * out );
@@ -49,21 +52,25 @@ namespace Minim
 		class OutputListener : public AudioListener
 		{
 		public:
-			OutputListener( MultiChannelBuffer & targetBuffer )
-				: mTargetBuffer( targetBuffer )
+			OutputListener( AudioSource & owner )
+				: mOwner( owner )
 			{}
 
-			void samples( const MultiChannelBuffer & inputBuffer )
-			{
-				mTargetBuffer = inputBuffer;
-			}
+			void samples( const MultiChannelBuffer & inputBuffer );
 
 		private:
-			MultiChannelBuffer & mTargetBuffer;
+			AudioSource & mOwner;
 		};
 
 		AudioOut *		   mOutput;
-		// OutputListener	   mListener;
+		
+		// list of listeners
+		static const unsigned int kMaxListeners = 16;
+		AudioListener*     mListenerList[kMaxListeners];
+		// for broadcasting to our listener list
+		OutputListener	   mListener;
+		
+		// ref'd from our output.
 		const MultiChannelBuffer & mSampleBuffer;
 	};
 };

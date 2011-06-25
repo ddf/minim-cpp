@@ -26,6 +26,7 @@ namespace Minim
 	public:
 		MultiChannelBuffer();
 		MultiChannelBuffer( int numChannels, int bufferSize );
+		MultiChannelBuffer( const MultiChannelBuffer& other );
 		MultiChannelBuffer & operator=(const MultiChannelBuffer & other);
 		~MultiChannelBuffer();
 
@@ -37,6 +38,9 @@ namespace Minim
 
 		float * getChannel( const int channelNum );
 		const float * getChannel( const int channelNum ) const;
+		
+		// get an interpolated sample value, given a channel and sample index
+		float getSample( const int inChannel, const float sampleNum ) const;
 		
 		void makeSilence();
 

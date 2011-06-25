@@ -61,7 +61,7 @@ namespace Minim
 		* Returns the recorded audio as an AudioRecordingStream.
 		*
 		*/
-		virtual AudioRecordingStream * save() = 0;
+		virtual void save() = 0;
 	};
 
 };

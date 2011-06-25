@@ -27,8 +27,9 @@ namespace Minim
 	class AudioRecordingStream;
 	class AudioOut;
 	class AudioSample;
-	class Recordable;
+	class AudioSource;
 	class MultiChannelBuffer;
+	class SampleRecorder;
 
 	/**
 	 * <code>MinimServiceProvider</code> is the interface that an audio implementation must 
@@ -132,7 +133,7 @@ namespace Minim
 	   * @param buffered whether or not to buffer all recorded audio in memory or stream directly to the file
 	   * @return an appropriate SampleRecorder
 	   */
-	  // virtual SampleRecorder * getSampleRecorder( Recordable * source, const char * saveTo, bool buffered ) = 0;
+	  virtual SampleRecorder * getSampleRecorder( AudioSource * sourceToRecord, const char * saveTo, const bool buffered ) = 0;
 	};
 
 };

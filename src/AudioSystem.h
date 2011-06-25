@@ -156,19 +156,24 @@ namespace Minim
 		   *          
 		   * @return an <code>AudioRecorder</code> for the record source
 		   */
-		 // AudioRecorder * createRecorder(Recordable source, String fileName, boolean buffered)
-		 // {
-			//SampleRecorder rec = mimp.getSampleRecorder(source, fileName, buffered);
-			//if ( rec != null )
-			//{
-			//  return new AudioRecorder(source, rec);
-			//}
-			//else
-			//{
-			//  error("Couldn't create a SampleRecorder.");
-			//}
-			//return null;
-		 // }
+//		   AudioRecorder * createRecorder(AudioSource * sourceToRecord, const char * fileName, const bool buffered)
+//		   {
+//			   SampleRecorder rec = mimp.getSampleRecorder(source, fileName, buffered);
+//			   if ( rec != null )
+//			   {
+//				   return new AudioRecorder(source, rec);
+//			   }
+//			   else
+//			   {
+//				   error("Couldn't create a SampleRecorder.");
+//			   }
+//			   return null;
+//		   }
+		
+		SampleRecorder * createRecorder( AudioSource * sourceToRecord, const char * fileName, const bool buffered )
+		{
+			return mServiceProvider->getSampleRecorder(sourceToRecord, fileName, buffered);
+		}
 
 		  AudioInput * getAudioInput( const AudioFormat & inputFormat, int outputBufferSize );
   

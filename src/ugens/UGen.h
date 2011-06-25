@@ -203,6 +203,12 @@ protected:
 	}
 	
 	inline float sampleRate() const { return mSampleRate; }
+	
+	/**
+	 * Helper function for sub-classes that want to set 
+	 * all channels of a sample frame to the same value.
+	 */
+	static void fill( float * sampleFrame, const float value, const int numChannels );
 
 public:
 	

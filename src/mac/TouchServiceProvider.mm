@@ -11,6 +11,8 @@
 #include "TouchAudioOut.h"
 #include "Wavetable.h"
 #include "TouchAudioRecordingStream.h"
+#include "CASampleRecorder.h"
+#include "AudioSource.h"
 
 extern void displayErrorAndExit( NSString* message, OSStatus status );
 
@@ -22,6 +24,16 @@ static CFURLRef getURLForFile( const char * filename )
 	NSString * ext     = [path pathExtension];
 	NSString * source  = [[NSBundle mainBundle] pathForResource:name ofType:ext];
     CFURLRef sourceURL = NULL;
+	
+	// not in the bundle? look in the documents folder
+	if ( source == nil )
+	{
+		NSString *rootPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+		if ( rootPath )
+		{
+			source = [rootPath stringByAppendingPathComponent:path];
+		}
+	}
 	
 	// the file may not exist
 	if ( source )
@@ -126,6 +138,24 @@ Minim::AudioRecordingStream * TouchServiceProvider::getAudioRecordingStream( con
 	{
 		Minim::AudioRecordingStream * pRecordingStream = new TouchAudioRecordingStream( fileURL, bufferSize );
 		return pRecordingStream;
+	}
+	
+	return NULL;
+}
+
+/////////////////////////////////////////////////////////////////
+Minim::SampleRecorder * TouchServiceProvider::getSampleRecorder( Minim::AudioSource * sourceToRecord, const char * fileName, const bool buffered )
+{
+	
+	// build a path that puts this file in the documents directory
+	NSString * documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+	if ( documentsDirectory )
+	{
+		NSString * pathToFile = [documentsDirectory stringByAppendingPathComponent: [NSString stringWithUTF8String:fileName]];
+		
+		Minim::SampleRecorder * pRecorder = new CASampleRecorder( pathToFile, sourceToRecord->getFormat(), sourceToRecord->buffer().getBufferSize() );
+		
+		return pRecorder;
 	}
 	
 	return NULL;
