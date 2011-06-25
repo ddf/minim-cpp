@@ -15,6 +15,8 @@
 		6D6A9B3811432ED9003B59BA /* TouchServiceProvider.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6D6A9B3611432ED9003B59BA /* TouchServiceProvider.mm */; };
 		6D7F100F13ACFED000F63D98 /* Sampler.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D7F100D13ACFED000F63D98 /* Sampler.h */; };
 		6D7F101013ACFED000F63D98 /* Sampler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6D7F100E13ACFED000F63D98 /* Sampler.cpp */; };
+		6D7FA95F13B66EAE00A96AE6 /* Pan.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D7FA95D13B66EAE00A96AE6 /* Pan.h */; };
+		6D7FA96013B66EAE00A96AE6 /* Pan.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6D7FA95E13B66EAE00A96AE6 /* Pan.cpp */; };
 		6D82014B11448761009404CA /* TouchAudioOut.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D82014911448761009404CA /* TouchAudioOut.h */; };
 		6D82014C11448761009404CA /* TouchAudioOut.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6D82014A11448761009404CA /* TouchAudioOut.mm */; };
 		6D8201E711449A7F009404CA /* Noise.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D8201E511449A7F009404CA /* Noise.h */; };
@@ -83,6 +85,8 @@
 		6D6A9B3611432ED9003B59BA /* TouchServiceProvider.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = TouchServiceProvider.mm; path = ../src/mac/TouchServiceProvider.mm; sourceTree = SOURCE_ROOT; };
 		6D7F100D13ACFED000F63D98 /* Sampler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sampler.h; sourceTree = "<group>"; };
 		6D7F100E13ACFED000F63D98 /* Sampler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Sampler.cpp; sourceTree = "<group>"; };
+		6D7FA95D13B66EAE00A96AE6 /* Pan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Pan.h; sourceTree = "<group>"; };
+		6D7FA95E13B66EAE00A96AE6 /* Pan.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Pan.cpp; sourceTree = "<group>"; };
 		6D82014911448761009404CA /* TouchAudioOut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TouchAudioOut.h; path = ../src/mac/TouchAudioOut.h; sourceTree = SOURCE_ROOT; };
 		6D82014A11448761009404CA /* TouchAudioOut.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = TouchAudioOut.mm; path = ../src/mac/TouchAudioOut.mm; sourceTree = SOURCE_ROOT; };
 		6D8201E511449A7F009404CA /* Noise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Noise.h; sourceTree = "<group>"; };
@@ -283,6 +287,8 @@
 				6D7F100E13ACFED000F63D98 /* Sampler.cpp */,
 				6D02C02813B39F1C0013601A /* Line.h */,
 				6D02C02913B39F1C0013601A /* Line.cpp */,
+				6D7FA95D13B66EAE00A96AE6 /* Pan.h */,
+				6D7FA95E13B66EAE00A96AE6 /* Pan.cpp */,
 			);
 			name = ugens;
 			path = ../src/ugens;
@@ -334,6 +340,7 @@
 				6D7F100F13ACFED000F63D98 /* Sampler.h in Headers */,
 				6D02C02A13B39F1C0013601A /* Line.h in Headers */,
 				6D946E1113B57326007C4C85 /* CASampleRecorder.h in Headers */,
+				6D7FA95F13B66EAE00A96AE6 /* Pan.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -410,6 +417,7 @@
 				6D7F101013ACFED000F63D98 /* Sampler.cpp in Sources */,
 				6D02C02B13B39F1C0013601A /* Line.cpp in Sources */,
 				6D946E1013B57326007C4C85 /* CASampleRecorder.mm in Sources */,
+				6D7FA96013B66EAE00A96AE6 /* Pan.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

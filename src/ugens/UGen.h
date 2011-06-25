@@ -236,7 +236,7 @@ public:
 	 */
 	void setAudioChannelCount( int numberOfChannels );
 	
-	int getAudioChannelCount() const { return mChannelCount; }
+	inline int getAudioChannelCount() const { return mChannelCount; }
 	
 	/**
 	 *  Prints all inputs connected to this UGen (for debugging)

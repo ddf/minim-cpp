@@ -221,6 +221,11 @@ void UGen::tick(float *channels, const int numChannels)
 		// need to keep the last values generated so we have something to hand multiple outputs 
 		memcpy(mLastValues, channels, sizeof(float) * numChannels);
 	}
+	else 
+	{
+		memcpy(channels, mLastValues, sizeof(float) * numChannels);
+	}
+
 	
 	if (mNumOutputs > 0)
 	{

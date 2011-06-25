@@ -19,26 +19,38 @@ extern void displayErrorAndExit( NSString* message, OSStatus status );
 // helper for creating a URL to a file, since that's what the Ext audio file stuff needs
 static CFURLRef getURLForFile( const char * filename )
 {
-	NSString * path    = [NSString stringWithUTF8String:filename];
-	NSString * name    = [path stringByDeletingPathExtension];
-	NSString * ext     = [path pathExtension];
-	NSString * source  = [[NSBundle mainBundle] pathForResource:name ofType:ext];
-    CFURLRef sourceURL = NULL;
+	NSString * filePath = nil;
+	CFURLRef fileURL = NULL;
+	
+	// check for a pull path first
+	if ( filename[0] == '/' )
+	{
+		filePath = [NSString stringWithUTF8String:filename];
+	}
+	
+	// not a full path, check the bundle.
+	if ( filePath == nil )
+	{	
+		NSString * path    = [NSString stringWithUTF8String:filename];
+		NSString * name    = [path stringByDeletingPathExtension];
+		NSString * ext     = [path pathExtension];
+		filePath  = [[NSBundle mainBundle] pathForResource:name ofType:ext];
+	}
 	
 	// not in the bundle? look in the documents folder
-	if ( source == nil )
+	if ( filePath == nil )
 	{
 		NSString *rootPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
 		if ( rootPath )
 		{
-			source = [rootPath stringByAppendingPathComponent:path];
+			filePath = [rootPath stringByAppendingPathComponent:[NSString stringWithUTF8String:filename]];
 		}
 	}
 	
-	// the file may not exist
-	if ( source )
+	// if it exists, create the URL
+	if ( filePath )
 	{
-		sourceURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, (CFStringRef)source, kCFURLPOSIXPathStyle, false);
+		fileURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, (CFStringRef)filePath, kCFURLPOSIXPathStyle, false);
 	}
 	else 
 	{
@@ -46,7 +58,7 @@ static CFURLRef getURLForFile( const char * filename )
 	}
 	
 	// caller is expected to release this.
-	return sourceURL;
+	return fileURL;
 }
 
 TouchServiceProvider::TouchServiceProvider( AudioSessionParameters & rParameters )
@@ -146,12 +158,25 @@ Minim::AudioRecordingStream * TouchServiceProvider::getAudioRecordingStream( con
 /////////////////////////////////////////////////////////////////
 Minim::SampleRecorder * TouchServiceProvider::getSampleRecorder( Minim::AudioSource * sourceToRecord, const char * fileName, const bool buffered )
 {
+	NSString * pathToFile = nil;
 	
-	// build a path that puts this file in the documents directory
-	NSString * documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-	if ( documentsDirectory )
+	// first see if they've provided a full path
+	if ( fileName[0] == '/' )
 	{
-		NSString * pathToFile = [documentsDirectory stringByAppendingPathComponent: [NSString stringWithUTF8String:fileName]];
+		pathToFile = [NSString stringWithUTF8String:fileName];
+	}
+	else // otherwise, save to the documents directory
+	{
+		NSString * documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+		if ( documentsDirectory )
+		{
+			pathToFile = [documentsDirectory stringByAppendingPathComponent: [NSString stringWithUTF8String:fileName]];
+		}
+	}
+
+	
+	if ( pathToFile )
+	{
 		
 		Minim::SampleRecorder * pRecorder = new CASampleRecorder( pathToFile, sourceToRecord->getFormat(), sourceToRecord->buffer().getBufferSize() );
 		
