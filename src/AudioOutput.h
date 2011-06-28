@@ -63,8 +63,8 @@ namespace Minim
 
 			virtual void read( MultiChannelBuffer & buffer );
 			
-			void setVolume( const float volume ) { mVolume = volume; }
-			float getVolume() const { return mVolume; }
+			void setVolume( const float volume ) { mTargetVolume = volume; }
+			float getVolume() const { return mTargetVolume; }
 			
 		private:
 			Summer & mSummer;
@@ -72,7 +72,8 @@ namespace Minim
 			float * mTickBuffer;
 			NoteManager & mNoteManager;
 			// scalar applied to samples before being written into the output buffer
-			float mVolume;
+			float mVolume; // actual volume
+			float mTargetVolume; // where we are headed
 			
 		} mSummerStream;
 		
