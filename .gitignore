@@ -2,3 +2,4 @@
 *.user
 *.ncb
 MinimTouch/build/*
+!MinimTouch/build/Release-iphoneos/libMinimTouch.a
