@@ -91,6 +91,7 @@ UGen::UGen()
 , mChannelCount(1)
 , mInputs(NULL)
 , mInputCount(0)
+, mSampleRate(0)
 {
 }
 	
@@ -101,6 +102,7 @@ UGen::UGen( const int numOfInputs )
 , mChannelCount(1)
 , mInputs( new UGenInput*[numOfInputs] )
 , mInputCount(0)
+, mSampleRate(0)
 {
 
 }

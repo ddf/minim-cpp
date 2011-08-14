@@ -49,10 +49,7 @@ namespace Minim
 		
 	protected:
 		
-		virtual void sampleRateChanged()
-		{
-			m_timeStepSize = 1.f / sampleRate();
-		}
+		virtual void sampleRateChanged();
 		
 		virtual void uGenerate( float * sampleFrame, const int numChannels );
 		

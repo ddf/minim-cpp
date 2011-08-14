@@ -37,6 +37,11 @@ namespace Minim
 		activate();
 	}
 	
+	void Line::sampleRateChanged()
+	{
+		m_timeStepSize = 1.f / sampleRate();
+	}
+	
 	void Line::uGenerate( float * sampleFrame, const int numChannels )
 	{
 		if ( !m_bIsActivated )
