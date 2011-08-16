@@ -47,7 +47,7 @@ namespace Minim
 		{
 			float val[] = { -1, -1, 1, 1 };
 			int dist[] = { tSby2, 0, tableSize - tSby2 };
-			return gen7(tableSize, val, 4, dist, 4);
+			return gen7(tableSize, val, 4, dist, 3);
 		}
 		
 		Wavetable * TRIANGLE()
