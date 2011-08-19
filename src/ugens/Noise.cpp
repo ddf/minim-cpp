@@ -15,8 +15,9 @@ namespace Minim
 {
 
 Noise::Noise( float amp, Tint tint )
-: UGen( 1 )
+: UGen( 2 )
 , amplitude( *this, CONTROL )
+, offset( *this, CONTROL )
 , mTint(tint)
 , mLastOutput(0.f)
 , mBrownCutoffFreq(100.f)
@@ -77,7 +78,7 @@ void Noise::uGenerate( float * pChannels, int numChannels )
 	}
 	for(int i = 0; i < numChannels; i++)
 	{
-		pChannels[i] = n;
+		pChannels[i] = n + offset.getLastValue();
 	}
 }
 	

@@ -44,6 +44,8 @@ namespace Minim
 		 */
 		UGenInput amplitude;
 		
+		UGenInput offset;
+		
 		inline Tint getTint() const { return mTint; }
 		inline void setTint( const Tint noiseType )
 		{
