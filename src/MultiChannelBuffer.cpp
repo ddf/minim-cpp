@@ -150,6 +150,11 @@ namespace Minim
 		return mChannels[channelNum];
 	}
 	
+	float MultiChannelBuffer::getSample( const int inChannel, const int sampleNum ) const
+	{
+		return getChannel(inChannel)[sampleNum];
+	}
+	
 	float MultiChannelBuffer::getSample( const int inChannel, const float sampleNum ) const
 	{
 		const int lowSample = (int)sampleNum;

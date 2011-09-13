@@ -16,7 +16,8 @@ class TouchServiceProvider : public Minim::ServiceProvider
 {
 
 public:
-	
+
+#if TARGET_OS_IPHONE
 	struct AudioSessionParameters
 	{
 		AudioSessionParameters()
@@ -51,6 +52,8 @@ public:
 	// this will set the outputBufferDuration member of the provided parameters
 	// to what the device actually chooses, which might be different than what you ask for.
 	TouchServiceProvider( AudioSessionParameters & rParameters );
+#endif	
+
 	virtual ~TouchServiceProvider() {}
 	
 	virtual void start() {}

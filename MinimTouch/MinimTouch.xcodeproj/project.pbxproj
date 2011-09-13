@@ -11,6 +11,7 @@
 		6D02C02B13B39F1C0013601A /* Line.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6D02C02913B39F1C0013601A /* Line.cpp */; };
 		6D33B3B11307A280006EE9DD /* Waveshaper.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D33B3AF1307A280006EE9DD /* Waveshaper.h */; };
 		6D33B3B21307A280006EE9DD /* Waveshaper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6D33B3B01307A280006EE9DD /* Waveshaper.cpp */; };
+		6D40B4CD14083E19001E0A44 /* Constant.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D40B4CC14083E19001E0A44 /* Constant.h */; };
 		6D6A9B3711432ED9003B59BA /* TouchServiceProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D6A9B3511432ED9003B59BA /* TouchServiceProvider.h */; };
 		6D6A9B3811432ED9003B59BA /* TouchServiceProvider.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6D6A9B3611432ED9003B59BA /* TouchServiceProvider.mm */; };
 		6D7F100F13ACFED000F63D98 /* Sampler.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D7F100D13ACFED000F63D98 /* Sampler.h */; };
@@ -81,6 +82,7 @@
 		6D02C02913B39F1C0013601A /* Line.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Line.cpp; sourceTree = "<group>"; };
 		6D33B3AF1307A280006EE9DD /* Waveshaper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Waveshaper.h; sourceTree = "<group>"; };
 		6D33B3B01307A280006EE9DD /* Waveshaper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Waveshaper.cpp; sourceTree = "<group>"; };
+		6D40B4CC14083E19001E0A44 /* Constant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constant.h; sourceTree = "<group>"; };
 		6D6A9B3511432ED9003B59BA /* TouchServiceProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TouchServiceProvider.h; path = ../src/mac/TouchServiceProvider.h; sourceTree = SOURCE_ROOT; };
 		6D6A9B3611432ED9003B59BA /* TouchServiceProvider.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = TouchServiceProvider.mm; path = ../src/mac/TouchServiceProvider.mm; sourceTree = SOURCE_ROOT; };
 		6D7F100D13ACFED000F63D98 /* Sampler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sampler.h; sourceTree = "<group>"; };
@@ -289,6 +291,7 @@
 				6D02C02913B39F1C0013601A /* Line.cpp */,
 				6D7FA95D13B66EAE00A96AE6 /* Pan.h */,
 				6D7FA95E13B66EAE00A96AE6 /* Pan.cpp */,
+				6D40B4CC14083E19001E0A44 /* Constant.h */,
 			);
 			name = ugens;
 			path = ../src/ugens;
@@ -341,6 +344,7 @@
 				6D02C02A13B39F1C0013601A /* Line.h in Headers */,
 				6D946E1113B57326007C4C85 /* CASampleRecorder.h in Headers */,
 				6D7FA95F13B66EAE00A96AE6 /* Pan.h in Headers */,
+				6D40B4CD14083E19001E0A44 /* Constant.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

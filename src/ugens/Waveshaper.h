@@ -52,6 +52,8 @@ namespace Minim
 		
 		Wavetable & getWavetable() { return *m_pMapShape; }
 		
+		float getMapLookup( const float in ) const;
+		
 	protected:
 		
 		// ugen implementation

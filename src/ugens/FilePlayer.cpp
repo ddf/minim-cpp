@@ -44,7 +44,8 @@ namespace Minim
 			
 			for(int i = 0; i < numberOfChannels; ++i)
 			{
-				channels[i] = m_buffer.getChannel(i)[m_outputPosition];
+				int chan = (i < m_buffer.getChannelCount() ? i : m_buffer.getChannelCount()-1);
+				channels[i] = m_buffer.getChannel(chan)[m_outputPosition];
 			}
 			++m_outputPosition;
 		}

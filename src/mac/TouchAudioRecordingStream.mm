@@ -56,7 +56,14 @@ void TouchAudioRecordingStream::open()
 		m_fileMillisLength = (UInt32)( (Float64)m_fileFrameLength / m_fileFormat.getFrameRate() * 1000.f );
 		
 		// allocate the buffer we'll use for reading
-		m_readBuffer = new SInt16[ m_bufferSize * fileFormat.NumberChannels() ];
+		if ( m_clientFormat.SampleWordSize() == sizeof(SInt16) )
+		{
+			m_readBuffer = new SInt16[ m_bufferSize * fileFormat.NumberChannels() ];
+		}
+		else if ( m_clientFormat.SampleWordSize() == sizeof(Float32) )
+		{
+			m_readBuffer = new Float32[ m_bufferSize * fileFormat.NumberChannels() ];
+		}
 	}
 }
 
@@ -84,9 +91,11 @@ void TouchAudioRecordingStream::read( Minim::MultiChannelBuffer & buffer )
 	if ( m_audioFileRef )
 	{
 		const UInt32 outBufferSize = buffer.getBufferSize();
-		assert(outBufferSize <= m_bufferSize && "You requested to read more sample frames than this recording stream can read at one time.");
+		//assert(outBufferSize <= m_bufferSize && "You requested to read more sample frames than this recording stream can read at one time.");
 			   
-		UInt32 samplesToRead = outBufferSize;
+		UInt32 samplesToRead	= outBufferSize;
+		UInt32 totalSamplesRead = 0;
+		
 		const UInt32 numberChannels = m_clientFormat.NumberChannels();
 		buffer.setChannelCount( numberChannels );
 		// start with silence, we may not be playing, in which case we should return silence
@@ -96,35 +105,53 @@ void TouchAudioRecordingStream::read( Minim::MultiChannelBuffer & buffer )
 		
 		if ( m_bIsPlaying )
 		{
-			AudioBufferList fillBufList;
-			fillBufList.mNumberBuffers = 1;
-			fillBufList.mBuffers[0].mNumberChannels = numberChannels;
-			fillBufList.mBuffers[0].mDataByteSize = m_clientFormat.FramesToBytes( outBufferSize );
-			fillBufList.mBuffers[0].mData = m_readBuffer;
-			
-			// client format is always linear PCM - so here we determine how many frames of lpcm
-			// we can read/write given our buffer size
-			ExtAudioFileRead( m_audioFileRef, &samplesToRead, &fillBufList );
-			
-			// 0 read means EOF
-			if ( samplesToRead == 0 )
+			while( samplesToRead > 0 )
 			{
-				// might need to wrap back to beginning loop point if looping,
-				// but for now we just stop playing.
-				m_bIsPlaying = false;
-				return;
-			}
-			
-			// and now we should be able to de-interleave our read buffer into buffer
-			for(UInt32 c = 0; c < numberChannels; ++c)
-			{
-				float * channel = buffer.getChannel(c);
-				for(UInt32 i = 0; i < samplesToRead; ++i)
+				UInt32 readSize = samplesToRead < m_bufferSize ? samplesToRead : m_bufferSize;
+				AudioBufferList fillBufList;
+				fillBufList.mNumberBuffers = 1;
+				fillBufList.mBuffers[0].mNumberChannels = numberChannels;
+				fillBufList.mBuffers[0].mDataByteSize = m_clientFormat.FramesToBytes( readSize );
+				fillBufList.mBuffers[0].mData = m_readBuffer;
+				
+				// client format is always linear PCM - so here we determine how many frames of lpcm
+				// we can read/write given our buffer size
+				UInt32 samplesRead;
+				ExtAudioFileRead( m_audioFileRef, &samplesRead, &fillBufList );
+				
+				// 0 read means EOF
+				if ( samplesRead == 0 )
 				{
-					const UInt32 offset = (i * numberChannels) + c; 
-					const SInt16 sample = m_readBuffer[offset];
-					channel[i] = (float)sample / 32767.f;
+					// might need to wrap back to beginning loop point if looping,
+					// but for now we just stop playing.
+					m_bIsPlaying = false;
+					return;
 				}
+				
+				// and now we should be able to de-interleave our read buffer into buffer
+				bool bIntegral = m_clientFormat.SampleWordSize() == sizeof(SInt16);
+				for(UInt32 c = 0; c < numberChannels; ++c)
+				{
+					float * channel = buffer.getChannel(c);
+					for(UInt32 i = 0; i < samplesRead; ++i)
+					{
+						const UInt32 offset = (i * numberChannels) + c; 
+						if ( bIntegral )
+						{
+							const SInt16 sample = ((SInt16*)m_readBuffer)[offset];
+							channel[totalSamplesRead + i] = (float)sample / 32767.f;
+						}
+						else 
+						{
+							const Float32 sample = ((Float32*)m_readBuffer)[offset];
+							channel[totalSamplesRead + i ] = sample;
+						}
+
+					}
+				}
+				
+				samplesToRead	 -= samplesRead;
+				totalSamplesRead += samplesRead;
 			}
 		}
 	}

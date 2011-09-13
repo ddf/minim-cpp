@@ -42,6 +42,33 @@ namespace Minim
 		delete m_pMapShape;
 	}
 	
+	float WaveShaper::getMapLookup( const float in ) const
+	{
+		float tmpIndex = ( mapAmplitude.getLastValue()*in )/2.0f + 0.5f;
+		
+		// handle the cases where it goes out of bouds
+		if ( m_bWrapMap )  // wrap oround
+		{
+			// get the fractional part
+			tmpIndex = tmpIndex - static_cast<int>(tmpIndex);
+			// I don't like that remaider gives the same sign as the first argument
+			if ( tmpIndex < 0.0f )
+			{
+				tmpIndex += 1.0f;
+			}
+		}
+		else if ( tmpIndex > 1.0f )  // otherwise cap at 1
+		{
+			tmpIndex = 1.0f;
+		} 
+		else if ( tmpIndex < 0.0f ) // and cap on the bottom at 0
+		{
+			tmpIndex = 0.0f;
+		}
+		
+		return tmpIndex;
+	}
+	
 	//the input signal is supposed to be less than 1 in amplitude 
 	//as Wavetable is basically an array of floats accessed via a 0 to 1.0 index, 
 	//some shifting+scaling has to be done	
@@ -50,30 +77,8 @@ namespace Minim
 	{
 		for( int i = 0; i < numChannels; ++i )
 		{
-			// bring in the audio as index, scale by the map amplitude, and normalize
-			const float in = audio.getLastValues()[i];
-			float tmpIndex = ( mapAmplitude.getLastValue()*in )/2.0f + 0.5f;
-			
-			// handle the cases where it goes out of bouds
-			if ( m_bWrapMap )  // wrap oround
-			{
-				// get the fractional part
-				tmpIndex = tmpIndex - static_cast<int>(tmpIndex);
-				// I don't like that remaider gives the same sign as the first argument
-				if ( tmpIndex < 0.0f )
-				{
-					tmpIndex += 1.0f;
-				}
-			}
-			else if ( tmpIndex > 1.0f )  // otherwise cap at 1
-			{
-				tmpIndex = 1.0f;
-			} 
-			else if ( tmpIndex < 0.0f ) // and cap on the bottom at 0
-	        {
-	        	tmpIndex = 0.0f;
-	        }
-			
+			// bring in the audio as index, scale by the map amplitude, and normalizef
+			float tmpIndex = getMapLookup( audio.getLastValues()[i] );
 			// now that tmpIndex is good, look up the wavetable value and multiply by outAmp
 			channels[i] = outAmplitude.getLastValue()*m_pMapShape->value( tmpIndex );
 		}
