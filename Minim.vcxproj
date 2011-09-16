@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{7DDE988F-0D7D-4612-8E63-62535511F0F4}</ProjectGuid>
+    <RootNamespace>Minim</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>src;src\interfaces;libsndfile\include;src\ugens</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Lib>
+      <AdditionalDependencies>libsndfile-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>libsndfile\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <AdditionalIncludeDirectories>src;src\interfaces;libsndfile\include;src\ugens</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Lib>
+      <AdditionalDependencies>libsndfile-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>libsndfile\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="src\AudioFormat.h" />
+    <ClInclude Include="src\AudioOutput.h" />
+    <ClInclude Include="src\AudioRecorder.h" />
+    <ClInclude Include="src\AudioSource.h" />
+    <ClInclude Include="src\AudioSystem.h" />
+    <ClInclude Include="src\MultiChannelBuffer.h" />
+    <ClInclude Include="src\NoteManager.h" />
+    <ClInclude Include="src\interfaces\AudioListener.h" />
+    <ClInclude Include="src\interfaces\AudioMetaData.h" />
+    <ClInclude Include="src\interfaces\AudioOut.h" />
+    <ClInclude Include="src\interfaces\AudioRecordingStream.h" />
+    <ClInclude Include="src\interfaces\AudioResource.h" />
+    <ClInclude Include="src\interfaces\AudioStream.h" />
+    <ClInclude Include="src\interfaces\SampleRecoder.h" />
+    <ClInclude Include="src\interfaces\ServiceProvider.h" />
+    <ClInclude Include="src\ugens\Frequency.h" />
+    <ClInclude Include="src\ugens\Instrument.h" />
+    <ClInclude Include="src\ugens\Line.h" />
+    <ClInclude Include="src\ugens\Multiplier.h" />
+    <ClInclude Include="src\ugens\Noise.h" />
+    <ClInclude Include="src\ugens\Oscil.h" />
+    <ClInclude Include="src\ugens\Pan.h" />
+    <ClInclude Include="src\ugens\Sampler.h" />
+    <ClInclude Include="src\ugens\Summer.h" />
+    <ClInclude Include="src\ugens\TickRate.h" />
+    <ClInclude Include="src\ugens\UGen.h" />
+    <ClInclude Include="src\ugens\Waveform.h" />
+    <ClInclude Include="src\ugens\Waves.h" />
+    <ClInclude Include="src\ugens\Waveshaper.h" />
+    <ClInclude Include="src\ugens\Wavetable.h" />
+    <ClInclude Include="src\win\DirectSoundServiceProvider.h" />
+    <ClInclude Include="src\win\libsndAudioRecordingStream.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\AudioOutput.cpp" />
+    <ClCompile Include="src\AudioRecorder.cpp" />
+    <ClCompile Include="src\AudioSource.cpp" />
+    <ClCompile Include="src\AudioSystem.cpp" />
+    <ClCompile Include="src\MultiChannelBuffer.cpp" />
+    <ClCompile Include="src\NoteManager.cpp" />
+    <ClCompile Include="src\ugens\FilePlayer.cpp" />
+    <ClCompile Include="src\ugens\Frequency.cpp" />
+    <ClCompile Include="src\ugens\Line.cpp" />
+    <ClCompile Include="src\ugens\Multiplier.cpp" />
+    <ClCompile Include="src\ugens\Noise.cpp" />
+    <ClCompile Include="src\ugens\Oscil.cpp" />
+    <ClCompile Include="src\ugens\Pan.cpp" />
+    <ClCompile Include="src\ugens\Sampler.cpp" />
+    <ClCompile Include="src\ugens\Summer.cpp" />
+    <ClCompile Include="src\ugens\TickRate.cpp" />
+    <ClCompile Include="src\ugens\UGen.cpp" />
+    <ClCompile Include="src\ugens\Waves.cpp" />
+    <ClCompile Include="src\ugens\Waveshaper.cpp" />
+    <ClCompile Include="src\ugens\Wavetable.cpp" />
+    <ClCompile Include="src\win\DirectSoundServiceProvider.cpp" />
+    <ClCompile Include="src\win\libsndAudioRecordingStream.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,183 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Core">
+      <UniqueIdentifier>{4c48eadd-8f81-4112-a031-f8d9a0b4942b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Interfaces">
+      <UniqueIdentifier>{ef13e7df-455f-4859-9286-5b2179bb7f9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UGens">
+      <UniqueIdentifier>{7d40ea66-530f-4f87-bd0b-74b3d7599de4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Win">
+      <UniqueIdentifier>{c4964ba5-2efa-4b3e-821a-bac38ec42d18}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\AudioFormat.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AudioOutput.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AudioRecorder.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AudioSource.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AudioSystem.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MultiChannelBuffer.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\NoteManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\interfaces\AudioListener.h">
+      <Filter>Core\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="src\interfaces\AudioMetaData.h">
+      <Filter>Core\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="src\interfaces\AudioOut.h">
+      <Filter>Core\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="src\interfaces\AudioRecordingStream.h">
+      <Filter>Core\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="src\interfaces\AudioResource.h">
+      <Filter>Core\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="src\interfaces\AudioStream.h">
+      <Filter>Core\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="src\interfaces\SampleRecoder.h">
+      <Filter>Core\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="src\interfaces\ServiceProvider.h">
+      <Filter>Core\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ugens\Frequency.h">
+      <Filter>UGens</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ugens\Instrument.h">
+      <Filter>UGens</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ugens\Line.h">
+      <Filter>UGens</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ugens\Multiplier.h">
+      <Filter>UGens</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ugens\Noise.h">
+      <Filter>UGens</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ugens\Oscil.h">
+      <Filter>UGens</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ugens\Pan.h">
+      <Filter>UGens</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ugens\Sampler.h">
+      <Filter>UGens</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ugens\Summer.h">
+      <Filter>UGens</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ugens\TickRate.h">
+      <Filter>UGens</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ugens\UGen.h">
+      <Filter>UGens</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ugens\Waveform.h">
+      <Filter>UGens</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ugens\Waves.h">
+      <Filter>UGens</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ugens\Waveshaper.h">
+      <Filter>UGens</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ugens\Wavetable.h">
+      <Filter>UGens</Filter>
+    </ClInclude>
+    <ClInclude Include="src\win\DirectSoundServiceProvider.h">
+      <Filter>Win</Filter>
+    </ClInclude>
+    <ClInclude Include="src\win\libsndAudioRecordingStream.h">
+      <Filter>Win</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\AudioOutput.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AudioRecorder.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AudioSource.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AudioSystem.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MultiChannelBuffer.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NoteManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ugens\FilePlayer.cpp">
+      <Filter>UGens</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ugens\Frequency.cpp">
+      <Filter>UGens</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ugens\Line.cpp">
+      <Filter>UGens</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ugens\Multiplier.cpp">
+      <Filter>UGens</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ugens\Noise.cpp">
+      <Filter>UGens</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ugens\Oscil.cpp">
+      <Filter>UGens</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ugens\Pan.cpp">
+      <Filter>UGens</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ugens\Sampler.cpp">
+      <Filter>UGens</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ugens\Summer.cpp">
+      <Filter>UGens</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ugens\TickRate.cpp">
+      <Filter>UGens</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ugens\UGen.cpp">
+      <Filter>UGens</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ugens\Waves.cpp">
+      <Filter>UGens</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ugens\Waveshaper.cpp">
+      <Filter>UGens</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ugens\Wavetable.cpp">
+      <Filter>UGens</Filter>
+    </ClCompile>
+    <ClCompile Include="src\win\DirectSoundServiceProvider.cpp">
+      <Filter>Win</Filter>
+    </ClCompile>
+    <ClCompile Include="src\win\libsndAudioRecordingStream.cpp">
+      <Filter>Win</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

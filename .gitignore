@@ -1,5 +1,7 @@
 *.suo
 *.user
 *.ncb
+*.sdf
 MinimTouch/build/*
 !MinimTouch/build/Release-iphoneos/libMinimTouch.a
+Debug/
