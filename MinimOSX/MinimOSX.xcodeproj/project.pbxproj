@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6DD913831421954B00729F2D /* FourierTransform.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DD913811421954B00729F2D /* FourierTransform.h */; };
+		6DD913841421954B00729F2D /* FourierTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DD913821421954B00729F2D /* FourierTransform.cpp */; };
+		6DD913BC1421A1DA00729F2D /* WindowFunction.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DD913BB1421A1DA00729F2D /* WindowFunction.h */; };
+		6DD913BF1421A28700729F2D /* WindowFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DD913BE1421A28700729F2D /* WindowFunction.cpp */; };
+		6DD913EF1421A5F700729F2D /* FFT.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DD913ED1421A5F700729F2D /* FFT.h */; };
+		6DD913F01421A5F700729F2D /* FFT.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DD913EE1421A5F700729F2D /* FFT.cpp */; };
 		6DEFA33A141ED6AF003783E8 /* AudioFormat.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DEFA2F2141ED6AF003783E8 /* AudioFormat.h */; };
 		6DEFA33B141ED6AF003783E8 /* AudioOutput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DEFA2F3141ED6AF003783E8 /* AudioOutput.cpp */; };
 		6DEFA33C141ED6AF003783E8 /* AudioOutput.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DEFA2F4141ED6AF003783E8 /* AudioOutput.h */; };
@@ -81,6 +87,12 @@
 		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		32DBCF5E0370ADEE00C91783 /* MinimOSX_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MinimOSX_Prefix.pch; sourceTree = "<group>"; };
+		6DD913811421954B00729F2D /* FourierTransform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FourierTransform.h; sourceTree = "<group>"; };
+		6DD913821421954B00729F2D /* FourierTransform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FourierTransform.cpp; sourceTree = "<group>"; };
+		6DD913BB1421A1DA00729F2D /* WindowFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WindowFunction.h; sourceTree = "<group>"; };
+		6DD913BE1421A28700729F2D /* WindowFunction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WindowFunction.cpp; sourceTree = "<group>"; };
+		6DD913ED1421A5F700729F2D /* FFT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFT.h; sourceTree = "<group>"; };
+		6DD913EE1421A5F700729F2D /* FFT.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FFT.cpp; sourceTree = "<group>"; };
 		6DEFA2F2141ED6AF003783E8 /* AudioFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioFormat.h; sourceTree = "<group>"; };
 		6DEFA2F3141ED6AF003783E8 /* AudioOutput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioOutput.cpp; sourceTree = "<group>"; };
 		6DEFA2F4141ED6AF003783E8 /* AudioOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioOutput.h; sourceTree = "<group>"; };
@@ -245,6 +257,12 @@
 				6DEFA315141ED6AF003783E8 /* NoteManager.cpp */,
 				6DEFA316141ED6AF003783E8 /* NoteManager.h */,
 				6DEFA317141ED6AF003783E8 /* ugens */,
+				6DD913811421954B00729F2D /* FourierTransform.h */,
+				6DD913821421954B00729F2D /* FourierTransform.cpp */,
+				6DD913BB1421A1DA00729F2D /* WindowFunction.h */,
+				6DD913BE1421A28700729F2D /* WindowFunction.cpp */,
+				6DD913ED1421A5F700729F2D /* FFT.h */,
+				6DD913EE1421A5F700729F2D /* FFT.cpp */,
 			);
 			name = src;
 			path = ../src;
@@ -371,6 +389,9 @@
 				6DEFA377141ED6AF003783E8 /* Waves.h in Headers */,
 				6DEFA379141ED6AF003783E8 /* Waveshaper.h in Headers */,
 				6DEFA37B141ED6AF003783E8 /* Wavetable.h in Headers */,
+				6DD913831421954B00729F2D /* FourierTransform.h in Headers */,
+				6DD913BC1421A1DA00729F2D /* WindowFunction.h in Headers */,
+				6DD913EF1421A5F700729F2D /* FFT.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -449,6 +470,9 @@
 				6DEFA376141ED6AF003783E8 /* Waves.cpp in Sources */,
 				6DEFA378141ED6AF003783E8 /* Waveshaper.cpp in Sources */,
 				6DEFA37A141ED6AF003783E8 /* Wavetable.cpp in Sources */,
+				6DD913841421954B00729F2D /* FourierTransform.cpp in Sources */,
+				6DD913BF1421A28700729F2D /* WindowFunction.cpp in Sources */,
+				6DD913F01421A5F700729F2D /* FFT.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
