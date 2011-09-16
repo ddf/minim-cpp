@@ -19,6 +19,8 @@
 #include "Waves.h"
 #include "AudioSystem.h"
 #include <vector>
+
+#define  _USE_MATH_DEFINES // required in windows to get constants like M_PI
 #include <math.h>
 
 static const int tableSize = 8192;
@@ -139,7 +141,7 @@ namespace Minim
 				index = (float)i / (size - 1);
 				for (int j = 0; j < nPartials; j++)
 				{
-					waveform[i] += amps[j] * sin(2 * M_PI * partials[j] * index + phases[j]);
+					waveform[i] += amps[j] * (float)sin(2 * M_PI * partials[j] * index + phases[j]);
 				}
 			}
 			
@@ -157,7 +159,7 @@ namespace Minim
 				index = (float)i / (size - 1);
 				for (int j = 0; j < nAmps; j++)
 				{
-					waveform[i] += amps[j] * sin(2 * M_PI * (j + 1) * index);
+					waveform[i] += amps[j] * (float)sin( 2 * M_PI * (j + 1) * index );
 				}
 			}
 			

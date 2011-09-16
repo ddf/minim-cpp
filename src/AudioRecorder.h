@@ -12,6 +12,9 @@
 
 namespace Minim 
 {
+	class AudioSource;
+	class SampleRecorder;
+
 	class AudioRecorder
 	{
 	public:

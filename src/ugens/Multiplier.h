@@ -36,7 +36,7 @@ namespace Minim
 	protected:
 		
 		// UGen impl
-		void uGenerate( float * channels, int numChannels );
+		void uGenerate( float * channels, const int numChannels );
 	};
 	
 }

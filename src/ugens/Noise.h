@@ -64,7 +64,7 @@ namespace Minim
 		// override
 		virtual void sampleRateChanged();
 		
-		virtual void uGenerate( float * channels, int numChannels );
+		virtual void uGenerate( float * channels, const int numChannels );
 		
 	private:
 		

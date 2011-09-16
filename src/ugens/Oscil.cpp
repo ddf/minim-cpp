@@ -20,7 +20,6 @@
 #include "Frequency.h"
 #include "Waveform.h"
 #include <math.h>
-#include "CodeTimer.h"
 
 namespace Minim  
 {
