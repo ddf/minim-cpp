@@ -61,6 +61,7 @@ static CFURLRef getURLForFile( const char * filename )
 	return fileURL;
 }
 
+#if TARGET_OS_IPHONE
 TouchServiceProvider::TouchServiceProvider( AudioSessionParameters & rParameters )
 {
 	OSStatus status;
@@ -125,11 +126,14 @@ TouchServiceProvider::TouchServiceProvider( AudioSessionParameters & rParameters
 	// We really need to do the no-interp optimization on iPhone!
 	Minim::Wavetable::s_opt = true;
 }
+#endif // TARGET_OS_IPHONE
 
 ////////////////////////////////////////////////////////////////
 void TouchServiceProvider::stop()
 {
+#if TARGET_OS_IPHONE
 	AudioSessionSetActive(false);
+#endif
 }
 
 ////////////////////////////////////////////////////////////////

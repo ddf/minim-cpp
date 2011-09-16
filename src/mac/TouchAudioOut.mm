@@ -85,7 +85,11 @@ void TouchAudioOut::open()
 	// Describe audio component
 	AudioComponentDescription desc;
 	desc.componentType = kAudioUnitType_Output;
+#if TARGET_OS_IPHONE
 	desc.componentSubType = kAudioUnitSubType_RemoteIO;
+#else
+	desc.componentSubType = kAudioUnitSubType_DefaultOutput;
+#endif
 	desc.componentFlags = 0;
 	desc.componentFlagsMask = 0;
 	desc.componentManufacturer = kAudioUnitManufacturer_Apple;

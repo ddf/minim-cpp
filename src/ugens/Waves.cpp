@@ -66,6 +66,14 @@ namespace Minim
 			return gen7(tableSize, val, 4, dist, 3);
 		}
 		
+		Wavetable * pulse( float dutyCycle )
+		{
+			//TODO exception for floats higher than 1
+			float val[] = { 1, 1, -1, -1 };
+			int dist[] = { (int)(dutyCycle*tableSize), 0, tableSize-(int)(dutyCycle*tableSize) };
+			return gen7(tableSize, val, 4, dist, 3);
+		}
+		
 		Wavetable * gen7( int size, float * vals, int nVals, int * dists, int nDists )
 		{
 			

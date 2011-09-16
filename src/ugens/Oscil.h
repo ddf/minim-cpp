@@ -43,8 +43,8 @@ namespace Minim
 		UGenInput offset;
 		
 		/**
-		 * Resets the time-step used by the oscillator to be equal to the 
-		 * current phase value.  You will typically use this when starting a 
+		 * Resets the time-step used by the oscillator to zero.  
+		 * You will typically use this when starting a 
 		 * new note with an Oscil that you have already used so that the 
 		 * waveform will begin sounding at the beginning of its period, 
 		 * which will typically be a zero-crossing. In other words, use this
@@ -52,7 +52,7 @@ namespace Minim
 		 */
 		void reset()
 		{
-			mStep = phase.getLastValue();
+			mStep = 0;
 		}
 		
 	protected:

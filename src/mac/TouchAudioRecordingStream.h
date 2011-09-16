@@ -81,7 +81,7 @@ private:
 	// how many sample frames we expect to be asked to read at a time
 	UInt32   m_bufferSize;
 	// where we read the data to
-	SInt16 * m_readBuffer;
+	void *   m_readBuffer;
 	
 	// how long is this file, in milliseconds
 	UInt32   m_fileMillisLength;

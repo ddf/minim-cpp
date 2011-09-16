@@ -19,7 +19,7 @@ namespace Minim
 	{
 	public:
 		
-		AudioRecorder( AudioSource * recordSource, SampleRecorder * recorder );
+		AudioRecorder( class AudioSource * recordSource, class SampleRecorder * recorder );
 		~AudioRecorder();
 		
 		

@@ -39,6 +39,8 @@ namespace Minim
 		float * getChannel( const int channelNum );
 		const float * getChannel( const int channelNum ) const;
 		
+		// get an exact sample. equivalent to getChannel(inChannel)[sampleNum]
+		float getSample( const int inChannel, const int sampleNum ) const;
 		// get an interpolated sample value, given a channel and sample index
 		float getSample( const int inChannel, const float sampleNum ) const;
 		
