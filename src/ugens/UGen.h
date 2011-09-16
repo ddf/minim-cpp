@@ -19,6 +19,10 @@
 #ifndef UGEN_H
 #define UGEN_H
 
+#ifndef NULL
+#define NULL 0
+#endif
+
 namespace Minim
 {
 

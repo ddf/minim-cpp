@@ -10,7 +10,7 @@
 #include "Sampler.h"
 #include <string>
 #include <cassert>
-#include <math.h>
+#include <algorithm>
 
 namespace Minim 
 {
@@ -29,7 +29,7 @@ namespace Minim
 	, m_triggers( NULL )
 	{
 		begin.setLastValue( 0.f );
-		end.setLastValue( sampleData.getBufferSize()-1 );
+		end.setLastValue( (float)sampleData.getBufferSize()-1 );
 		attack.setLastValue( 0.f );
 		amplitude.setLastValue( 1.f );
 		rate.setLastValue( 1.f );
@@ -74,7 +74,7 @@ namespace Minim
 		m_beginSample    = m_sampler->begin.getLastValue();
 		m_endSample      = m_sampler->end.getLastValue();
 		m_rate		     = m_sampler->rate.getLastValue();
-		m_attackLength	 = fmax(m_sampler->sampleRate() * m_sampler->attack.getLastValue(), 1.f);
+		m_attackLength	 = (int)std::max(m_sampler->sampleRate() * m_sampler->attack.getLastValue(), 1.f);
 		m_attackAmp	     = 0.0f;
 		m_attackAmpStep  = 1.f / (float)m_attackLength;
 		m_release        = 0;

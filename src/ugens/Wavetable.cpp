@@ -19,7 +19,6 @@
 #include "Wavetable.h"
 #include <math.h>
 #include <cassert>
-#include "CodeTimer.h"
 #include <cstring> // for memcpy
 
 namespace Minim
@@ -29,14 +28,15 @@ namespace Minim
 	Wavetable::Wavetable( const int size )
 	: mWaveform( new float[size] )
 	, mSize(size)
-	, mSizeForLookup(size-1)
+	, mSizeForLookup( (float)size-1)
 	{
+		memset( mWaveform, 0, sizeof(float)*size );
 	}
 	
 	Wavetable::Wavetable( const float * waveform, const int size )
 	: mWaveform( new float[size] )
 	, mSize(size)
-	, mSizeForLookup(size-1)
+	, mSizeForLookup( (float)size-1 )
 	{
 		memcpy(mWaveform, waveform, sizeof(float)*size);
 	}
@@ -57,7 +57,7 @@ namespace Minim
 		
 		memcpy(mWaveform, waveform, sizeof(float)*size);
 		mSize = size;
-		mSizeForLookup = size - 1;
+		mSizeForLookup = (float)(size - 1);
 	}
 	
 	////////////////////////////////////////////

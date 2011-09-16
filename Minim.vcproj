@@ -152,7 +152,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\AudioOutput.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\AudioOutput.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\AudioRecorder.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\AudioRecorder.h"
 				>
 			</File>
 			<File
@@ -179,6 +191,14 @@
 				RelativePath=".\src\MultiChannelBuffer.h"
 				>
 			</File>
+			<File
+				RelativePath=".\src\NoteManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\NoteManager.h"
+				>
+			</File>
 			<Filter
 				Name="Interfaces"
 				>
@@ -192,10 +212,6 @@
 				</File>
 				<File
 					RelativePath=".\src\interfaces\AudioOut.h"
-					>
-				</File>
-				<File
-					RelativePath=".\src\AudioOutput.cpp"
 					>
 				</File>
 				<File
@@ -224,6 +240,70 @@
 			Name="UGens"
 			>
 			<File
+				RelativePath=".\src\ugens\FilePlayer.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ugens\Frequency.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ugens\Frequency.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ugens\Instrument.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ugens\Line.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ugens\Line.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ugens\Multiplier.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ugens\Multiplier.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ugens\Noise.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ugens\Noise.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ugens\Oscil.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ugens\Oscil.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ugens\Pan.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ugens\Pan.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ugens\Sampler.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ugens\Sampler.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\ugens\Summer.cpp"
 				>
 			</File>
@@ -232,11 +312,47 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\ugens\TickRate.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ugens\TickRate.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\ugens\UGen.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\src\ugens\UGen.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ugens\Waveform.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ugens\Waves.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ugens\Waves.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ugens\Waveshaper.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ugens\Waveshaper.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ugens\Wavetable.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ugens\Wavetable.h"
 				>
 			</File>
 		</Filter>

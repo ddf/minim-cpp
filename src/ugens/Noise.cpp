@@ -8,7 +8,10 @@
  */
 
 #include "Noise.h"
+
+#define  _USE_MATH_DEFINES // required in windows to get constants like M_PI
 #include <math.h>
+
 #include <stdlib.h> // for rand()
 
 namespace Minim 
@@ -41,7 +44,7 @@ void Noise::sampleRateChanged()
 	
 //////////////////////////////////////////
 // TODO: using rand() is not really a good idea here, need a better solution
-void Noise::uGenerate( float * pChannels, int numChannels )
+void Noise::uGenerate( float * pChannels, const int numChannels )
 {
 	float n;
 	switch (mTint) 
@@ -90,7 +93,7 @@ void Noise::initPink()
 	mKey = 0;
 	for (int i = 0; i < NUMWHITEVALUES; i++)
 	{
-		mWhiteValues[i] = random() % (mRange / NUMWHITEVALUES);
+		mWhiteValues[i] = rand() % (mRange / NUMWHITEVALUES);
 	}
 }
 	
@@ -115,7 +118,7 @@ float Noise::pink()
 	    // white_value
 	    if ((diff & (1 << i)) != 0)
 	    {
-			mWhiteValues[i] = random() % (mRange / NUMWHITEVALUES);;
+			mWhiteValues[i] = rand() % (mRange / NUMWHITEVALUES);;
 	    }
 	    sum += mWhiteValues[i];
 	}

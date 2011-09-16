@@ -8,7 +8,10 @@
  */
 
 #include "Pan.h"
+
+#define  _USE_MATH_DEFINES // required in windows to get constants like M_PI
 #include <math.h>
+
 #include <cassert>
 
 namespace Minim
