@@ -15,10 +15,15 @@
 
 Minim::FFT::FFT(int timeSize, float sampleRate)
 : FourierTransform(timeSize,sampleRate)
+, m_reverseReal(NULL)
+, m_reverseImag(NULL)
 {
 	assert( (timeSize & (timeSize - 1))==0 && "FFT: timeSize must be a power of two." );
 	buildReverseTable();
 	buildTrigTables();
+
+	m_reverseReal = new float[m_timeSize];
+	m_reverseImag = new float[m_timeSize];
 }
 
 Minim::FFT::~FFT()
@@ -26,6 +31,16 @@ Minim::FFT::~FFT()
 	delete [] reverse;
 	delete [] sinlookup;
 	delete [] coslookup;
+
+	if ( m_reverseReal )
+	{
+		delete m_reverseReal;
+	}
+
+	if ( m_reverseImag )
+	{
+		delete m_reverseImag;
+	}
 }
 
 void Minim::FFT::scaleBand(int i, float s)
@@ -145,19 +160,20 @@ void Minim::FFT::fft()
 		// current phase shift
 		float currentPhaseShiftR = 1.0f;
 		float currentPhaseShiftI = 0.0f;
-		for (int fftStep = 0; fftStep < halfSize; fftStep++)
+		const int dubHalfSize = 2*halfSize;
+		for (int fftStep = 0; fftStep < halfSize; ++fftStep)
 		{
-			for (int i = fftStep; i < m_timeSize; i += 2 * halfSize)
+			for (int i = fftStep; i < m_timeSize; i += dubHalfSize)
 			{
-				int off = i + halfSize;
-				float tr = (currentPhaseShiftR * m_real[off]) - (currentPhaseShiftI * m_imag[off]);
-				float ti = (currentPhaseShiftR * m_imag[off]) + (currentPhaseShiftI * m_real[off]);
+				const int off = i + halfSize;
+				const float tr = (currentPhaseShiftR * m_real[off]) - (currentPhaseShiftI * m_imag[off]);
+				const float ti = (currentPhaseShiftR * m_imag[off]) + (currentPhaseShiftI * m_real[off]);
 				m_real[off] = m_real[i] - tr;
 				m_imag[off] = m_imag[i] - ti;
 				m_real[i] += tr;
 				m_imag[i] += ti;
 			}
-			float tmpR = currentPhaseShiftR;
+			const float tmpR = currentPhaseShiftR;
 			currentPhaseShiftR = (tmpR * phaseShiftStepR) - (currentPhaseShiftI * phaseShiftStepI);
 			currentPhaseShiftI = (tmpR * phaseShiftStepI) + (currentPhaseShiftI * phaseShiftStepR);
 		}
@@ -191,19 +207,14 @@ void Minim::FFT::bitReverseSamples(float * samples, int startAt)
 
 void Minim::FFT::bitReverseComplex()
 {
-	float * revReal = new float[m_timeSize];
-	float * revImag = new float[m_timeSize];
 	for (int i = 0; i < m_timeSize; i++)
 	{
-		revReal[i] = m_real[reverse[i]];
-		revImag[i] = m_imag[reverse[i]];
+		m_reverseReal[i] = m_real[reverse[i]];
+		m_reverseImag[i] = m_imag[reverse[i]];
 	}
 	
-	memcpy(m_real, revReal, m_timeSize);
-	memcpy(m_imag, revImag, m_timeSize);
-	
-	delete [] revReal;
-	delete [] revImag;
+	memcpy(m_real, m_reverseReal, m_timeSize*sizeof(float));
+	memcpy(m_imag, m_reverseImag, m_timeSize*sizeof(float));
 }
 
 void Minim::FFT::buildTrigTables()
@@ -213,7 +224,7 @@ void Minim::FFT::buildTrigTables()
 	coslookup = new float[N];
 	for (int i = 0; i < N; i++)
 	{
-		sinlookup[i] = sinf(-M_PI / i);
-		coslookup[i] = cosf(-M_PI / i);
+		sinlookup[i] = sinf(-(float)M_PI / i);
+		coslookup[i] = cosf(-(float)M_PI / i);
 	}
 }

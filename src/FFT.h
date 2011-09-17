@@ -49,7 +49,7 @@ namespace Minim
 		// bit reversing is not necessary as the data will already be bit reversed
 		void fft();
 		
-		
+		// table used for bit-reversing arrays
 		int * reverse;
 		
 		void buildReverseTable();
@@ -77,5 +77,9 @@ namespace Minim
 		}
 		
 		void buildTrigTables();
+
+		// arrays used for bit-reversing our complex data.
+		float *	m_reverseReal;
+		float * m_reverseImag;
 	};
 };

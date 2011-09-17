@@ -26,6 +26,8 @@ libsndAudioRecordingStream::libsndAudioRecordingStream( const char * filePath, c
 , m_readBuffer(NULL)
 , m_readBufferLength(0)
 , m_bPlaying(false)
+, m_millisLength(0)
+, m_millisPosition(0)
 {
 
 }
@@ -36,6 +38,16 @@ libsndAudioRecordingStream::~libsndAudioRecordingStream()
 	close();
 }
 
+void libsndAudioRecordingStream::SFInfoFormat::setFromSFInfo( const SF_INFO & fileInfo )
+{
+	mChannels = fileInfo.channels;
+	mFrameRate = (float)fileInfo.samplerate;
+	mSampleRate = (float)fileInfo.samplerate;
+	mFrameSize = mChannels*sizeof(float);
+	mSampleSizeInBits = sizeof(float);
+	mBigEndian = true;
+}
+
 void libsndAudioRecordingStream::open()
 {
 	if ( !m_sndFile )
@@ -43,10 +55,22 @@ void libsndAudioRecordingStream::open()
 		m_fileInfo.format = 0;
 		m_sndFile = sf_open( m_filePath.c_str(), SFM_READ, &m_fileInfo );
 
-		// now we can make our read buffer
-		m_readBufferLength = m_bufferSize * m_fileInfo.channels;
-		m_readBuffer = new float[ m_readBufferLength ];
-		memset( m_readBuffer, 0, m_readBufferLength*sizeof(float) );
+		if ( m_sndFile )
+		{
+			m_audioFormat.setFromSFInfo( m_fileInfo );
+
+			// now we can make our read buffer
+			m_readBufferLength = m_bufferSize * m_fileInfo.channels;
+			m_readBuffer = new float[ m_readBufferLength ];
+			memset( m_readBuffer, 0, m_readBufferLength*sizeof(float) );
+
+			m_millisLength = (int)((float)m_fileInfo.frames / (float)m_fileInfo.samplerate * 1000);
+			m_millisPosition = 0;
+		}
+		else
+		{
+			Minim::error( sf_strerror(m_sndFile) );
+		}
 	}
 }
 
@@ -63,6 +87,16 @@ void libsndAudioRecordingStream::close()
 	}
 }
 
+long libsndAudioRecordingStream::getSampleFrameLength() const
+{
+	if ( m_sndFile )
+	{
+		return (long)m_fileInfo.frames;
+	}
+
+	return 0;
+}
+
 void libsndAudioRecordingStream::play()
 {
 	m_bPlaying = true;
@@ -71,6 +105,23 @@ void libsndAudioRecordingStream::play()
 void libsndAudioRecordingStream::pause()
 {
 	m_bPlaying = false;
+}
+
+void libsndAudioRecordingStream::setMillisecondPosition( const unsigned int pos )
+{
+	if ( m_sndFile )
+	{
+		sf_count_t framePosition = (sf_count_t)((float)pos/1000 * 44100);
+		if ( framePosition > m_fileInfo.frames )
+		{
+			framePosition = m_fileInfo.frames;
+		}
+		framePosition = sf_seek( m_sndFile, framePosition, SEEK_SET );
+		if ( framePosition != -1 )
+		{
+			m_millisPosition = (int)((float)framePosition / m_fileInfo.samplerate * 1000);
+		}
+	}
 }
 
 void libsndAudioRecordingStream::read( Minim::MultiChannelBuffer & buffer )
@@ -97,7 +148,7 @@ void libsndAudioRecordingStream::read( Minim::MultiChannelBuffer & buffer )
 				sf_count_t readSize = samplesToRead < m_bufferSize ? samplesToRead : m_bufferSize;
 				
 				// heyo, we can just read floats and libsndfile converts for us!
-				sf_count_t samplesRead = sf_read_float( m_sndFile, m_readBuffer, m_bufferSize );
+				sf_count_t samplesRead = sf_readf_float( m_sndFile, m_readBuffer, readSize );
 				
 				// 0 read means EOF
 				if ( samplesRead == 0 )
@@ -123,6 +174,8 @@ void libsndAudioRecordingStream::read( Minim::MultiChannelBuffer & buffer )
 				samplesToRead	 -= samplesRead;
 				totalSamplesRead += samplesRead;
 			}
+
+			m_millisPosition += (int)((float)totalSamplesRead / m_fileInfo.samplerate * 1000);
 		}
 	}
 	else 

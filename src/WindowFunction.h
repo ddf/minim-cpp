@@ -7,10 +7,18 @@
  *
  */
 
+#ifndef WINDOWFUNCTION_H
+#define WINDOWFUNCTION_H
+
+
+#ifndef _USE_MATH_DEFINES
+#define _USE_MATH_DEFINES // required in windows to get constants like M_PI
+#endif
+
 #include <math.h>
 
 #ifndef TWO_PI
-#define TWO_PI (2*M_PI)
+#define TWO_PI 6.28318531f
 #endif
 
 namespace Minim 
@@ -70,3 +78,5 @@ namespace Minim
 	};
 	
 }
+
+#endif // WINDOWFUNCTION_H

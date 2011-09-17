@@ -93,9 +93,9 @@ void Minim::FourierTransform::fillSpectrum()
 			}
 			else
 			{
-				lowFreq = (m_sampleRate / 2) / powf(2, m_octaves - i);
+				lowFreq = (m_sampleRate / 2) / powf(2, (float)m_octaves - i);
 			}
-			hiFreq = (m_sampleRate / 2) / powf(2, m_octaves - i - 1);
+			hiFreq = (m_sampleRate / 2) / powf(2, (float)m_octaves - i - 1);
 			freqStep = (hiFreq - lowFreq) / m_avgPerOctave;
 			float f = lowFreq;
 			for (int j = 0; j < m_avgPerOctave; j++)
@@ -150,8 +150,9 @@ int Minim::FourierTransform::freqToIndex( float freq ) const
 	// special case: freq is within the bandwidth of spectrum[spectrum.length - 1]
 	if (freq > m_sampleRate / 2 - getBandWidth() / 2) return m_spectrumSize - 1;
 	// all other cases
-	float fraction = freq / (float) m_sampleRate;
-	int i = roundf(m_timeSize * fraction);
+	float fraction = freq / m_sampleRate;
+	// roundf is not available in windows, so we do this
+	int i = (int)floorf( (float)m_timeSize * fraction + 0.5f );
 	return i;
 }
 
@@ -200,10 +201,10 @@ float Minim::FourierTransform::getAverageCenterFrequency(int i) const
 		}
 		else
 		{
-			lowFreq = (m_sampleRate / 2) / powf(2, m_octaves - octave);
+			lowFreq = (m_sampleRate / 2) / powf(2, (float)m_octaves - octave);
 		}
 		// and the high frequency for this octave
-		hiFreq = (m_sampleRate / 2) / powf(2, m_octaves - octave - 1);
+		hiFreq = (m_sampleRate / 2) / powf(2, (float)m_octaves - octave - 1);
 		// each average band within the octave will be this big
 		freqStep = (hiFreq - lowFreq) / m_avgPerOctave;
 		// figure out the low frequency of the band we care about

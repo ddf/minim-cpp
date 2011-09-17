@@ -32,26 +32,44 @@ public:
 	// AudioResource implementation
 	virtual void open();
 	virtual void close();
-	virtual const Minim::AudioFormat & getFormat();
+	virtual const Minim::AudioFormat & getFormat() const { return m_audioFormat; }
 
 	// AudioStream implementation
-	virtual void read( Minim::MultiChannelBuffer & buffer ) = 0;
+	virtual void read( Minim::MultiChannelBuffer & buffer );
 
 	// AudioRecordingStream implementation
 	virtual void play();
 	virtual void pause();
 	virtual bool isPlaying() const { return m_bPlaying; }
 	virtual unsigned int bufferSize() const { return m_bufferSize; }
-	virtual void loop(const unsigned int count);
-	virtual void setLoopPoints(const unsigned int start, const unsigned int stop);
-	virtual unsigned int getLoopCount() const;
-	virtual unsigned int getMillisecondPosition() const;
+	virtual void loop(const unsigned int count) {}
+	virtual void setLoopPoints(const unsigned int start, const unsigned int stop) {}
+	virtual unsigned int getLoopCount() const { return 0; }
+	virtual unsigned int getMillisecondPosition() const { return m_millisPosition; }
 	virtual void setMillisecondPosition(const unsigned int pos);
-	virtual int getMillisecondLength() const;
+	virtual int getMillisecondLength() const { return m_millisLength; }
 	virtual long getSampleFrameLength() const;
-	virtual const Minim::AudioMetaData & getMetaData() const;
+	virtual const Minim::AudioMetaData & getMetaData() const { return m_metaData; }
 
 private:
+	class SFInfoFormat : public Minim::AudioFormat
+	{
+	public:
+		SFInfoFormat() : Minim::AudioFormat()
+		{
+		}
+
+		void setFromSFInfo( const SF_INFO & fileInfo );
+	};
+
+	SFInfoFormat m_audioFormat;
+
+	class SFMetaData : public Minim::AudioMetaData
+	{
+	};
+
+	SFMetaData m_metaData;
+
 	// information about the file like format, channels, frames, etc.
 	SF_INFO		m_fileInfo;
 	// the file handle
@@ -66,6 +84,10 @@ private:
 
 	// are we playing
 	bool			m_bPlaying;
+
+	// properties
+	int				m_millisLength;
+	int				m_millisPosition;
 };
 
 #endif // LIBSNDAUDIORECORDINGSTREAM_H

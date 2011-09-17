@@ -17,4 +17,61 @@
  */
 
 #include "DirectSoundServiceProvider.h"
+#include "libsndAudioRecordingStream.h"
 
+#ifndef NULL
+#define NULL 0
+#endif
+
+namespace Minim
+{
+
+	DirectSoundServiceProvider::DirectSoundServiceProvider()
+	{
+	}
+
+	DirectSoundServiceProvider::~DirectSoundServiceProvider()
+	{
+	}
+	  
+	void DirectSoundServiceProvider::start()
+	{
+	}
+
+	void DirectSoundServiceProvider::stop()
+	{
+	}
+	  
+	void DirectSoundServiceProvider::debugOn()
+	{
+	}
+
+	void DirectSoundServiceProvider::debugOff()
+	{
+	}
+	  
+	AudioRecordingStream * DirectSoundServiceProvider::getAudioRecordingStream( const char * filename, int bufferSize, bool inMemory )
+	{
+		return new libsndAudioRecordingStream( filename, bufferSize );
+	}
+
+	AudioStream * DirectSoundServiceProvider::getAudioInput( const AudioFormat & inputFormat )
+	{
+		return NULL;
+	}
+
+	AudioOut * DirectSoundServiceProvider::getAudioOutput( const AudioFormat & outputFormat, int outputBufferSize )
+	{
+		return NULL;
+	}
+
+	AudioSample * DirectSoundServiceProvider::getAudioSample( const char * filename, int bufferSize )
+	{
+		return NULL;
+	}
+
+	AudioSample * DirectSoundServiceProvider::getAudioSample( MultiChannelBuffer * samples, const AudioFormat & format, int bufferSize )
+	{
+		return NULL;
+	}
+}

@@ -111,6 +111,15 @@
     <ClInclude Include="src\win\libsndAudioRecordingStream.h">
       <Filter>Win</Filter>
     </ClInclude>
+    <ClInclude Include="src\FFT.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FourierTransform.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\WindowFunction.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\AudioOutput.cpp">
@@ -178,6 +187,15 @@
     </ClCompile>
     <ClCompile Include="src\win\libsndAudioRecordingStream.cpp">
       <Filter>Win</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FFT.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FourierTransform.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\WindowFunction.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

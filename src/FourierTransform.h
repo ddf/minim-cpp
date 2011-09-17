@@ -33,7 +33,7 @@ namespace Minim
 		
 		int					m_timeSize;
 		int					m_spectrumSize;
-		int					m_sampleRate;
+		float				m_sampleRate;
 		float				m_bandWidth;
 		float *				m_real;
 		float *				m_imag;
