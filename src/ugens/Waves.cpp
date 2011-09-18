@@ -32,6 +32,13 @@ namespace Minim
 	
 	namespace Waves 
 	{
+		Wavetable * PHASOR()
+		{
+			float val[] = { 0, 1 };
+			int   dist[] = { tableSize };
+			return gen7( tableSize, val, 2, dist, 1 );
+		}
+		
 		Wavetable * SINE() 
 		{
 			float amp[] = { 1.f };
@@ -74,7 +81,7 @@ namespace Minim
 			return gen7(tableSize, val, 4, dist, 3);
 		}
 		
-		Wavetable * gen7( int size, float * vals, int nVals, int * dists, int nDists )
+		Wavetable * gen7( const int size, const float * vals, const int nVals, const int * dists, const int nDists )
 		{
 			
 			// check lenghts of arrays

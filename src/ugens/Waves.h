@@ -25,6 +25,7 @@ namespace Minim
 {
 	namespace Waves 
 	{
+		Wavetable * PHASOR();
 		Wavetable * SINE();
 		Wavetable * SAW();
 		Wavetable * SQUARE();
@@ -40,7 +41,7 @@ namespace Minim
 		Wavetable * saw( float dutyCycle );
 		Wavetable * square( float dutyCycle );
 		
-		Wavetable * gen7( int size, float * val, int nVal, int * dist, int nDist );
+		Wavetable * gen7( const int size, const float * val, const int nVal, const int * dist, const int nDist );
 		Wavetable * gen9( int size, 
 						  float * partials, int nPartials, 
 						  float * amps, int nAmps, 

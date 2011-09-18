@@ -150,10 +150,10 @@ void Minim::FFT::fft()
 {
 	for (int halfSize = 1; halfSize < m_timeSize; halfSize *= 2)
 	{
-		// float k = -(float)Math.PI/halfSize;
+		//float k = -(float)M_PI/halfSize;
 		// phase shift step
-		// float phaseShiftStepR = (float)Math.cos(k);
-		// float phaseShiftStepI = (float)Math.sin(k);
+		//float phaseShiftStepR = cosf(k);
+		//float phaseShiftStepI = sinf(k);
 		// using lookup table
 		float phaseShiftStepR = coslu(halfSize);
 		float phaseShiftStepI = sinlu(halfSize);

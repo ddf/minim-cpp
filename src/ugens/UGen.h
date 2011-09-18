@@ -79,6 +79,7 @@ protected:
 		
 		// last values, use getChannelCount() as the array length.
 		inline const float * getLastValues() const { return mLastValues; }
+		inline float * getLastValues() { return mLastValues; }
 		// shortcut to the first value in the last values array. used alot to get the value of CONTROL inputs.
 		inline float getLastValue() const { return mLastValues[0]; }
 		// typically used to set the value of a CONTROL input directly if nothing is patched to it.

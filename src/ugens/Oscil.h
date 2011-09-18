@@ -55,6 +55,8 @@ namespace Minim
 			mStep = 0;
 		}
 		
+		inline float getStep() const { return mStep; }
+		
 	protected:
 		// UGen override
 		inline virtual void sampleRateChanged()

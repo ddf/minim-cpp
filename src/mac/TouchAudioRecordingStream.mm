@@ -78,7 +78,15 @@ void TouchAudioRecordingStream::close()
 	
 	if ( m_readBuffer )
 	{
-		delete [] m_readBuffer;
+		if ( m_clientFormat.SampleWordSize() == sizeof(SInt16) )
+		{
+			delete [] (SInt16*)m_readBuffer;
+		}
+		else if ( m_clientFormat.SampleWordSize() == sizeof(Float32) )
+		{
+			delete [] (Float32*)m_readBuffer;
+		}
+		
 		m_readBuffer = NULL;
 	}
 	
