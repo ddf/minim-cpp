@@ -21,6 +21,7 @@ namespace Minim
 		/** Construct a Sampler by copying the provided sample data into 
 		 *  the internal buffer and allowing for a particular number of voices.
 		 */
+        Sampler( const int maxVoices );
 		Sampler( const MultiChannelBuffer & sampleData, const int maxVoices );
 		virtual ~Sampler();
 		
@@ -46,6 +47,11 @@ namespace Minim
 		/** Triggers the Sampler using the current values of the inputs.
 		 */
 		void trigger();
+        
+        /** stop all active triggers */
+        void stop();
+        
+        void setSample( const MultiChannelBuffer & sampleData );
 		
 	protected:
 		
@@ -69,6 +75,9 @@ namespace Minim
 			
 			// start this Trigger playing with the current settings of the Sampler
 			void activate();
+            
+            // stop this trigger
+            void stop();
 			
 			// generate one sample frame of data
 			void generate( float * sampleFrame, const int numChannels );

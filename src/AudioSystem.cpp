@@ -123,6 +123,10 @@ void AudioSystem::loadFileIntoBuffer( const char * filename, MultiChannelBuffer 
 		pStream->close();
 		delete pStream;
 	}
+    else
+    {
+        printf("Unable to load an AudioRecordingStream for %s.\n", filename);
+    }
 }
 	
 //////////////////////////////////////////////////////

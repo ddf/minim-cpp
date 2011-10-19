@@ -14,8 +14,9 @@
 
 namespace Minim 
 {
+
 	
-	Sampler::Sampler( const MultiChannelBuffer & sampleData, const int maxVoices )
+    Sampler::Sampler( const int maxVoices )
 	: UGen( 5 ) 
 	, begin( *this, CONTROL )
 	, end( *this, CONTROL )
@@ -23,13 +24,39 @@ namespace Minim
 	, amplitude( *this, CONTROL )
 	, rate( *this, CONTROL )
 	, looping( false )
-	, m_sampleData( sampleData )
+	, m_sampleData()
 	, m_maxTriggers( maxVoices )
 	, m_nextTrigger( 0 )
 	, m_triggers( NULL )
 	{
 		begin.setLastValue( 0.f );
-		end.setLastValue( (float)sampleData.getBufferSize()-1 );
+		end.setLastValue( 0.f );
+		attack.setLastValue( 0.f );
+		amplitude.setLastValue( 1.f );
+		rate.setLastValue( 1.f );
+		
+		m_triggers = new Trigger[ maxVoices ];
+		for( int i = 0; i < maxVoices; ++i )
+		{
+			m_triggers[i].setSampler( this );
+		}
+	}
+    
+    Sampler::Sampler( const MultiChannelBuffer & buffer, const int maxVoices )
+	: UGen( 5 ) 
+	, begin( *this, CONTROL )
+	, end( *this, CONTROL )
+	, attack( *this, CONTROL )
+	, amplitude( *this, CONTROL )
+	, rate( *this, CONTROL )
+	, looping( false )
+	, m_sampleData( buffer )
+	, m_maxTriggers( maxVoices )
+	, m_nextTrigger( 0 )
+	, m_triggers( NULL )
+	{
+		begin.setLastValue( 0.f );
+		end.setLastValue( buffer.getBufferSize()-1 );
 		attack.setLastValue( 0.f );
 		amplitude.setLastValue( 1.f );
 		rate.setLastValue( 1.f );
@@ -45,6 +72,11 @@ namespace Minim
 	{
 		delete[] m_triggers;
 	}
+    
+    void Sampler::setSample( const MultiChannelBuffer & buffer )
+    {
+        m_sampleData = buffer;
+    }
 	
 	void Sampler::trigger()
 	{
@@ -56,6 +88,14 @@ namespace Minim
 			m_nextTrigger = 0;
 		}
 	}
+    
+    void Sampler::stop()
+    {
+        for( int i = 0; i < m_maxTriggers; ++i )
+        {
+            m_triggers[i].stop();
+        }
+    }
 	
 	void Sampler::uGenerate( float * sampleFrame, const int numChannels )
 	{
@@ -82,6 +122,11 @@ namespace Minim
 		m_outSampleCount = 0;
 		m_done			 = false;
 	}
+    
+    void Sampler::Trigger::stop()
+    {
+        m_done = true;
+    }
 	
 	void Sampler::Trigger::generate( float * sampleFrame, const int numChannels )
 	{
