@@ -32,6 +32,7 @@ namespace Minim
 		Summer();
 		virtual ~Summer();
 	
+		UGenInput volume;
 
 	protected:
 		// TODO: addInput and removeInput need to be thread-safe!

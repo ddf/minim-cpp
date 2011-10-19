@@ -30,10 +30,13 @@ namespace Minim
 	// static int kUGensDefaultSize = 10;
 
 Summer::Summer()
-: m_accum( new float[1] ) // assume mono, same as UGen
+: UGen(1)
+, m_accum( new float[1] ) // assume mono, same as UGen
 , m_accumSize(1)
 , head(NULL)
+, volume( *this, CONTROL )
 {
+	volume.setLastValue( 1 );
 }
 	
 Summer::~Summer()
@@ -178,6 +181,12 @@ void Summer::uGenerate(float * channels, int numChannels)
 			channels[c] += n->ugen->getLastValues()[c];
 		}
 		n = n->next;
+	}
+
+	const float v = volume.getLastValue();
+	for( int i = 0; i < numChannels; ++i )
+	{
+		channels[i] *= v;
 	}
 
 //	for(int i = 0; i < mUGensSize; ++i)
