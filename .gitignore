@@ -4,7 +4,7 @@
 *.sdf
 MinimTouch/build/*
 !MinimTouch/build/Release-iphoneos/libMinimTouch.a
-Debug/
+obj/
 libsndfile/bin
 ipch/
 libsndfile/unins000*
