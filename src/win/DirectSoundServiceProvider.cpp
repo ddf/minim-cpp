@@ -16,8 +16,10 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
+#include "AudioSystem.h"
 #include "DirectSoundServiceProvider.h"
 #include "libsndAudioRecordingStream.h"
+#include "mpg123AudioRecordingStream.h"
 
 #ifndef NULL
 #define NULL 0
@@ -36,10 +38,18 @@ namespace Minim
 	  
 	void DirectSoundServiceProvider::start()
 	{
+		// intialize mp3 decoding library
+		if ( int err = mpg123_init() )
+		{
+			char msg[256];
+			printf( "mpg123 initialization failed with error: %s\n", mpg123_plain_strerror(err) );
+			Minim::error( msg );
+		}
 	}
 
 	void DirectSoundServiceProvider::stop()
 	{
+		mpg123_exit();
 	}
 	  
 	void DirectSoundServiceProvider::debugOn()
@@ -52,6 +62,11 @@ namespace Minim
 	  
 	AudioRecordingStream * DirectSoundServiceProvider::getAudioRecordingStream( const char * filename, int bufferSize, bool inMemory )
 	{
+		size_t len = strlen(filename);
+		if ( _stricmp(".mp3", filename + (len-4))==0 )
+		{
+			return new mpg123AudioRecordingStream( filename, bufferSize );
+		}
 		return new libsndAudioRecordingStream( filename, bufferSize );
 	}
 

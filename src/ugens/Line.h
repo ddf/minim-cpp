@@ -7,6 +7,9 @@
  *
  */
 
+#ifndef MINIMLINE_H
+#define MINIMLINE_H
+
 #include "UGen.h"
 
 namespace Minim
@@ -64,3 +67,5 @@ namespace Minim
 		float m_timeStepSize;
 	};
 };
+
+#endif // MINIMLINE_H

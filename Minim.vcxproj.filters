@@ -120,6 +120,9 @@
     <ClInclude Include="src\WindowFunction.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\win\mpg123AudioRecordingStream.h">
+      <Filter>Win</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\AudioOutput.cpp">
@@ -196,6 +199,9 @@
     </ClCompile>
     <ClCompile Include="src\WindowFunction.cpp">
       <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\win\mpg123AudioRecordingStream.cpp">
+      <Filter>Win</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
