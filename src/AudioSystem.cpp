@@ -82,14 +82,16 @@ AudioPlayer * AudioSystem::loadFile( const char * filename, const int bufferSize
 }
 
 //////////////////////////////////////////////////////
-void AudioSystem::loadFileIntoBuffer( const char * filename, MultiChannelBuffer & buffer )
+float AudioSystem::loadFileIntoBuffer( const char * filename, MultiChannelBuffer & buffer )
 {
 	const int readBufferSize = 4096;
+	float     sampleRate = 0;
 	AudioRecordingStream * pStream = loadFileStream( filename, readBufferSize, false );
 	if ( pStream )
 	{
 		pStream->open();
 		pStream->play();
+		sampleRate = pStream->getFormat().getSampleRate();
 		const int channelCount = pStream->getFormat().getChannels();
 		// for reading the file in, in chunks.
 		MultiChannelBuffer readBuffer( channelCount, readBufferSize );
@@ -127,6 +129,8 @@ void AudioSystem::loadFileIntoBuffer( const char * filename, MultiChannelBuffer 
     {
         printf("Unable to load an AudioRecordingStream for %s.\n", filename);
     }
+
+	return sampleRate;
 }
 	
 //////////////////////////////////////////////////////

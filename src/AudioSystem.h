@@ -135,8 +135,9 @@ namespace Minim
 		  /**
 		   * Loads the requested file into the provided MultiChannelBuffer.
 		   *
+		   * Returns the sample rate of the audio, or 0 if the load failed.
 		   */
-		  void loadFileIntoBuffer( const char * filename, MultiChannelBuffer & buffer );
+		  float loadFileIntoBuffer( const char * filename, MultiChannelBuffer & buffer );
 
 		  /**
 		   * Creates an {@link AudioRecorder} that will use <code>source</code> as its 
