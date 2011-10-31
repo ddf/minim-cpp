@@ -122,9 +122,8 @@ void TouchAudioRecordingStream::read( Minim::MultiChannelBuffer & buffer )
 				fillBufList.mBuffers[0].mDataByteSize = m_clientFormat.FramesToBytes( readSize );
 				fillBufList.mBuffers[0].mData = m_readBuffer;
 				
-				// client format is always linear PCM - so here we determine how many frames of lpcm
-				// we can read/write given our buffer size
-				UInt32 samplesRead;
+                // on input, ExtAudioFileRead wants to know how many frames to read.
+				UInt32 samplesRead = readSize;
 				OSStatus result = ExtAudioFileRead( m_audioFileRef, &samplesRead, &fillBufList );
                 if ( result != noErr )
                 {
@@ -132,6 +131,7 @@ void TouchAudioRecordingStream::read( Minim::MultiChannelBuffer & buffer )
                     return;
                 }
 				
+                // on output, samplesRead contains how many frames were actually read.
 				// 0 read means EOF
 				if ( samplesRead == 0 )
 				{
