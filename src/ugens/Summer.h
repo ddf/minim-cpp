@@ -71,6 +71,7 @@ namespace Minim
 		// array we accumulate samples into when we do our summing
 		float * m_accum;
 		int     m_accumSize;
+        bool    m_bMutex;
 		
 	};
 };

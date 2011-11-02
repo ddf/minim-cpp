@@ -22,7 +22,25 @@
 
 #ifndef NULL
 #define NULL 0
-#endif	
+#endif
+
+struct Lock
+{
+    Lock( bool& _bLock )
+    : bLock(_bLock)
+    {
+        bLock = true;
+    }
+    
+    ~Lock()
+    {
+        bLock = false;
+    }
+    
+    bool& bLock;  
+};
+
+#define LOCK while(m_bMutex); Lock lock(m_bMutex);
 
 namespace Minim
 {
@@ -35,6 +53,7 @@ Summer::Summer()
 , m_accumSize(1)
 , head(NULL)
 , volume( *this, CONTROL )
+, m_bMutex(false)
 {
 	volume.setLastValue( 1 );
 }
@@ -50,6 +69,8 @@ Summer::~Summer()
 ///////////////////////////////////////////////////
 void Summer::sampleRateChanged()
 {
+    LOCK;
+    
 	Node* n = head;
 	while ( n )
 	{
@@ -70,6 +91,8 @@ void Summer::sampleRateChanged()
 ///////////////////////////////////////////////////
 void Summer::channelCountChanged()
 {
+    LOCK;
+    
 	if ( m_accumSize < getAudioChannelCount() )
 	{
 		delete [] m_accum;
@@ -90,6 +113,8 @@ void Summer::channelCountChanged()
 ///////////////////////////////////////////////
 void Summer::addInput( UGen * in )
 {
+    LOCK;
+    
 	Node * newNode = new Node(in);
 	
 	if ( head == NULL )
@@ -120,6 +145,8 @@ void Summer::removeInput( UGen * in )
 	{
 		return;
 	}
+    
+    LOCK;
 	
 	// special case first element
 	if ( head->ugen == in )
@@ -154,6 +181,8 @@ void Summer::uGenerate(float * channels, int numChannels)
 		memset(channels, 0, sizeof(float) * numChannels);
 		return;
 	}
+    
+    LOCK;
 	
 	// first one in the list, just do an = instead of +=
 	// so that people that call this method don't have to

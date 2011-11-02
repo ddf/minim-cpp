@@ -2,9 +2,11 @@
 *.user
 *.ncb
 *.sdf
+.DS_Store
 MinimTouch/build/*
 !MinimTouch/build/Release-iphoneos/libMinimTouch.a
 obj/
 libsndfile/bin
 ipch/
 libsndfile/unins000*
+*xcuserdata/
