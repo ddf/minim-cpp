@@ -19,6 +19,7 @@
 #include "Summer.h"
 #include "AudioOutput.h"
 #include <string.h> // for memset
+#include <cassert>
 
 #ifndef NULL
 #define NULL 0
@@ -40,7 +41,7 @@ struct Lock
     bool& bLock;  
 };
 
-#define LOCK while(m_bMutex); Lock lock(m_bMutex);
+#define LOCK while(m_bMutex){} Lock lock(m_bMutex);
 
 namespace Minim
 {
@@ -141,12 +142,12 @@ void Summer::addInput( UGen * in )
 ///////////////////////////////////////////////
 void Summer::removeInput( UGen * in )
 {
+    LOCK;
+    
 	if ( head == NULL )
 	{
 		return;
 	}
-    
-    LOCK;
 	
 	// special case first element
 	if ( head->ugen == in )
@@ -176,38 +177,26 @@ void Summer::removeInput( UGen * in )
 ///////////////////////////////////////////////////
 void Summer::uGenerate(float * channels, int numChannels)
 {	
+    LOCK;
+    
 	if ( head == NULL )
 	{
 		memset(channels, 0, sizeof(float) * numChannels);
 		return;
 	}
     
-    LOCK;
-	
-	// first one in the list, just do an = instead of +=
-	// so that people that call this method don't have to
-	// worry about what's in channels when we get it
-	// memset(m_accum, 0, sizeof(float) * numChannels);
-	head->ugen->tick( m_accum, numChannels );
-	for(int c = 0; c < numChannels; ++c)
-	{
-		// the ugen may have been ticked already
-		// in which case tick will not put anything in m_accum
-		// so we always need to get the data from last values
-		channels[c] = head->ugen->getLastValues()[c];
-	}
+	// first one in the list, we can tick directly into channels
+	head->ugen->tick( channels, numChannels );
 	
 	// now do the rest
-	
 	Node* n = head->next;
-	
 	while( n )
 	{
 		// memset(m_accum, 0, sizeof(float) * numChannels);
 		n->ugen->tick( m_accum, numChannels );
 		for(int c = 0; c < numChannels; ++c)
 		{
-			channels[c] += n->ugen->getLastValues()[c];
+			channels[c] += m_accum[c];
 		}
 		n = n->next;
 	}
