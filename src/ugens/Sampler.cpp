@@ -76,6 +76,14 @@ namespace Minim
     void Sampler::setSample( const MultiChannelBuffer & buffer )
     {
         m_sampleData = buffer;
+        if ( buffer.getBufferSize() > 0 )
+        {
+            end.setLastValue( buffer.getBufferSize()-1 );
+        }
+        else
+        {
+            end.setLastValue(0);
+        }
     }
 	
 	void Sampler::trigger()
