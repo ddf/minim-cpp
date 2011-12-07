@@ -63,7 +63,8 @@ namespace Minim
 	AudioRecordingStream * DirectSoundServiceProvider::getAudioRecordingStream( const char * filename, int bufferSize, bool inMemory )
 	{
 		size_t len = strlen(filename);
-		if ( _stricmp(".mp3", filename + (len-4))==0 )
+		const char * ext = filename + (len-4);
+		if ( _stricmp(".mp3", ext)==0 )
 		{
 			return new mpg123AudioRecordingStream( filename, bufferSize );
 		}
