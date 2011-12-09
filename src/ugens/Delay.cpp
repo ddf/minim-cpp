@@ -1,8 +1,8 @@
 /*
  *  Delay.cpp
- *  MinimOSX
+ *  Unity-iPhone
  *
- *  Created by Damien Di Fede on 9/17/11.
+ *  Created by Damien Di Fede on 8/11/11.
  *  Copyright 2011 __MyCompanyName__. All rights reserved.
  *
  */
@@ -10,31 +10,34 @@
 #include "Delay.h"
 #include <algorithm>
 
-Minim::Delay::Delay( float inMaxDelayTime /* = 0.25f */, float inAmplitudeFactor /* = 0.5f */, bool inFeedBackOn /* = false */, bool inPassAudioOn /* = true */ )	
-: UGen(3)
+Minim::Delay::Delay( const float maxDT, const float ampFactor, const bool feedback, const bool passAudio )
+: UGen(5)
 , audio( *this, AUDIO )
 , delTime( *this, CONTROL )
 , delAmp( *this, CONTROL )
-, maxDelayTime( inMaxDelayTime )
-, delayTime( inMaxDelayTime )
-, amplitudeFactor( inAmplitudeFactor )
-, feedBackOn( inFeedBackOn )
-, passAudioOn( inPassAudioOn )
+, dryMix( *this, CONTROL )
+, wetMix( *this, CONTROL )
+, maxDelayTime( maxDT )
+, amplitudeFactor( ampFactor )
+, feedBackOn( feedback )
+, passAudioOn( passAudio )
+, iBufferIn( 0 )
+, iBufferOut( 0 )
+, bufferSize( 0 )
+, maxBufferSize( 0 )
 , delayBuffer( NULL )
-{		
-	delTime.setLastValue( maxDelayTime );
-	delAmp.setLastValue( amplitudeFactor );
-	
-	iBufferIn = 0;
-	iBufferOut = 0;
-	bufferSize = 0;
+{
+	delTime.setLastValue(maxDT);
+	delAmp.setLastValue(ampFactor);
+	dryMix.setLastValue(1);
+	wetMix.setLastValue(1);
 }
 
 Minim::Delay::~Delay()
 {
 	if ( delayBuffer )
 	{
-		delete [] delayBuffer;
+		delete[] delayBuffer;
 	}
 }
 
@@ -42,75 +45,85 @@ void Minim::Delay::sampleRateChanged()
 {
 	if ( delayBuffer )
 	{
-		delete [] delayBuffer;
-		delayBuffer = NULL;
+		delete[] delayBuffer;
 	}
 	
-	int size = (int)( maxDelayTime*sampleRate() );
-	delayBuffer = new double [ size ];
-	std::fill( delayBuffer, delayBuffer+size, 0.0 );
+	if ( getAudioChannelCount() > 0 )
+	{
+		maxBufferSize = (int)( maxDelayTime*sampleRate()*getAudioChannelCount() );
+		delayBuffer = new float[maxBufferSize];
+		memset(delayBuffer, 0, sizeof(float)*maxBufferSize);
+		bufferSizeChanged();
+	}
+}
 
-	bufferSize = size;
-	//bufferSizeChanged();
+void Minim::Delay::channelCountChanged()
+{
+	if ( delayBuffer )
+	{
+		delete[] delayBuffer;
+        delayBuffer = NULL;
+	}
+	
+	if ( sampleRate() > 0 )
+	{
+		maxBufferSize = (int)( maxDelayTime*sampleRate()*getAudioChannelCount() );
+		delayBuffer = new float[maxBufferSize];
+		memset(delayBuffer, 0, sizeof(float)*maxBufferSize);
+		bufferSizeChanged();
+	}
 }
 
 void Minim::Delay::bufferSizeChanged()
 {
-	int oldBufferSize = bufferSize;
-	int newBufferSize = (int)( delayTime * sampleRate() );
-	if ( newBufferSize > 0 )
+	const int oldBufferSize = bufferSize;
+	const int newBufferSize = (int)( delayTime*sampleRate()*getAudioChannelCount() );
+	if ( oldBufferSize != newBufferSize && newBufferSize > 0 )
 	{
 		if ( newBufferSize < oldBufferSize )
 		{
-			std::fill( delayBuffer+newBufferSize, delayBuffer+(int)( maxDelayTime*sampleRate() ), 0.0 );
+			std::fill( delayBuffer + newBufferSize, delayBuffer + oldBufferSize, 0.0f );
 		}
 		bufferSize = newBufferSize;
-		iBufferOut = ( iBufferIn + 1 )%bufferSize;
+		iBufferOut = ( iBufferIn + getAudioChannelCount() ) % bufferSize;
 	}
 }
 
-void Minim::Delay::uGenerate(float * channels, const int numChannels) 
+void Minim::Delay::uGenerate( float * out, const int numChannels )
 {
-	// mono-ize the signal
-	float tmpIn = 0;
-	for( int i = 0; i < numChannels; i++ )
-	{
-		tmpIn += audio.getLastValues()[ i ]/numChannels;
-	}
+	// update the buffer indexes
+	delayTime = delTime.getLastValue();
+	bufferSizeChanged();
 	
 	// update the feedbackFactor
 	amplitudeFactor = delAmp.getLastValue();
 	
-	// pull sound out of the buffer
-	float tmpOut = amplitudeFactor*(float)delayBuffer[ iBufferOut ];
-	delayBuffer[ iBufferOut ] = 0;
-	
-	int delSamp = (int)(delTime.getLastValue()*sampleRate());
-	int iBufferIn = (iBufferOut + delSamp) % bufferSize;
-	
-	// put sound into the buffer
-	delayBuffer[ iBufferIn ] = tmpIn;
-	if ( feedBackOn ) 
+	// apply to each channel
+	for (int c = 0; c < numChannels; ++c )
 	{
-		delayBuffer[ iBufferIn ] +=tmpOut; 
+		float tmpIn = audio.getLastValues()[c];
+	
+		// pull sound out of the buffer
+		float tmpOut = amplitudeFactor*delayBuffer[ iBufferOut ];
+	
+		// put sound into the buffer
+		delayBuffer[ iBufferIn ] = tmpIn;
+		if ( feedBackOn ) 
+		{
+			delayBuffer[ iBufferIn ] += tmpOut; 
+		}
+	
+		tmpOut *= wetMix.getLastValue();
+	
+		iBufferIn  = ( iBufferIn  + 1 )%bufferSize;
+		iBufferOut = ( iBufferOut + 1 )%bufferSize;
+	
+		// pass the audio if necessary
+		if ( passAudioOn )
+		{
+			tmpOut += tmpIn * dryMix.getLastValue();
+		}
+		
+		out[c] = tmpOut;
 	}
-	
-	// update the buffer indexes
-	//delayTime = delTime.getLastValue();
-	//bufferSizeChanged();
-	
-	//iBufferIn = ( iBufferIn + 1 )%bufferSize;
-	iBufferOut = ( iBufferOut + 1 )%bufferSize;
-	
-	// pass the audio if necessary
-	if ( passAudioOn )
-	{
-		tmpOut += tmpIn;
-	}
-	
-	// put the delay signal out on all channels
-	for( int i = 0; i < numChannels; i++ )
-	{
-		channels[ i ] = tmpOut;
-	}
-} 
+}

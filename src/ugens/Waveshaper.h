@@ -51,8 +51,8 @@ namespace Minim
 		UGenInput mapAmplitude;
 		
 		Wavetable & getWavetable() { return *m_pMapShape; }
-		
-		float getMapLookup( const float in ) const;
+        
+        float getLastMapValue() const { return m_lastMapLookup; }
 		
 	protected:
 		
@@ -60,11 +60,15 @@ namespace Minim
 		virtual void uGenerate( float * channels, const int numChannels );
 		
 	private:
+        
+        float getMapLookup( const float in );
 		
 		// the wavetable we use to shape our input
 		Wavetable * m_pMapShape;
 		// whether or not to wrap around or clamp at the edges of the map shape.
 		bool		m_bWrapMap;
+        // the last map lookup value we generated
+        float       m_lastMapLookup;
 	};
 }
 

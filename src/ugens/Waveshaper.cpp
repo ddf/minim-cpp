@@ -32,6 +32,7 @@ namespace Minim
 	, mapAmplitude( *this, CONTROL )
 	, m_pMapShape( mapShape )
 	, m_bWrapMap(bWrapMap)
+    , m_lastMapLookup(0)
 	{
 		outAmplitude.setLastValue( outAmp );
 		mapAmplitude.setLastValue( mapAmp );
@@ -42,31 +43,31 @@ namespace Minim
 		delete m_pMapShape;
 	}
 	
-	float WaveShaper::getMapLookup( const float in ) const
+	float WaveShaper::getMapLookup( const float in )
 	{
-		float tmpIndex = ( mapAmplitude.getLastValue()*in )/2.0f + 0.5f;
+		m_lastMapLookup = ( mapAmplitude.getLastValue()*in )/2.0f + 0.5f;
 		
 		// handle the cases where it goes out of bouds
 		if ( m_bWrapMap )  // wrap oround
 		{
 			// get the fractional part
-			tmpIndex = tmpIndex - static_cast<int>(tmpIndex);
+			m_lastMapLookup = m_lastMapLookup - static_cast<int>(m_lastMapLookup);
 			// I don't like that remaider gives the same sign as the first argument
-			if ( tmpIndex < 0.0f )
+			if ( m_lastMapLookup < 0.0f )
 			{
-				tmpIndex += 1.0f;
+				m_lastMapLookup += 1.0f;
 			}
 		}
-		else if ( tmpIndex > 1.0f )  // otherwise cap at 1
+		else if ( m_lastMapLookup > 1.0f )  // otherwise cap at 1
 		{
-			tmpIndex = 1.0f;
+			m_lastMapLookup = 1.0f;
 		} 
-		else if ( tmpIndex < 0.0f ) // and cap on the bottom at 0
+		else if ( m_lastMapLookup < 0.0f ) // and cap on the bottom at 0
 		{
-			tmpIndex = 0.0f;
+			m_lastMapLookup = 0.0f;
 		}
 		
-		return tmpIndex;
+		return m_lastMapLookup;
 	}
 	
 	//the input signal is supposed to be less than 1 in amplitude 

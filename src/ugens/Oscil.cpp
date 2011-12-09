@@ -85,10 +85,7 @@ namespace Minim
 		// calculate the sample values
 		const float sample = outAmp * mWaveform->value( tmpStep ) + offset.getLastValue();
 		
-		for(int i = 0; i < numChannels; i++)
-		{
-			channels[i] = sample;
-		}
+        UGen::fill( channels, sample, numChannels );
 		
 		// update our step size if the frequency changed.
 		if ( frequency.getLastValue() != mPrevFreq )

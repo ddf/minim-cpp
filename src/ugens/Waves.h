@@ -33,13 +33,19 @@ namespace Minim
 		Wavetable * QUARTERPULSE();
 		
 		// TODO: all the rest
-		Wavetable * saw( int numberOfHarmonics );
-		Wavetable * square( int numberOfHarmonics );
+		Wavetable * saw     ( int numberOfHarmonics );
+		Wavetable * square  ( int numberOfHarmonics );
 		Wavetable * triangle( int numberOfHarmonics );
-		Wavetable *	pulse( float dutyCycle );
+        
+		Wavetable *	pulse   ( float dutyCycle );
 		Wavetable * triangle( float dutyCycle );
-		Wavetable * saw( float dutyCycle );
-		Wavetable * square( float dutyCycle );
+		Wavetable * saw     ( float dutyCycle );
+		Wavetable * square  ( float dutyCycle );
+        
+        // returns a wavetable built out of sine waves
+        // with the requested number of harmonics, 
+        // where the amplitude of each harmonic is random
+        Wavetable * randomNHarms( int numberOfHarmonics );
 		
 		Wavetable * gen7( const int size, const float * val, const int nVal, const int * dist, const int nDist );
 		Wavetable * gen9( int size, 

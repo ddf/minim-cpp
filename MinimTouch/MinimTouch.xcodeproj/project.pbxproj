@@ -73,6 +73,10 @@
 		6DE5FFFA129F56EE00BF2732 /* CAStreamBasicDescription.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DE5FFF8129F56EE00BF2732 /* CAStreamBasicDescription.cpp */; };
 		6DE5FFFB129F56EE00BF2732 /* CAStreamBasicDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DE5FFF9129F56EE00BF2732 /* CAStreamBasicDescription.h */; };
 		6DE5FFFF129F5E3C00BF2732 /* CADebugMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DE5FFFE129F5E3C00BF2732 /* CADebugMacros.h */; };
+		77DEB7DE1490411C00C9FB09 /* Delay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77DEB7DC1490411C00C9FB09 /* Delay.cpp */; };
+		77DEB7DF1490411C00C9FB09 /* Delay.h in Headers */ = {isa = PBXBuildFile; fileRef = 77DEB7DD1490411C00C9FB09 /* Delay.h */; };
+		77DEB7E31490414800C9FB09 /* MoogFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77DEB7E11490414800C9FB09 /* MoogFilter.cpp */; };
+		77DEB7E41490414800C9FB09 /* MoogFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 77DEB7E21490414800C9FB09 /* MoogFilter.h */; };
 		AA747D9F0F9514B9006C5449 /* MinimTouch_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AA747D9E0F9514B9006C5449 /* MinimTouch_Prefix.pch */; };
 		AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACBBE490F95108600F1A2B1 /* Foundation.framework */; };
 /* End PBXBuildFile section */
@@ -144,6 +148,10 @@
 		6DE5FFF8129F56EE00BF2732 /* CAStreamBasicDescription.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CAStreamBasicDescription.cpp; path = ../src/mac/CAStreamBasicDescription.cpp; sourceTree = SOURCE_ROOT; };
 		6DE5FFF9129F56EE00BF2732 /* CAStreamBasicDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CAStreamBasicDescription.h; path = ../src/mac/CAStreamBasicDescription.h; sourceTree = SOURCE_ROOT; };
 		6DE5FFFE129F5E3C00BF2732 /* CADebugMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CADebugMacros.h; path = ../src/mac/CADebugMacros.h; sourceTree = SOURCE_ROOT; };
+		77DEB7DC1490411C00C9FB09 /* Delay.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Delay.cpp; sourceTree = "<group>"; };
+		77DEB7DD1490411C00C9FB09 /* Delay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Delay.h; sourceTree = "<group>"; };
+		77DEB7E11490414800C9FB09 /* MoogFilter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MoogFilter.cpp; sourceTree = "<group>"; };
+		77DEB7E21490414800C9FB09 /* MoogFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoogFilter.h; sourceTree = "<group>"; };
 		AA747D9E0F9514B9006C5449 /* MinimTouch_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MinimTouch_Prefix.pch; sourceTree = SOURCE_ROOT; };
 		AACBBE490F95108600F1A2B1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D2AAC07E0554694100DB518D /* libMinimTouch.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMinimTouch.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -261,37 +269,41 @@
 		6D966064113F756E0096AB83 /* ugens */ = {
 			isa = PBXGroup;
 			children = (
+				6D40B4CC14083E19001E0A44 /* Constant.h */,
+				77DEB7DC1490411C00C9FB09 /* Delay.cpp */,
+				77DEB7DD1490411C00C9FB09 /* Delay.h */,
+				6DE50031129F63DD00BF2732 /* FilePlayer.cpp */,
+				6DE50030129F63DD00BF2732 /* FilePlayer.h */,
+				6DCC14331145BC2500727A0A /* Frequency.cpp */,
+				6DCC14321145BC2500727A0A /* Frequency.h */,
+				6DAFF2C211CDD407007CD1AA /* Instrument.h */,
+				6D02C02913B39F1C0013601A /* Line.cpp */,
+				6D02C02813B39F1C0013601A /* Line.h */,
+				77DEB7E11490414800C9FB09 /* MoogFilter.cpp */,
+				77DEB7E21490414800C9FB09 /* MoogFilter.h */,
+				6DA349A01151B697001B394C /* Multiplier.cpp */,
+				6DA3499F1151B697001B394C /* Multiplier.h */,
+				6D8201E611449A7F009404CA /* Noise.cpp */,
+				6D8201E511449A7F009404CA /* Noise.h */,
+				6DCC14441145BF0A00727A0A /* Oscil.cpp */,
+				6DCC14431145BF0A00727A0A /* Oscil.h */,
+				6D7FA95E13B66EAE00A96AE6 /* Pan.cpp */,
+				6D7FA95D13B66EAE00A96AE6 /* Pan.h */,
+				6D7F100E13ACFED000F63D98 /* Sampler.cpp */,
+				6D7F100D13ACFED000F63D98 /* Sampler.h */,
 				6D966065113F756E0096AB83 /* Summer.cpp */,
 				6D966066113F756E0096AB83 /* Summer.h */,
+				6DC7CE4412ED05A400513240 /* TickRate.cpp */,
+				6DC7CE4312ED05A400513240 /* TickRate.h */,
 				6D966067113F756E0096AB83 /* UGen.cpp */,
 				6D966068113F756E0096AB83 /* UGen.h */,
-				6D8201E511449A7F009404CA /* Noise.h */,
-				6D8201E611449A7F009404CA /* Noise.cpp */,
-				6DCC14321145BC2500727A0A /* Frequency.h */,
-				6DCC14331145BC2500727A0A /* Frequency.cpp */,
 				6DCC14411145BE5F00727A0A /* Waveform.h */,
-				6DCC14431145BF0A00727A0A /* Oscil.h */,
-				6DCC14441145BF0A00727A0A /* Oscil.cpp */,
-				6DCC146B1145C6E400727A0A /* Wavetable.h */,
-				6DCC146C1145C6E400727A0A /* Wavetable.cpp */,
-				6DCC148D1145CD4600727A0A /* Waves.h */,
 				6DCC148E1145CD4600727A0A /* Waves.cpp */,
-				6DA3499F1151B697001B394C /* Multiplier.h */,
-				6DA349A01151B697001B394C /* Multiplier.cpp */,
-				6DAFF2C211CDD407007CD1AA /* Instrument.h */,
-				6DE50030129F63DD00BF2732 /* FilePlayer.h */,
-				6DE50031129F63DD00BF2732 /* FilePlayer.cpp */,
-				6DC7CE4312ED05A400513240 /* TickRate.h */,
-				6DC7CE4412ED05A400513240 /* TickRate.cpp */,
-				6D33B3AF1307A280006EE9DD /* Waveshaper.h */,
+				6DCC148D1145CD4600727A0A /* Waves.h */,
 				6D33B3B01307A280006EE9DD /* Waveshaper.cpp */,
-				6D7F100D13ACFED000F63D98 /* Sampler.h */,
-				6D7F100E13ACFED000F63D98 /* Sampler.cpp */,
-				6D02C02813B39F1C0013601A /* Line.h */,
-				6D02C02913B39F1C0013601A /* Line.cpp */,
-				6D7FA95D13B66EAE00A96AE6 /* Pan.h */,
-				6D7FA95E13B66EAE00A96AE6 /* Pan.cpp */,
-				6D40B4CC14083E19001E0A44 /* Constant.h */,
+				6D33B3AF1307A280006EE9DD /* Waveshaper.h */,
+				6DCC146C1145C6E400727A0A /* Wavetable.cpp */,
+				6DCC146B1145C6E400727A0A /* Wavetable.h */,
 			);
 			name = ugens;
 			path = ../src/ugens;
@@ -345,6 +357,8 @@
 				6D946E1113B57326007C4C85 /* CASampleRecorder.h in Headers */,
 				6D7FA95F13B66EAE00A96AE6 /* Pan.h in Headers */,
 				6D40B4CD14083E19001E0A44 /* Constant.h in Headers */,
+				77DEB7DF1490411C00C9FB09 /* Delay.h in Headers */,
+				77DEB7E41490414800C9FB09 /* MoogFilter.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -373,6 +387,9 @@
 /* Begin PBXProject section */
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
 			buildConfigurationList = 1DEB922208733DC00010E9CD /* Build configuration list for PBXProject "MinimTouch" */;
 			compatibilityVersion = "Xcode 3.1";
 			developmentRegion = English;
@@ -422,6 +439,8 @@
 				6D02C02B13B39F1C0013601A /* Line.cpp in Sources */,
 				6D946E1013B57326007C4C85 /* CASampleRecorder.mm in Sources */,
 				6D7FA96013B66EAE00A96AE6 /* Pan.cpp in Sources */,
+				77DEB7DE1490411C00C9FB09 /* Delay.cpp in Sources */,
+				77DEB7E31490414800C9FB09 /* MoogFilter.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

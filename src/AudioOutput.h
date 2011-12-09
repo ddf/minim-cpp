@@ -39,8 +39,10 @@ namespace Minim
 		
 		void playNote(const float startTime, const float duration, Instrument & instrument);
 		
-		inline void setVolume( const float volume ) { mSummerStream.setVolume(volume); }
+		inline void  setVolume( const float volume ) { mSummerStream.setVolume(volume); } 
 		inline float getVolume() const { return mSummerStream.getVolume(); }
+        
+        inline void setTempo( const float tempo ) { mNoteManager.setTempo( tempo ); }
 
 	private:
 		// UGen is our friend so that it can get to our summer
@@ -63,7 +65,7 @@ namespace Minim
 
 			virtual void read( MultiChannelBuffer & buffer );
 			
-			void setVolume( const float volume ) { mTargetVolume = volume; }
+			void  setVolume( const float volume ) { mTargetVolume = volume; }
 			float getVolume() const { return mTargetVolume; }
 			
 		private:

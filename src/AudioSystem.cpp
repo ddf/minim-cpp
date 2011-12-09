@@ -30,6 +30,8 @@
 namespace Minim
 {
 	
+static bool g_bDebugOn = false;
+    
 void error( const char * msg )
 {
 	printf("\nMinim Error: %s\n", msg);
@@ -37,7 +39,10 @@ void error( const char * msg )
 	
 void debug( const char * msg )
 {
-	printf("\nMinim Debug: %s\n", msg);
+    if ( g_bDebugOn )
+    {
+        printf("\nMinim Debug: %s\n", msg);
+    }
 }
 
 AudioSystem::AudioSystem(Minim::ServiceProvider *msp)
@@ -52,9 +57,8 @@ AudioSystem::~AudioSystem()
 	delete mServiceProvider;
 }
 
-// TODO
-void AudioSystem::debugOn() {}
-void AudioSystem::debugOff() {}
+void AudioSystem::debugOn() { g_bDebugOn = true; }
+void AudioSystem::debugOff() { g_bDebugOn = false; }
 
 ////////////////////////////////////////////////////
 AudioPlayer * AudioSystem::loadFile( const char * filename, const int bufferSize )
