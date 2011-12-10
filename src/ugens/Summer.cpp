@@ -142,7 +142,11 @@ void Summer::addInput( UGen * in )
 ///////////////////////////////////////////////
 void Summer::removeInput( UGen * in )
 {
-    LOCK;
+    // simply nulls reference on link if pointers match
+    // the actual removal of the link happens in uGenerate
+    // this is so that UGens can be removed from the list
+    // while the Summer is ticking them. An example of 
+    // this happening is ADSR unpatching itself.
     
 	if ( head == NULL )
 	{
@@ -152,22 +156,18 @@ void Summer::removeInput( UGen * in )
 	// special case first element
 	if ( head->ugen == in )
 	{
-		Node* del = head;
-		head = head->next;
-		delete del;
+        head->ugen = NULL;
 		return;
 	}
 	
-	// find it in our list and remove it!
+	// find it in our list and null it.
 	Node* n = head;
 	
 	while( n->next != NULL )
 	{
 		if ( n->next->ugen == in )
 		{
-			Node* del = n->next;
-			n->next = n->next->next;
-			delete del;
+            n->next->ugen = NULL;
 			return;
 		}
 		n = n->next;
@@ -179,9 +179,18 @@ void Summer::uGenerate(float * channels, int numChannels)
 {	
     LOCK;
     
-	if ( head == NULL )
+    // remove head if the ugen got unpatched
+    while ( head && head->ugen == NULL )
+    {
+        Node* n = head;
+        head = n->next;
+        delete n;
+    }
+    
+    // empty list, just fill with silence
+    if ( head == NULL )
 	{
-		memset(channels, 0, sizeof(float) * numChannels);
+        UGen::fill(channels, 0, numChannels);
 		return;
 	}
     
@@ -189,16 +198,25 @@ void Summer::uGenerate(float * channels, int numChannels)
 	head->ugen->tick( channels, numChannels );
 	
 	// now do the rest
-	Node* n = head->next;
-	while( n )
+	Node* n = head;
+	while( n && n->next )
 	{
-		// memset(m_accum, 0, sizeof(float) * numChannels);
-		n->ugen->tick( m_accum, numChannels );
-		for(int c = 0; c < numChannels; ++c)
-		{
-			channels[c] += m_accum[c];
-		}
-		n = n->next;
+        if ( n->next->ugen )
+        {
+            n->next->ugen->tick( m_accum, numChannels );
+            for(int c = 0; c < numChannels; ++c)
+            {
+                channels[c] += m_accum[c];
+            }
+        }
+        else // no ugen? remove the next link
+        {
+            Node* kill = n->next;
+            n->next = n->next->next;
+            delete kill;
+        }
+        
+        n = n->next;
 	}
 
 	const float v = volume.getLastValue();

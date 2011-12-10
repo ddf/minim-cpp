@@ -46,8 +46,11 @@ void Minim::ADSR::setParameters( float maxAmp, float attTime, float decTime, flo
 //-----------------------------
 void Minim::ADSR::noteOn()
 {
-    timeFromOn = 0;
-    isTurnedOn = true;
+    timeFromOn  = 0;
+    isTurnedOn  = true;
+    
+    timeFromOff = -1;
+    isTurnedOff = false;
 }
 
 //-----------------------------
