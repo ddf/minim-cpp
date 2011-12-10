@@ -80,6 +80,19 @@ namespace Minim
 			int dist[] = { (int)(dutyCycle*tableSize), 0, tableSize-(int)(dutyCycle*tableSize) };
 			return gen7(tableSize, val, 4, dist, 3);
 		}
+        
+        Wavetable* randomNHarms( int numberOfHarms )
+        {            
+            float* harmAmps = new float[numberOfHarms];
+            for( int i = 0; i < numberOfHarms; i++ )
+            {
+                harmAmps[i] = 2.0f * rand() / (RAND_MAX + 1.0f) - 1;
+            }
+            Wavetable* builtWave = gen10(tableSize, harmAmps, numberOfHarms);
+            builtWave->normalize();
+            delete[] harmAmps;
+            return builtWave;
+        }
 		
 		Wavetable * gen7( const int size, const float * vals, const int nVals, const int * dists, const int nDists )
 		{

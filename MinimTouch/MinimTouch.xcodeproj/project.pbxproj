@@ -73,6 +73,8 @@
 		6DE5FFFA129F56EE00BF2732 /* CAStreamBasicDescription.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DE5FFF8129F56EE00BF2732 /* CAStreamBasicDescription.cpp */; };
 		6DE5FFFB129F56EE00BF2732 /* CAStreamBasicDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DE5FFF9129F56EE00BF2732 /* CAStreamBasicDescription.h */; };
 		6DE5FFFF129F5E3C00BF2732 /* CADebugMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DE5FFFE129F5E3C00BF2732 /* CADebugMacros.h */; };
+		7741E35D1492E73C00F660A7 /* ADSR.h in Headers */ = {isa = PBXBuildFile; fileRef = 7741E35C1492E73C00F660A7 /* ADSR.h */; };
+		7741E3601492EB1700F660A7 /* ADSR.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7741E35F1492EB1700F660A7 /* ADSR.cpp */; };
 		77DEB7DE1490411C00C9FB09 /* Delay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77DEB7DC1490411C00C9FB09 /* Delay.cpp */; };
 		77DEB7DF1490411C00C9FB09 /* Delay.h in Headers */ = {isa = PBXBuildFile; fileRef = 77DEB7DD1490411C00C9FB09 /* Delay.h */; };
 		77DEB7E31490414800C9FB09 /* MoogFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77DEB7E11490414800C9FB09 /* MoogFilter.cpp */; };
@@ -148,6 +150,8 @@
 		6DE5FFF8129F56EE00BF2732 /* CAStreamBasicDescription.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CAStreamBasicDescription.cpp; path = ../src/mac/CAStreamBasicDescription.cpp; sourceTree = SOURCE_ROOT; };
 		6DE5FFF9129F56EE00BF2732 /* CAStreamBasicDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CAStreamBasicDescription.h; path = ../src/mac/CAStreamBasicDescription.h; sourceTree = SOURCE_ROOT; };
 		6DE5FFFE129F5E3C00BF2732 /* CADebugMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CADebugMacros.h; path = ../src/mac/CADebugMacros.h; sourceTree = SOURCE_ROOT; };
+		7741E35C1492E73C00F660A7 /* ADSR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADSR.h; sourceTree = "<group>"; };
+		7741E35F1492EB1700F660A7 /* ADSR.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ADSR.cpp; sourceTree = "<group>"; };
 		77DEB7DC1490411C00C9FB09 /* Delay.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Delay.cpp; sourceTree = "<group>"; };
 		77DEB7DD1490411C00C9FB09 /* Delay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Delay.h; sourceTree = "<group>"; };
 		77DEB7E11490414800C9FB09 /* MoogFilter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MoogFilter.cpp; sourceTree = "<group>"; };
@@ -269,6 +273,8 @@
 		6D966064113F756E0096AB83 /* ugens */ = {
 			isa = PBXGroup;
 			children = (
+				7741E35F1492EB1700F660A7 /* ADSR.cpp */,
+				7741E35C1492E73C00F660A7 /* ADSR.h */,
 				6D40B4CC14083E19001E0A44 /* Constant.h */,
 				77DEB7DC1490411C00C9FB09 /* Delay.cpp */,
 				77DEB7DD1490411C00C9FB09 /* Delay.h */,
@@ -359,6 +365,7 @@
 				6D40B4CD14083E19001E0A44 /* Constant.h in Headers */,
 				77DEB7DF1490411C00C9FB09 /* Delay.h in Headers */,
 				77DEB7E41490414800C9FB09 /* MoogFilter.h in Headers */,
+				7741E35D1492E73C00F660A7 /* ADSR.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -441,6 +448,7 @@
 				6D7FA96013B66EAE00A96AE6 /* Pan.cpp in Sources */,
 				77DEB7DE1490411C00C9FB09 /* Delay.cpp in Sources */,
 				77DEB7E31490414800C9FB09 /* MoogFilter.cpp in Sources */,
+				7741E3601492EB1700F660A7 /* ADSR.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -18,6 +18,12 @@
 
 #include "Frequency.h"
 
+#include <math.h>
+
+#define HZA4       440.0f
+#define MIDIA4     69.0f
+#define MIDIOCTAVE 12.0f
+
 namespace Minim
 {
 	
@@ -31,4 +37,9 @@ namespace Minim
 		return Frequency(hz);
 	}
 	
+    Frequency Frequency::ofMidiNote( int midiNote )
+    {
+        float hz = HZA4*powf( 2.0f, ( midiNote - MIDIA4 )/MIDIOCTAVE );
+		return Frequency(hz);
+    }
 }

@@ -60,6 +60,7 @@ namespace Minim
 	Oscil::~Oscil()
 	{
 		delete mWaveform;
+        mWaveform = NULL;
 	}
 	
 	/////////////////////////////////////////////////////////
