@@ -75,7 +75,7 @@ void Summer::sampleRateChanged()
 	Node* n = head;
 	while ( n )
 	{
-		n->ugen->setSampleRate(sampleRate());
+		if ( n->ugen ) n->ugen->setSampleRate(sampleRate());
 		n = n->next;
 	}
 	
@@ -114,29 +114,14 @@ void Summer::channelCountChanged()
 ///////////////////////////////////////////////
 void Summer::addInput( UGen * in )
 {
-    LOCK;
+    in->setAudioChannelCount(m_accumSize);
+	in->setSampleRate( sampleRate() );
     
 	Node * newNode = new Node(in);
-	
-	if ( head == NULL )
-	{
-		head = newNode;
-	}
-	else 
-	{
-		// insert at end of list
-		Node * n = head;
-		
-		while ( n->next ) 
-		{
-			n = n->next;
-		}
-		
-		n->next = newNode;
-	}
-	
-	in->setAudioChannelCount(m_accumSize);
-	in->setSampleRate( sampleRate() );
+    
+    // insert at beginning of the list
+    newNode->next = head;
+    head = newNode;
 }
 
 ///////////////////////////////////////////////
