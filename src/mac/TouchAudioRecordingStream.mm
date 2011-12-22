@@ -127,7 +127,7 @@ void TouchAudioRecordingStream::read( Minim::MultiChannelBuffer & buffer )
 				OSStatus result = ExtAudioFileRead( m_audioFileRef, &samplesRead, &fillBufList );
                 if ( result != noErr )
                 {
-                    printf("Error reading from a file, aborting read. [%ld]\n", result);
+                    printf("Error reading from a file, aborting read. [%d]\n", (int)result);
                     return;
                 }
 				
