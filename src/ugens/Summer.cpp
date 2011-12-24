@@ -114,8 +114,8 @@ void Summer::channelCountChanged()
 ///////////////////////////////////////////////
 void Summer::addInput( UGen * in )
 {
+    in->setSampleRate( sampleRate() );
     in->setAudioChannelCount(m_accumSize);
-	in->setSampleRate( sampleRate() );
     
 	Node * newNode = new Node(in);
     

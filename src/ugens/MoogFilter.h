@@ -7,6 +7,9 @@
  *
  */
 
+#ifndef _MINIM_MOOGFILTER_H_
+#define _MINIM_MOOGFILTER_H_
+
 #include "UGen.h"
 
 namespace Minim
@@ -45,3 +48,5 @@ namespace Minim
 		int		coeffLength;
 	};
 };
+
+#endif // _MINIM_MOOGFILTER_H_

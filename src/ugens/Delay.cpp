@@ -46,6 +46,7 @@ void Minim::Delay::sampleRateChanged()
 	if ( delayBuffer )
 	{
 		delete[] delayBuffer;
+        delayBuffer = NULL;
 	}
 	
 	if ( getAudioChannelCount() > 0 )
