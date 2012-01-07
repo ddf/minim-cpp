@@ -311,6 +311,8 @@
 			isa = PBXGroup;
 			children = (
 				6DEFA318141ED6AF003783E8 /* Constant.h */,
+				6DF5EBA0142533D400C75F19 /* Delay.cpp */,
+				6DF5EB9F142533D400C75F19 /* Delay.h */,
 				6DEFA319141ED6AF003783E8 /* FilePlayer.cpp */,
 				6DEFA31A141ED6AF003783E8 /* FilePlayer.h */,
 				6DEFA31B141ED6AF003783E8 /* Frequency.cpp */,
@@ -341,8 +343,6 @@
 				6DEFA334141ED6AF003783E8 /* Waveshaper.h */,
 				6DEFA335141ED6AF003783E8 /* Wavetable.cpp */,
 				6DEFA336141ED6AF003783E8 /* Wavetable.h */,
-				6DF5EB9F142533D400C75F19 /* Delay.h */,
-				6DF5EBA0142533D400C75F19 /* Delay.cpp */,
 			);
 			path = ugens;
 			sourceTree = "<group>";
