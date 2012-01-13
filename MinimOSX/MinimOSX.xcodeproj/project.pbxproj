@@ -81,6 +81,7 @@
 		6DEFA37B141ED6AF003783E8 /* Wavetable.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DEFA336141ED6AF003783E8 /* Wavetable.h */; };
 		6DF5EBA1142533D400C75F19 /* Delay.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DF5EB9F142533D400C75F19 /* Delay.h */; };
 		6DF5EBA2142533D400C75F19 /* Delay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DF5EBA0142533D400C75F19 /* Delay.cpp */; };
+		77BDF0FB14C0EA7C0090A200 /* BMutex.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 77BDF0FA14C0EA7C0090A200 /* BMutex.hpp */; };
 		D2AAC088055469A000DB518D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
 
@@ -163,6 +164,7 @@
 		6DEFA336141ED6AF003783E8 /* Wavetable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Wavetable.h; sourceTree = "<group>"; };
 		6DF5EB9F142533D400C75F19 /* Delay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Delay.h; sourceTree = "<group>"; };
 		6DF5EBA0142533D400C75F19 /* Delay.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Delay.cpp; sourceTree = "<group>"; };
+		77BDF0FA14C0EA7C0090A200 /* BMutex.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BMutex.hpp; sourceTree = "<group>"; };
 		D2AAC07E0554694100DB518D /* libMinimOSX.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMinimOSX.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2F7E8BE07B2D77200F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
@@ -244,6 +246,7 @@
 		6DEFA2F1141ED6AF003783E8 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				77BDF0FA14C0EA7C0090A200 /* BMutex.hpp */,
 				6DEFA2F2141ED6AF003783E8 /* AudioFormat.h */,
 				6DEFA2F3141ED6AF003783E8 /* AudioOutput.cpp */,
 				6DEFA2F4141ED6AF003783E8 /* AudioOutput.h */,
@@ -399,6 +402,7 @@
 				6DD913BC1421A1DA00729F2D /* WindowFunction.h in Headers */,
 				6DD913EF1421A5F700729F2D /* FFT.h in Headers */,
 				6DF5EBA1142533D400C75F19 /* Delay.h in Headers */,
+				77BDF0FB14C0EA7C0090A200 /* BMutex.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -531,6 +535,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "-DPOSIX";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 			};
@@ -543,6 +548,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				OTHER_CFLAGS = "-DPOSIX";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 			};

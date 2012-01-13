@@ -25,24 +25,6 @@
 #define NULL 0
 #endif
 
-struct Lock
-{
-    Lock( bool& _bLock )
-    : bLock(_bLock)
-    {
-        bLock = true;
-    }
-    
-    ~Lock()
-    {
-        bLock = false;
-    }
-    
-    bool& bLock;  
-};
-
-#define LOCK while(m_bMutex){} Lock lock(m_bMutex);
-
 namespace Minim
 {
 	
@@ -54,7 +36,6 @@ Summer::Summer()
 , m_accumSize(1)
 , head(NULL)
 , volume( *this, CONTROL )
-, m_bMutex(false)
 {
 	volume.setLastValue( 1 );
 }
@@ -70,7 +51,7 @@ Summer::~Summer()
 ///////////////////////////////////////////////////
 void Summer::sampleRateChanged()
 {
-    LOCK;
+    BMutexLock lock( m_mutex );
     
 	Node* n = head;
 	while ( n )
@@ -78,21 +59,12 @@ void Summer::sampleRateChanged()
 		if ( n->ugen ) n->ugen->setSampleRate(sampleRate());
 		n = n->next;
 	}
-	
-//	for (int i = 0; i < mUGensSize; i++)
-//	{
-//		UGen * u = mUGens[i];
-//		if ( u )
-//		{
-//			u->setSampleRate(sampleRate());
-//		}
-//	}
 }
 	
 ///////////////////////////////////////////////////
 void Summer::channelCountChanged()
 {
-    LOCK;
+    BMutexLock lock( m_mutex );
     
 	if ( m_accumSize < getAudioChannelCount() )
 	{
@@ -114,6 +86,8 @@ void Summer::channelCountChanged()
 ///////////////////////////////////////////////
 void Summer::addInput( UGen * in )
 {
+    BMutexLock lock( m_mutex );
+    
     in->setSampleRate( sampleRate() );
     in->setAudioChannelCount(m_accumSize);
     
@@ -127,6 +101,8 @@ void Summer::addInput( UGen * in )
 ///////////////////////////////////////////////
 void Summer::removeInput( UGen * in )
 {
+    BMutexLock lock( m_mutex );
+    
     // simply nulls reference on link if pointers match
     // the actual removal of the link happens in uGenerate
     // this is so that UGens can be removed from the list
@@ -162,7 +138,7 @@ void Summer::removeInput( UGen * in )
 ///////////////////////////////////////////////////
 void Summer::uGenerate(float * channels, int numChannels)
 {	
-    LOCK;
+    BMutexLock lock( m_mutex );
     
     // remove head if the ugen got unpatched
     while ( head && head->ugen == NULL )
@@ -209,20 +185,6 @@ void Summer::uGenerate(float * channels, int numChannels)
 	{
 		channels[i] *= v;
 	}
-
-//	for(int i = 0; i < mUGensSize; ++i)
-//	{
-//		UGen * u = mUGens[i];
-//		if ( u )
-//		{
-//			memset(m_accum, 0, sizeof(float) * numChannels);
-//			u->tick( m_accum, numChannels );
-//			for(int c = 0; c < numChannels; ++c)
-//			{
-//				channels[c] += m_accum[c];
-//			}
-//		}
-//	}
 }
 
 } // namespace Minim

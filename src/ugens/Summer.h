@@ -20,6 +20,7 @@
 #define SUMMER_H
 
 #include "UGen.h"
+#include "BMutex.hpp"
 
 namespace Minim
 {
@@ -35,7 +36,6 @@ namespace Minim
 		UGenInput volume;
 
 	protected:
-		// TODO: addInput and removeInput need to be thread-safe!
 		
 		// ddf: override because everything that patches to us
 		//      goes into our list. then when we generate a sample
@@ -71,7 +71,8 @@ namespace Minim
 		// array we accumulate samples into when we do our summing
 		float * m_accum;
 		int     m_accumSize;
-        bool    m_bMutex;
+
+        BMutex  m_mutex;
 		
 	};
 };

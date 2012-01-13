@@ -13,6 +13,7 @@
 #include "UGen.h"
 #include "AudioRecordingStream.h"
 #include "MultiChannelBuffer.h"
+#include "BMutex.hpp"
 
 namespace Minim 
 {
@@ -50,15 +51,17 @@ namespace Minim
 		{
 			return (unsigned int)( (float)frames / sampleRate() * 1000.f );
 		}
+        
+        BMutex                  m_mutex;
 		
 		// the stream we read from
-		AudioRecordingStream * m_pStream;
+		AudioRecordingStream *  m_pStream;
 		
 		// we read in entire buffers from our stream at a time
-		MultiChannelBuffer m_buffer;
+		MultiChannelBuffer      m_buffer;
 		
 		// we keep track of where we should uGenerate from
-		int m_outputPosition;
+		int                     m_outputPosition;
 	};
 	
 	

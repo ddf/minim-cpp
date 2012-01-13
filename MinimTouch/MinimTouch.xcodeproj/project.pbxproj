@@ -75,6 +75,15 @@
 		6DE5FFFF129F5E3C00BF2732 /* CADebugMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DE5FFFE129F5E3C00BF2732 /* CADebugMacros.h */; };
 		7741E35D1492E73C00F660A7 /* ADSR.h in Headers */ = {isa = PBXBuildFile; fileRef = 7741E35C1492E73C00F660A7 /* ADSR.h */; };
 		7741E3601492EB1700F660A7 /* ADSR.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7741E35F1492EB1700F660A7 /* ADSR.cpp */; };
+		77BDF0E214C0E1F30090A200 /* AudioRecorder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77BDF0D914C0E1F30090A200 /* AudioRecorder.cpp */; };
+		77BDF0E314C0E1F30090A200 /* AudioRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 77BDF0DA14C0E1F30090A200 /* AudioRecorder.h */; };
+		77BDF0E414C0E1F30090A200 /* BMutex.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 77BDF0DB14C0E1F30090A200 /* BMutex.hpp */; };
+		77BDF0E514C0E1F30090A200 /* FFT.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77BDF0DC14C0E1F30090A200 /* FFT.cpp */; };
+		77BDF0E614C0E1F30090A200 /* FFT.h in Headers */ = {isa = PBXBuildFile; fileRef = 77BDF0DD14C0E1F30090A200 /* FFT.h */; };
+		77BDF0E714C0E1F30090A200 /* FourierTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77BDF0DE14C0E1F30090A200 /* FourierTransform.cpp */; };
+		77BDF0E814C0E1F30090A200 /* FourierTransform.h in Headers */ = {isa = PBXBuildFile; fileRef = 77BDF0DF14C0E1F30090A200 /* FourierTransform.h */; };
+		77BDF0E914C0E1F30090A200 /* WindowFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77BDF0E014C0E1F30090A200 /* WindowFunction.cpp */; };
+		77BDF0EA14C0E1F30090A200 /* WindowFunction.h in Headers */ = {isa = PBXBuildFile; fileRef = 77BDF0E114C0E1F30090A200 /* WindowFunction.h */; };
 		77DEB7DE1490411C00C9FB09 /* Delay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77DEB7DC1490411C00C9FB09 /* Delay.cpp */; };
 		77DEB7DF1490411C00C9FB09 /* Delay.h in Headers */ = {isa = PBXBuildFile; fileRef = 77DEB7DD1490411C00C9FB09 /* Delay.h */; };
 		77DEB7E31490414800C9FB09 /* MoogFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77DEB7E11490414800C9FB09 /* MoogFilter.cpp */; };
@@ -152,6 +161,15 @@
 		6DE5FFFE129F5E3C00BF2732 /* CADebugMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CADebugMacros.h; path = ../src/mac/CADebugMacros.h; sourceTree = SOURCE_ROOT; };
 		7741E35C1492E73C00F660A7 /* ADSR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADSR.h; sourceTree = "<group>"; };
 		7741E35F1492EB1700F660A7 /* ADSR.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ADSR.cpp; sourceTree = "<group>"; };
+		77BDF0D914C0E1F30090A200 /* AudioRecorder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AudioRecorder.cpp; path = "Frameworks/minim-cpp/src/AudioRecorder.cpp"; sourceTree = DEVELOPER_DIR; };
+		77BDF0DA14C0E1F30090A200 /* AudioRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioRecorder.h; path = "Frameworks/minim-cpp/src/AudioRecorder.h"; sourceTree = DEVELOPER_DIR; };
+		77BDF0DB14C0E1F30090A200 /* BMutex.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BMutex.hpp; path = "Frameworks/minim-cpp/src/BMutex.hpp"; sourceTree = DEVELOPER_DIR; };
+		77BDF0DC14C0E1F30090A200 /* FFT.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FFT.cpp; path = "Frameworks/minim-cpp/src/FFT.cpp"; sourceTree = DEVELOPER_DIR; };
+		77BDF0DD14C0E1F30090A200 /* FFT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFT.h; path = "Frameworks/minim-cpp/src/FFT.h"; sourceTree = DEVELOPER_DIR; };
+		77BDF0DE14C0E1F30090A200 /* FourierTransform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FourierTransform.cpp; path = "Frameworks/minim-cpp/src/FourierTransform.cpp"; sourceTree = DEVELOPER_DIR; };
+		77BDF0DF14C0E1F30090A200 /* FourierTransform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FourierTransform.h; path = "Frameworks/minim-cpp/src/FourierTransform.h"; sourceTree = DEVELOPER_DIR; };
+		77BDF0E014C0E1F30090A200 /* WindowFunction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WindowFunction.cpp; path = "Frameworks/minim-cpp/src/WindowFunction.cpp"; sourceTree = DEVELOPER_DIR; };
+		77BDF0E114C0E1F30090A200 /* WindowFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WindowFunction.h; path = "Frameworks/minim-cpp/src/WindowFunction.h"; sourceTree = DEVELOPER_DIR; };
 		77DEB7DC1490411C00C9FB09 /* Delay.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Delay.cpp; sourceTree = "<group>"; };
 		77DEB7DD1490411C00C9FB09 /* Delay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Delay.h; sourceTree = "<group>"; };
 		77DEB7E11490414800C9FB09 /* MoogFilter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MoogFilter.cpp; sourceTree = "<group>"; };
@@ -207,21 +225,30 @@
 		08FB77AEFE84172EC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				6D966053113F756E0096AB83 /* AudioOutput.cpp */,
+				77BDF0D914C0E1F30090A200 /* AudioRecorder.cpp */,
+				6D966055113F756E0096AB83 /* AudioSource.cpp */,
+				6D966057113F756E0096AB83 /* AudioSystem.cpp */,
+				77BDF0DC14C0E1F30090A200 /* FFT.cpp */,
+				77BDF0DE14C0E1F30090A200 /* FourierTransform.cpp */,
+				6D966062113F756E0096AB83 /* MultiChannelBuffer.cpp */,
+				6DAFF2B511CDCD56007CD1AA /* NoteManager.cpp */,
+				77BDF0E014C0E1F30090A200 /* WindowFunction.cpp */,
+				6D966052113F756E0096AB83 /* AudioFormat.h */,
+				6D966054113F756E0096AB83 /* AudioOutput.h */,
+				77BDF0DA14C0E1F30090A200 /* AudioRecorder.h */,
+				6D966056113F756E0096AB83 /* AudioSource.h */,
+				6D966058113F756E0096AB83 /* AudioSystem.h */,
+				6D8E21151165937B003ACAC5 /* CodeTimer.h */,
+				77BDF0DD14C0E1F30090A200 /* FFT.h */,
+				77BDF0DF14C0E1F30090A200 /* FourierTransform.h */,
+				6D966063113F756E0096AB83 /* MultiChannelBuffer.h */,
+				6DAFF2B411CDCD56007CD1AA /* NoteManager.h */,
+				77BDF0E114C0E1F30090A200 /* WindowFunction.h */,
+				77BDF0DB14C0E1F30090A200 /* BMutex.hpp */,
 				6D6A9B2C1143251F003B59BA /* implementation */,
 				6D966059113F756E0096AB83 /* interfaces */,
 				6D966064113F756E0096AB83 /* ugens */,
-				6D966052113F756E0096AB83 /* AudioFormat.h */,
-				6D966053113F756E0096AB83 /* AudioOutput.cpp */,
-				6D966054113F756E0096AB83 /* AudioOutput.h */,
-				6D966055113F756E0096AB83 /* AudioSource.cpp */,
-				6D966056113F756E0096AB83 /* AudioSource.h */,
-				6D966057113F756E0096AB83 /* AudioSystem.cpp */,
-				6D966058113F756E0096AB83 /* AudioSystem.h */,
-				6D966062113F756E0096AB83 /* MultiChannelBuffer.cpp */,
-				6D966063113F756E0096AB83 /* MultiChannelBuffer.h */,
-				6D8E21151165937B003ACAC5 /* CodeTimer.h */,
-				6DAFF2B411CDCD56007CD1AA /* NoteManager.h */,
-				6DAFF2B511CDCD56007CD1AA /* NoteManager.cpp */,
 			);
 			name = Classes;
 			sourceTree = SOURCE_ROOT;
@@ -366,6 +393,11 @@
 				77DEB7DF1490411C00C9FB09 /* Delay.h in Headers */,
 				77DEB7E41490414800C9FB09 /* MoogFilter.h in Headers */,
 				7741E35D1492E73C00F660A7 /* ADSR.h in Headers */,
+				77BDF0E314C0E1F30090A200 /* AudioRecorder.h in Headers */,
+				77BDF0E414C0E1F30090A200 /* BMutex.hpp in Headers */,
+				77BDF0E614C0E1F30090A200 /* FFT.h in Headers */,
+				77BDF0E814C0E1F30090A200 /* FourierTransform.h in Headers */,
+				77BDF0EA14C0E1F30090A200 /* WindowFunction.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -449,6 +481,10 @@
 				77DEB7DE1490411C00C9FB09 /* Delay.cpp in Sources */,
 				77DEB7E31490414800C9FB09 /* MoogFilter.cpp in Sources */,
 				7741E3601492EB1700F660A7 /* ADSR.cpp in Sources */,
+				77BDF0E214C0E1F30090A200 /* AudioRecorder.cpp in Sources */,
+				77BDF0E514C0E1F30090A200 /* FFT.cpp in Sources */,
+				77BDF0E714C0E1F30090A200 /* FourierTransform.cpp in Sources */,
+				77BDF0E914C0E1F30090A200 /* WindowFunction.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -517,6 +553,7 @@
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/src/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 2.0;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "-DPOSIX";
 				OTHER_LDFLAGS = "-ObjC";
 				PREBINDING = NO;
 				PROVISIONING_PROFILE = "B9524F6B-3E36-4D3D-B3BC-3BB6781F5CB9";
@@ -540,6 +577,7 @@
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/src/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 2.0;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "-DPOSIX";
 				OTHER_LDFLAGS = "-ObjC";
 				PREBINDING = NO;
 				PROVISIONING_PROFILE = "B9524F6B-3E36-4D3D-B3BC-3BB6781F5CB9";
