@@ -209,27 +209,18 @@ void UGen::tick(float *channels, const int numChannels)
 	
 	if (0 == mCurrentTick) 
 	{			
-		if ( mInputCount > 0 )
-		{
-			for(int i = 0; i < mInputCount; ++i)
-			{		
-				mInputs[i]->tick();
-			}
+		for(int i = 0; i < mInputCount; ++i)
+		{		
+			mInputs[i]->tick();
 		}
 		
 		// and then uGenerate for this UGen	
-		uGenerate( channels, numChannels );
-		
-		// need to keep the last values generated so we have something to hand multiple outputs 
-		memcpy(mLastValues, channels, sizeof(float) * numChannels);
-	}
-	else 
-	{
-		memcpy(channels, mLastValues, sizeof(float) * numChannels);
+		uGenerate( mLastValues, numChannels );
 	}
 
+	memcpy(channels, mLastValues, sizeof(float) * numChannels);
 	
-	if (mNumOutputs > 0)
+	if (mNumOutputs > 1)
 	{
 		// only tick once per sampleframe when multiple outputs
 		mCurrentTick = (mCurrentTick + 1)%(mNumOutputs);

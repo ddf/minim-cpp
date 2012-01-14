@@ -24,8 +24,6 @@
 
 namespace Minim
 {
-	class AudioOutput;
-
 	class Summer : public UGen
 	{
 
@@ -57,16 +55,9 @@ namespace Minim
 		virtual void uGenerate(float * channels, const int numChannels);
 
 	private:
-		AudioOutput * mOutput;
-		
-		struct Node
-		{
-			Node( UGen * u ) : ugen(u), next(0) {}
-			UGen * ugen;
-			Node * next;
-		};
-		
-		Node * head;
+	
+		UGen** m_inputs;
+		int	   m_inputsLength;	
 		
 		// array we accumulate samples into when we do our summing
 		float * m_accum;

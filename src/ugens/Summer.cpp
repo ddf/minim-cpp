@@ -17,8 +17,7 @@
  */
 
 #include "Summer.h"
-#include "AudioOutput.h"
-#include <string.h> // for memset
+#include <string.h> // for memset, memcpy
 #include <cassert>
 
 #ifndef NULL
@@ -34,9 +33,12 @@ Summer::Summer()
 : UGen(1)
 , m_accum( new float[1] ) // assume mono, same as UGen
 , m_accumSize(1)
-, head(NULL)
+, m_inputs(NULL)
+, m_inputsLength(16)
 , volume( *this, CONTROL )
 {
+	m_inputs = new UGen*[m_inputsLength];
+	memset( m_inputs, 0, sizeof(UGen*)*m_inputsLength );
 	volume.setLastValue( 1 );
 }
 	
@@ -46,6 +48,11 @@ Summer::~Summer()
 	{
 		delete [] m_accum;
 	}
+
+	if ( m_inputs )
+	{
+		delete [] m_inputs;
+	}
 } 
 	
 ///////////////////////////////////////////////////
@@ -53,11 +60,12 @@ void Summer::sampleRateChanged()
 {
     BMutexLock lock( m_mutex );
     
-	Node* n = head;
-	while ( n )
+	for( int i = 0; i < m_inputsLength; ++i )
 	{
-		if ( n->ugen ) n->ugen->setSampleRate(sampleRate());
-		n = n->next;
+		if ( m_inputs[i] )
+		{
+			m_inputs[i]->setSampleRate( sampleRate() );
+		}
 	}
 }
 	
@@ -75,11 +83,12 @@ void Summer::channelCountChanged()
 	
 	m_accumSize = getAudioChannelCount();
 	
-	Node* n = head;
-	while ( n )
+	for( int i = 0; i < m_inputsLength; ++i )
 	{
-		n->ugen->setAudioChannelCount( getAudioChannelCount() );
-		n = n->next;
+		if ( m_inputs[i] )
+		{
+			m_inputs[i]->setAudioChannelCount( m_accumSize );
+		}
 	}
 }
 	
@@ -89,101 +98,76 @@ void Summer::addInput( UGen * in )
     BMutexLock lock( m_mutex );
     
     in->setSampleRate( sampleRate() );
-    in->setAudioChannelCount(m_accumSize);
+    in->setAudioChannelCount( m_accumSize );
     
-	Node * newNode = new Node(in);
-    
-    // insert at beginning of the list
-    newNode->next = head;
-    head = newNode;
+	// find a free slot
+	for( int i = 0; i < m_inputsLength; ++i )
+	{
+		if ( m_inputs[i] == NULL )
+		{
+			m_inputs[i] = in;
+			return;
+		}
+	}
+
+	// didn't find a slot, double the size of our list
+	const int newLength = m_inputsLength*2;
+	UGen** newList		= new UGen*[newLength];
+	// initialize
+	memset( newList, 0, sizeof(UGen*)*newLength );
+	// copy old list to new list
+	memcpy(newList, m_inputs, sizeof(UGen*)*m_inputsLength);
+	// add new input to end of the list
+	newList[m_inputsLength] = in;
+	// delete old list
+	delete [] m_inputs;
+	// use new list
+	m_inputsLength = newLength;
+	m_inputs	   = newList;	
 }
 
 ///////////////////////////////////////////////
 void Summer::removeInput( UGen * in )
-{
-    BMutexLock lock( m_mutex );
-    
-    // simply nulls reference on link if pointers match
-    // the actual removal of the link happens in uGenerate
+{    
+    // simply nulls reference if pointers match
     // this is so that UGens can be removed from the list
     // while the Summer is ticking them. An example of 
     // this happening is ADSR unpatching itself.
     
-	if ( head == NULL )
+	for( int i = 0; i < m_inputsLength; ++i )
 	{
-		return;
-	}
-	
-	// special case first element
-	if ( head->ugen == in )
-	{
-        head->ugen = NULL;
-		return;
-	}
-	
-	// find it in our list and null it.
-	Node* n = head;
-	
-	while( n->next != NULL )
-	{
-		if ( n->next->ugen == in )
+		if ( m_inputs[i] == in )
 		{
-            n->next->ugen = NULL;
+			m_inputs[i] = NULL;
 			return;
 		}
-		n = n->next;
 	}
 }
 
 ///////////////////////////////////////////////////
-void Summer::uGenerate(float * channels, int numChannels)
+void Summer::uGenerate(float * channels, const int numChannels)
 {	
     BMutexLock lock( m_mutex );
-    
-    // remove head if the ugen got unpatched
-    while ( head && head->ugen == NULL )
-    {
-        Node* n = head;
-        head = n->next;
-        delete n;
-    }
-    
-    // empty list, just fill with silence
-    if ( head == NULL )
+
+	// start out with silence
+	memset( channels, 0, sizeof(float)*numChannels );
+
+	for( int i = 0; i < m_inputsLength; ++i )
 	{
-        UGen::fill(channels, 0, numChannels);
-		return;
-	}
-    
-	// first one in the list, we can tick directly into channels
-	head->ugen->tick( channels, numChannels );
-	
-	// now do the rest
-	Node* n = head;
-	while( n && n->next )
-	{
-        if ( n->next->ugen )
-        {
-            n->next->ugen->tick( m_accum, numChannels );
-            for(int c = 0; c < numChannels; ++c)
-            {
-                channels[c] += m_accum[c];
-            }
-        }
-        else // no ugen? remove the next link
-        {
-            Node* kill = n->next;
-            n->next = n->next->next;
-            delete kill;
-        }
-        
-        n = n->next;
+		if ( m_inputs[i] )
+		{
+			m_inputs[i]->tick( m_accum, numChannels );
+			for( int c = 0; c < numChannels; ++c )
+			{
+				channels[c] += m_accum[c];
+			}
+		}
 	}
 
 	const float v = volume.getLastValue();
-	for( int i = 0; i < numChannels; ++i )
+	for( int c = 0; c < numChannels; ++c )
 	{
-		channels[i] *= v;
+		channels[c] *= v;
 	}
 }
 
