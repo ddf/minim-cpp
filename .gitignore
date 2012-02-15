@@ -6,7 +6,7 @@
 MinimTouch/build/*
 !MinimTouch/build/Release-iphoneos/libMinimTouch.a
 obj/
-libsndfile/bin
+libsndfile/bin/*.exe
 ipch/
 libsndfile/unins000*
 *xcuserdata/
