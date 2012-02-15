@@ -95,8 +95,6 @@ void Summer::channelCountChanged()
 ///////////////////////////////////////////////
 void Summer::addInput( UGen * in )
 {
-    BMutexLock lock( m_mutex );
-    
     in->setSampleRate( sampleRate() );
     in->setAudioChannelCount( m_accumSize );
     
@@ -109,6 +107,9 @@ void Summer::addInput( UGen * in )
 			return;
 		}
 	}
+    
+    // lock if we have to mess with the list
+    BMutexLock lock( m_mutex );
 
 	// didn't find a slot, double the size of our list
 	const int newLength = m_inputsLength*2;
@@ -154,9 +155,10 @@ void Summer::uGenerate(float * channels, const int numChannels)
 
 	for( int i = 0; i < m_inputsLength; ++i )
 	{
-		if ( m_inputs[i] )
+        UGen* in = m_inputs[i];
+		if ( in )
 		{
-			m_inputs[i]->tick( m_accum, numChannels );
+            in->tick( m_accum, numChannels );
 			for( int c = 0; c < numChannels; ++c )
 			{
 				channels[c] += m_accum[c];

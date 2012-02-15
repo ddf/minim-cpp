@@ -75,6 +75,8 @@
 		6DE5FFFF129F5E3C00BF2732 /* CADebugMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DE5FFFE129F5E3C00BF2732 /* CADebugMacros.h */; };
 		7741E35D1492E73C00F660A7 /* ADSR.h in Headers */ = {isa = PBXBuildFile; fileRef = 7741E35C1492E73C00F660A7 /* ADSR.h */; };
 		7741E3601492EB1700F660A7 /* ADSR.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7741E35F1492EB1700F660A7 /* ADSR.cpp */; };
+		779771C114EB6F3D002B2C9C /* Flanger.h in Headers */ = {isa = PBXBuildFile; fileRef = 779771C014EB6F3D002B2C9C /* Flanger.h */; };
+		779771C414EB7081002B2C9C /* Flanger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 779771C314EB7081002B2C9C /* Flanger.cpp */; };
 		77BDF0E214C0E1F30090A200 /* AudioRecorder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77BDF0D914C0E1F30090A200 /* AudioRecorder.cpp */; };
 		77BDF0E314C0E1F30090A200 /* AudioRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 77BDF0DA14C0E1F30090A200 /* AudioRecorder.h */; };
 		77BDF0E414C0E1F30090A200 /* BMutex.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 77BDF0DB14C0E1F30090A200 /* BMutex.hpp */; };
@@ -161,6 +163,8 @@
 		6DE5FFFE129F5E3C00BF2732 /* CADebugMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CADebugMacros.h; path = ../src/mac/CADebugMacros.h; sourceTree = SOURCE_ROOT; };
 		7741E35C1492E73C00F660A7 /* ADSR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADSR.h; sourceTree = "<group>"; };
 		7741E35F1492EB1700F660A7 /* ADSR.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ADSR.cpp; sourceTree = "<group>"; };
+		779771C014EB6F3D002B2C9C /* Flanger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flanger.h; sourceTree = "<group>"; };
+		779771C314EB7081002B2C9C /* Flanger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Flanger.cpp; sourceTree = "<group>"; };
 		77BDF0D914C0E1F30090A200 /* AudioRecorder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AudioRecorder.cpp; path = "Frameworks/minim-cpp/src/AudioRecorder.cpp"; sourceTree = DEVELOPER_DIR; };
 		77BDF0DA14C0E1F30090A200 /* AudioRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioRecorder.h; path = "Frameworks/minim-cpp/src/AudioRecorder.h"; sourceTree = DEVELOPER_DIR; };
 		77BDF0DB14C0E1F30090A200 /* BMutex.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BMutex.hpp; path = "Frameworks/minim-cpp/src/BMutex.hpp"; sourceTree = DEVELOPER_DIR; };
@@ -307,6 +311,8 @@
 				77DEB7DD1490411C00C9FB09 /* Delay.h */,
 				6DE50031129F63DD00BF2732 /* FilePlayer.cpp */,
 				6DE50030129F63DD00BF2732 /* FilePlayer.h */,
+				779771C314EB7081002B2C9C /* Flanger.cpp */,
+				779771C014EB6F3D002B2C9C /* Flanger.h */,
 				6DCC14331145BC2500727A0A /* Frequency.cpp */,
 				6DCC14321145BC2500727A0A /* Frequency.h */,
 				6DAFF2C211CDD407007CD1AA /* Instrument.h */,
@@ -398,6 +404,7 @@
 				77BDF0E614C0E1F30090A200 /* FFT.h in Headers */,
 				77BDF0E814C0E1F30090A200 /* FourierTransform.h in Headers */,
 				77BDF0EA14C0E1F30090A200 /* WindowFunction.h in Headers */,
+				779771C114EB6F3D002B2C9C /* Flanger.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -485,6 +492,7 @@
 				77BDF0E514C0E1F30090A200 /* FFT.cpp in Sources */,
 				77BDF0E714C0E1F30090A200 /* FourierTransform.cpp in Sources */,
 				77BDF0E914C0E1F30090A200 /* WindowFunction.cpp in Sources */,
+				779771C414EB7081002B2C9C /* Flanger.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

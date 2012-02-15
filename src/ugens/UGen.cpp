@@ -31,7 +31,7 @@ namespace Minim
 {
 
 ///////////////////////////////////////////////////////////////
-UGen::UGenInput::UGenInput( UGen & outerUGen, UGen::InputType inputType )
+UGen::UGenInput::UGenInput( UGen & outerUGen, UGen::InputType inputType, float defaultValue )
 : mOuterUGen(outerUGen) 
 , mInputType(inputType)
 , mIncoming(NULL)
@@ -41,7 +41,7 @@ UGen::UGenInput::UGenInput( UGen & outerUGen, UGen::InputType inputType )
 	mOuterUGen.mInputCount++;
 	
 	mLastValues = new float[1];
-	mLastValues[0] = 0.f;
+	mLastValues[0] = defaultValue;
 }
 	
 ///////////////////////////////////////////////////

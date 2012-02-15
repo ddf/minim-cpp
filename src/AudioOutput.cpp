@@ -19,6 +19,7 @@
 #include "AudioOutput.h"
 #include "AudioStream.h"
 #include "AudioFormat.h"
+#include "CodeTimer.h"
 
 namespace Minim
 {
@@ -68,7 +69,7 @@ namespace Minim
 
 	void AudioOutput::SummerStream::read( MultiChannelBuffer & buffer )
 	{
-		// CodeTimer timer("SummerStream::read");
+		//CodeTimer timer("SummerStream::read");
 		
 		const int nChannels = buffer.getChannelCount();
 		const int bsize = buffer.getBufferSize();

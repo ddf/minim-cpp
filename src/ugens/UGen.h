@@ -49,7 +49,7 @@ protected:
 	class UGenInput
 	{
 	public:
-		UGenInput(UGen & outer, InputType type);
+		UGenInput(UGen & outer, InputType type, float defaultValue = 0.0f);
 		~UGenInput();
 		
 		inline InputType getInputType() const { return mInputType; }
@@ -247,6 +247,8 @@ public:
 	 *  Prints all inputs connected to this UGen (for debugging)
 	 */
 	void printInputs() const;
+    
+    bool isPatched() const { return mNumOutputs > 0; }
 
 private:
 	// all of this UGen's inputs
