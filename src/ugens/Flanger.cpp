@@ -14,7 +14,7 @@
 static Minim::Wavetable* SINE = Minim::Waves::SINE();
 
 Minim::Flanger::Flanger(float delayLength, float lfoRate, float delayDepth, float feedbackAmplitude, float dryAmplitude, float wetAmplitude)
-: UGen( 7 )
+: UGen()
 , audio( *this, AUDIO )
 , delay( *this, CONTROL, delayLength )
 , rate( *this, CONTROL, lfoRate )
@@ -40,9 +40,8 @@ Minim::Flanger::~Flanger()
     }
 }
 
-void Minim::Flanger::setAudioChannelCount(int numberOfChannels)
+void Minim::Flanger::channelCountChanged()
 {
-    UGen::setAudioChannelCount( numberOfChannels );
     resetBuffer();
 }
 
@@ -60,7 +59,7 @@ void Minim::Flanger::sampleRateChanged()
 
 void Minim::Flanger::uGenerate(float* out, const int numChannels)
 {
-    assert( numChannels == audio.getChannelCount() );
+    assert( numChannels == getAudioChannelCount() );
     
     // generate lfo value
     float lfo = SINE->value( step );
@@ -75,14 +74,14 @@ void Minim::Flanger::uGenerate(float* out, const int numChannels)
     
     for ( int i = 0; i < numChannels; ++i )
     {
-        int outputIndex = outputFrame * audio.getChannelCount() + i;
+        int outputIndex = outputFrame * getAudioChannelCount() + i;
         float inSample = audio.getLastValues()[i];
         float wetSample = delayBuffer[outputIndex];
         // eat it
         delayBuffer[outputIndex] = 0;
         
         // figure out where we need to place the delayed sample in our ring buffer
-        int delIndex = ( ( outputFrame + delFrame ) * audio.getChannelCount() + i ) % (bufferFrameLength * audio.getChannelCount());
+        int delIndex = ( ( outputFrame + delFrame ) * getAudioChannelCount() + i ) % (bufferFrameLength * getAudioChannelCount());
         delayBuffer[delIndex] = inSample + wetSample * feedback.getLastValue();
         
         // the output sample is in plus wet, each scaled by amplitude inputs
@@ -116,7 +115,7 @@ void Minim::Flanger::resetBuffer()
     
     // support up to a full second
     int sampleCount = (int)( sampleRate() );
-    int bufferSize  = sampleCount * audio.getChannelCount();
+    int bufferSize  = sampleCount * getAudioChannelCount();
     delayBuffer = new float[bufferSize];
     memset( delayBuffer, 0, sizeof(float)*bufferSize );
     outputFrame = 0;

@@ -11,7 +11,7 @@
 
 //-----------------------------
 Minim::ADSR::ADSR( float maxAmp, float attTime, float decTime, float susLvl, float relTime, float befAmp, float aftAmp )
-: UGen(1)
+: UGen()
 , audio( *this, AUDIO )
 , maxAmplitude(maxAmp)
 , attackTime(attTime)

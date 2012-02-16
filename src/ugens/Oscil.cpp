@@ -24,7 +24,7 @@
 namespace Minim  
 {
 	Oscil::Oscil( const float freq, float amp, Waveform * wave )
-	: UGen( 4 )
+	: UGen()
 	, amplitude( *this, CONTROL ) 
 	, frequency( *this, CONTROL )
 	, phase( *this, CONTROL )
@@ -41,7 +41,7 @@ namespace Minim
 	}
 	
 	Oscil::Oscil( const Frequency & freq, float amp, Waveform * wave )
-	: UGen( 4 )
+	: UGen()
 	, amplitude( *this, CONTROL ) 
 	, frequency( *this, CONTROL )
 	, phase( *this, CONTROL )

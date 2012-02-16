@@ -12,7 +12,7 @@
 #include <math.h>
 
 Minim::MoogFilter::MoogFilter( float cutoffFrequencyInHz, float normalizedResonance, Minim::MoogFilter::Type filterType )
-: UGen(3)
+: UGen()
 , audio( *this, AUDIO )
 , frequency( *this, CONTROL )
 , resonance( *this, CONTROL )

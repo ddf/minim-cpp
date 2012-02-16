@@ -55,7 +55,7 @@ namespace Minim
 		{
 		public:
 			
-			SummerStream( Summer & summer, NoteManager & noteManager, const AudioFormat & format );
+			SummerStream( Summer & summer, NoteManager & noteManager, const AudioFormat & format, const int bufferSize );
 			~SummerStream();
 
 			// AudioResource impl
@@ -76,6 +76,7 @@ namespace Minim
 			// scalar applied to samples before being written into the output buffer
 			float mVolume; // actual volume
 			float mTargetVolume; // where we are headed
+            long unsigned int mBufferMicrosecondLength; // so we can report bufferunderrun
 			
 		} mSummerStream;
 		

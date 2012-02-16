@@ -11,7 +11,7 @@
 #include <algorithm>
 
 Minim::Delay::Delay( const float maxDT, const float ampFactor, const bool feedback, const bool passAudio )
-: UGen(5)
+: UGen()
 , audio( *this, AUDIO )
 , delTime( *this, CONTROL )
 , delAmp( *this, CONTROL )

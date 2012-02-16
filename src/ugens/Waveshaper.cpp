@@ -26,7 +26,7 @@
 namespace Minim 
 {
 	WaveShaper::WaveShaper( const float outAmp, const float mapAmp, Wavetable * mapShape, const bool bWrapMap )
-	: UGen( 3 )
+	: UGen()
 	, audio( *this, AUDIO )
 	, outAmplitude( *this, CONTROL )
 	, mapAmplitude( *this, CONTROL )

@@ -22,6 +22,7 @@
 #include <stdio.h> // for sprintf
 #include <string.h> // for memcpy
 #include <algorithm> // for fill
+#include <cassert>
 
 #ifndef NULL
 #define NULL 0
@@ -36,9 +37,10 @@ UGen::UGenInput::UGenInput( UGen & outerUGen, UGen::InputType inputType, float d
 , mInputType(inputType)
 , mIncoming(NULL)
 , mChannelCount(1)
+, mNextInput(NULL)
 {
-	mOuterUGen.mInputs[mOuterUGen.mInputCount] = this;
-	mOuterUGen.mInputCount++;
+    mNextInput         = mOuterUGen.mInputs;
+	mOuterUGen.mInputs = this;
 	
 	mLastValues = new float[1];
 	mLastValues[0] = defaultValue;
@@ -85,35 +87,19 @@ void UGen::UGenInput::setChannelCount( const int numChannels )
 
 ///////////////////////////////////////////////////
 UGen::UGen()
-: mNumOutputs(0)
-, mCurrentTick(0)
-, mLastValues( new float[1] ) // assume mono
-, mChannelCount(1)
-, mInputs(NULL)
-, mInputCount(0)
+: mInputs(NULL) 
+, mChannelCount(1) // assume mono
+, mLastValues( new float[mChannelCount] ) 
 , mSampleRate(0)
-{
-}
-	
-UGen::UGen( const int numOfInputs )
-: mNumOutputs(0)
+, mNumOutputs(0)
 , mCurrentTick(0)
-, mLastValues( new float[1] ) // assume mono
-, mChannelCount(1)
-, mInputs( new UGenInput*[numOfInputs] )
-, mInputCount(0)
-, mSampleRate(0)
 {
-
+    // don't start with garbage
+    mLastValues[0] = 0;
 }
 		  
 UGen::~UGen()
-{
-	if ( mInputs )
-	{
-		delete [] mInputs;
-	}
-	
+{	
 	delete [] mLastValues;
 }
 
@@ -166,20 +152,20 @@ void UGen::unpatch( UGen & disconnectFrom )
 //////////////////////////////////////////////////
 void UGen::addInput( UGen * input )
 {
-	// jam3: This default behavior is that the incoming signal will be added
-	// 		to the first input in the uGenInputs list.
-	Minim::debug("UGen addInput called.");
-	// TODO change input checking to an Exception?
-	if ( mInputCount > 0 )
+    // default behavior is to attach to first audio input we find
+    UGenInput* in = mInputs;
+    while( in )
 	{
-		Minim::debug("Initializing default input on something");	
-		UGenInput & firstInput = *mInputs[0];
-		firstInput.setIncomingUGen( input );
+        if ( in->getInputType() == AUDIO )
+        {
+            in->setIncomingUGen( input );
+            return;
+        }
+        
+        in = in->next();
 	}  
-	else
-	{
-		Minim::error("Trying to connect to UGen with no default input.");
-	}
+
+    Minim::error("Trying to connect to UGen with no audio input.");
 }
 
 ///////////////////////////////////////////////////
@@ -188,12 +174,15 @@ void UGen::removeInput(Minim::UGen *input)
 	Minim::debug("UGen removeInput called.");
 	// see if any of our ugen inputs currently have input as the incoming ugen
 	// set their incoming ugen to null if that's the case
-	for( int i = 0; i < mInputCount; i++)
+    UGenInput* in = mInputs;
+    while( in )
 	{
-		if ( mInputs[i]->getIncomingUGen() == input )
+		if ( in->getIncomingUGen() == input )
 		{
-			mInputs[i]->setIncomingUGen( NULL );
+			in->setIncomingUGen( NULL );
 		}
+        
+        in = in->next();
 	}
 }
 
@@ -201,17 +190,14 @@ void UGen::removeInput(Minim::UGen *input)
 ///////////////////////////////////////////////////
 void UGen::tick(float *channels, const int numChannels)
 {
-	if( mChannelCount != numChannels )
-	{
-		Minim::error("Tried to tick a UGen with the wrong number of channels!" );
-		return;
-	}
+    assert( "Tried to tick a UGen with the wrong number of channels!" );
 	
 	if (0 == mCurrentTick) 
-	{			
-		for(int i = 0; i < mInputCount; ++i)
+	{	
+		UGenInput * in = mInputs;
+        while ( in )
 		{		
-			mInputs[i]->tick();
+			in = in->tick();
 		}
 		
 		// and then uGenerate for this UGen	
@@ -235,13 +221,17 @@ void UGen::setSampleRate(float newSampleRate)
 		mSampleRate = newSampleRate;
 		sampleRateChanged();
 	}
-	for(int i = 0; i < mInputCount; ++i)
+	
+    UGenInput* in = mInputs;
+    while( in )
 	{
-		UGenInput & input = *mInputs[i];
+		UGenInput & input = *in;
 		if ( input.isPatched() )
 		{
 			input.setSampleRate(newSampleRate);
 		}			
+        
+        in = in->next();
 	}
 }
 
@@ -261,25 +251,31 @@ void UGen::setAudioChannelCount( int numberOfChannels )
 		channelCountChanged();
 	}
 	
-	for(int i = 0; i < mInputCount; ++i)
+	UGenInput* in = mInputs;
+    while( in )
 	{
-		UGenInput & input = *mInputs[i];
+		UGenInput & input = *in;
 		if ( input.getInputType() == AUDIO )
 		{
 			input.setChannelCount(numberOfChannels);
 		}
+        
+        in = in->next();
 	}
 }
 
 ////////////////////////////////////////////////////
 void UGen::printInputs() const
 {
-	for(int i = 0; i < mInputCount; ++i)
+	UGenInput* in = mInputs;
+    while( in )
 	{
-	   char msg[64];
-	   sprintf( msg, "uGenInputs %d ", i );
-	   Minim::debug(msg);
+//	   char msg[64];
+//	   sprintf( msg, "uGenInputs %d ", i );
+//	   Minim::debug(msg);
 	   // mInputs[i]->printInput();
+        
+        in = in->next();
 	}
 }
 	
@@ -288,17 +284,41 @@ void UGen::fill( float * sampleFrame, const float value, const int numChannels )
 {
 	switch (numChannels)
 	{
-		case 2:
-			sampleFrame[1] = value;
-			//fallthrough
 		case 1:
-			sampleFrame[0] = value;
+            sampleFrame[0] = value;
+            break;
+            
+		case 2:
+            sampleFrame[0] = sampleFrame[1] = value;
 			break;
 			
 		default:
 			std::fill(sampleFrame, sampleFrame + numChannels, value );
 			break;
 	}
+}
+    
+////////////////////////////////////////////////////
+void UGen::accum( float * accumFrame, const float * sampleFrame, const int numChannels, const float scale )
+{
+    switch (numChannels)
+    {
+        case 1:
+            accumFrame[0] += sampleFrame[0] * scale;
+            break;
+            
+        case 2:
+            accumFrame[0] += sampleFrame[0] * scale;
+            accumFrame[1] += sampleFrame[1] * scale;
+            break;
+            
+        default:
+            for( int c = 0; c < numChannels; ++c )
+            {
+                accumFrame[c] += sampleFrame[c] * scale;
+            }
+            break;
+    }
 }
 
 } // namespace Minim

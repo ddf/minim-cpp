@@ -30,7 +30,7 @@ namespace Minim
 	// static int kUGensDefaultSize = 10;
 
 Summer::Summer()
-: UGen(1)
+: UGen()
 , m_accum( new float[1] ) // assume mono, same as UGen
 , m_accumSize(1)
 , m_inputs(NULL)
@@ -151,25 +151,16 @@ void Summer::uGenerate(float * channels, const int numChannels)
     BMutexLock lock( m_mutex );
 
 	// start out with silence
-	memset( channels, 0, sizeof(float)*numChannels );
+    UGen::fill( channels, 0, numChannels );
 
+    const float v = volume.getLastValue();
 	for( int i = 0; i < m_inputsLength; ++i )
 	{
-        UGen* in = m_inputs[i];
-		if ( in )
+		if ( m_inputs[i] )
 		{
-            in->tick( m_accum, numChannels );
-			for( int c = 0; c < numChannels; ++c )
-			{
-				channels[c] += m_accum[c];
-			}
+            m_inputs[i]->tick( m_accum, numChannels );
+            UGen::accum(channels, m_accum, numChannels, v);
 		}
-	}
-
-	const float v = volume.getLastValue();
-	for( int c = 0; c < numChannels; ++c )
-	{
-		channels[c] *= v;
 	}
 }
 

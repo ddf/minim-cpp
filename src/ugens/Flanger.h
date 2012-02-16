@@ -96,10 +96,9 @@ namespace Minim
         
         virtual ~Flanger();
         
-        virtual void setAudioChannelCount(int numberOfChannels);
-        
     protected:
         virtual void sampleRateChanged();
+        virtual void channelCountChanged();
         
         virtual void uGenerate( float* out, const int numChannels );
         

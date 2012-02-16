@@ -18,7 +18,7 @@ namespace Minim
 {
 
 Noise::Noise( float amp, Tint tint )
-: UGen( 2 )
+: UGen()
 , amplitude( *this, CONTROL )
 , offset( *this, CONTROL )
 , mTint(tint)

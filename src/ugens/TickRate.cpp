@@ -13,7 +13,7 @@
 namespace Minim
 {
 	TickRate::TickRate( const float tickRate )
-	: UGen( 1 )
+	: UGen()
 	, m_pAudio(0)
 	, value( *this, CONTROL )
 	, m_currentSampleFrame( new float[1] ) // start mono, same as ugen

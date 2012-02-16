@@ -13,7 +13,7 @@ namespace Minim
 {
 	
 	Multiplier::Multiplier( float mult )
-	: UGen(2)
+	: UGen()
 	, audio( *this, AUDIO )
 	, amplitude( *this, CONTROL )
 	{

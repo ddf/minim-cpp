@@ -17,7 +17,7 @@ namespace Minim
 
 	
     Sampler::Sampler( const int maxVoices )
-	: UGen( 5 ) 
+	: UGen() 
 	, begin( *this, CONTROL )
 	, end( *this, CONTROL )
 	, attack( *this, CONTROL )
@@ -43,7 +43,7 @@ namespace Minim
 	}
     
     Sampler::Sampler( const MultiChannelBuffer & buffer, const int maxVoices )
-	: UGen( 5 ) 
+	: UGen() 
 	, begin( *this, CONTROL )
 	, end( *this, CONTROL )
 	, attack( *this, CONTROL )

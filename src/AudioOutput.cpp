@@ -28,7 +28,7 @@ namespace Minim
 	: AudioSource(out)
 	, mSummer()
 	, mNoteManager( *this )
-	, mSummerStream(mSummer, mNoteManager, out->getFormat())
+	, mSummerStream(mSummer, mNoteManager, out->getFormat(), buffer().getBufferSize())
 	{
 		out->setAudioStream( &mSummerStream );
 		out->open();
@@ -52,7 +52,7 @@ namespace Minim
 		mNoteManager.addEvent(startTime, duration, instrument);
 	}
 	
-	AudioOutput::SummerStream::SummerStream( Summer & summer, NoteManager & noteManager, const AudioFormat & format )
+	AudioOutput::SummerStream::SummerStream( Summer & summer, NoteManager & noteManager, const AudioFormat & format, const int bufferSize )
 		: mSummer(summer)
 		, mNoteManager(noteManager)
 		, mFormat(format)
@@ -60,6 +60,7 @@ namespace Minim
 		, mTargetVolume(1.f)
 	{
 		mTickBuffer = new float[format.getChannels()];
+        mBufferMicrosecondLength = (float)bufferSize / format.getSampleRate() * 1000000;
 	}
 
 	AudioOutput::SummerStream::~SummerStream()
@@ -69,22 +70,23 @@ namespace Minim
 
 	void AudioOutput::SummerStream::read( MultiChannelBuffer & buffer )
 	{
-		//CodeTimer timer("SummerStream::read");
+		CodeTimer timer("Buffer underrun in AudioOutput: ", mBufferMicrosecondLength );
 		
 		const int nChannels = buffer.getChannelCount();
 		const int bsize = buffer.getBufferSize();
 		for(int i = 0; i < bsize; ++i)
 		{
-			mNoteManager.tick();
-			// don't need to memset our tick buffer
-			// because the summer will assign for the first ugen it ticks
-			// and then sum after that.
-			mSummer.uGenerate( mTickBuffer, nChannels );
-			for(int c = 0; c < nChannels; ++c)
-			{
-				float v = mVolume + (mTargetVolume - mVolume)*((float)i/bsize);
-				buffer.getChannel(c)[i] = mTickBuffer[c] * v;
-			}
+            mNoteManager.tick();
+    
+            // don't need to memset our tick buffer
+            // because the summer will assign for the first ugen it ticks
+            // and then sum after that.
+            mSummer.uGenerate( mTickBuffer, nChannels );
+            for(int c = 0; c < nChannels; ++c)
+            {
+                float v = mVolume + (mTargetVolume - mVolume)*((float)i/bsize);
+                buffer.getChannel(c)[i] = mTickBuffer[c] * v;
+            }
 		}
 		mVolume = mTargetVolume;
 	}

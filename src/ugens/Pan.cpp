@@ -17,7 +17,7 @@
 namespace Minim
 {
 	Pan::Pan( const float panValue )
-	: UGen(1)
+	: UGen()
 	, pan( *this, CONTROL )
 	, m_audio( NULL )
 	{
