@@ -144,6 +144,21 @@ void Summer::removeInput( UGen * in )
 		}
 	}
 }
+    
+///////////////////////////////////////////////////
+int Summer::inputCount() const
+{
+    int count = 0;
+    for( int i = 0; i < m_inputsLength; ++i )
+    {
+        if ( m_inputs[i] )
+        {
+            ++count;
+        }
+    }
+    
+    return count;
+}
 
 ///////////////////////////////////////////////////
 void Summer::uGenerate(float * channels, const int numChannels)

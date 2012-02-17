@@ -70,7 +70,7 @@ namespace Minim
 		 *           Minim.LOOP_CONTINUOUSLY to indicate that looping should continue
 		 *           until interrupted
 		 */
-		virtual void loop(const unsigned int count) = 0;
+		virtual void loop(const int count) = 0;
 
 		/**
 		 * Sets the loops points in the source, in milliseconds
@@ -89,6 +89,8 @@ namespace Minim
 		 * @return how many loops left
 		 */
 		virtual unsigned int getLoopCount() const = 0;
+        
+        bool isLooping() const { return getLoopCount() != 0; }
 
 		/**
 		 * Gets the current millisecond position of the source.

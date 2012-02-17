@@ -25,14 +25,29 @@ namespace Minim
 		// It will close and delete this stream on destruction.
 		FilePlayer( AudioRecordingStream * pReadStream );
 		virtual ~FilePlayer();
+        
+        UGenInput amplitude;
+        UGenInput rate;
 		
 		inline void play() { m_pStream->play(); }
 		inline void pause() { m_pStream->pause(); }
-		inline bool isPlaying() { return m_pStream->isPlaying(); }
+		inline bool isPlaying() const { return m_pStream->isPlaying(); }
+        
+        inline void loop( int howMany ) { m_pStream->loop(howMany); }
+		inline bool isLooping() const { return m_pStream->isLooping(); }
 		
 		void setMillisecondPosition( const unsigned int pos );
 		unsigned int getMillisecondPosition() const;
 		inline unsigned int getMillisecondLength() const { return m_pStream->getMillisecondLength(); }
+        
+        const char * fileName() const
+		{
+			if ( m_pStream )
+			{
+				return m_pStream->getMetaData().fileName();
+			}
+			return "";
+		}
 		
 	protected:
 		virtual void uGenerate( float * channels, const int numberOfChannels );
@@ -62,6 +77,9 @@ namespace Minim
 		
 		// we keep track of where we should uGenerate from
 		int                     m_outputPosition;
+        
+        // how long the stream is
+		int                     m_streamFrameLength;
 	};
 	
 	

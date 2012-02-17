@@ -17,9 +17,14 @@ TouchAudioRecordingStream::TouchAudioRecordingStream( CFURLRef fileURL, const in
 , m_readBuffer(NULL)
 , m_bufferSize(bufferSize)
 , m_bIsPlaying(false)
+, m_bIsLooping(false)
+, m_loopCount(0)
+, m_loopStart(0)
+, m_loopStop(0)
 , m_fileFormat(0) // don't know how many channels yet
 , m_fileMillisLength(0)
 , m_fileFrameLength(0)
+, m_metaData(this)
 {
 }
 
@@ -64,6 +69,8 @@ void TouchAudioRecordingStream::open()
 		{
 			m_readBuffer = new Float32[ m_bufferSize * fileFormat.NumberChannels() ];
 		}
+        
+        m_loopStop = m_fileFrameLength;
 	}
 }
 
@@ -115,6 +122,40 @@ void TouchAudioRecordingStream::read( Minim::MultiChannelBuffer & buffer )
 		{
 			while( samplesToRead > 0 )
 			{
+                if ( m_bIsLooping )
+                {
+                    // make sure we aren't outside of our loop points
+                    SInt64 currentFramePosition;
+                    ExtAudioFileTell(m_audioFileRef, &currentFramePosition);
+                    if ( currentFramePosition < m_loopStart || currentFramePosition > m_loopStop )
+                    {
+                        ExtAudioFileSeek(m_audioFileRef, m_loopStart);
+                        currentFramePosition = m_loopStart;
+                    }
+                    
+                    // see if the number of frames left between where we are 
+                    // and the end of our loop is less than the size of our buffer
+                    if ( m_loopStop - currentFramePosition < samplesToRead )
+                    {
+                        // only read as many samples as we actually need
+                        samplesToRead = m_loopStop - currentFramePosition;
+                        
+                        // no more looping, just stop
+                        if ( m_loopCount == 0 )
+                        {
+                            m_bIsLooping = false;
+                            m_bIsPlaying = false;
+                        }
+                        else
+                        {
+                            if ( m_loopCount > 0 )
+                            {
+                                --m_loopCount;
+                            }
+                        }
+                    }
+                }
+                
 				UInt32 readSize = samplesToRead < m_bufferSize ? samplesToRead : m_bufferSize;
 				AudioBufferList fillBufList;
 				fillBufList.mNumberBuffers = 1;
@@ -132,8 +173,8 @@ void TouchAudioRecordingStream::read( Minim::MultiChannelBuffer & buffer )
                 }
 				
                 // on output, samplesRead contains how many frames were actually read.
-				// 0 read means EOF
-				if ( samplesRead == 0 )
+				// 0 read means EOF, so we should stop playing if we aren't looping.
+				if ( samplesRead == 0 && !m_bIsLooping )
 				{
 					// might need to wrap back to beginning loop point if looping,
 					// but for now we just stop playing.
@@ -163,8 +204,8 @@ void TouchAudioRecordingStream::read( Minim::MultiChannelBuffer & buffer )
 					}
 				}
 				
-				samplesToRead	 -= samplesRead;
 				totalSamplesRead += samplesRead;
+                samplesToRead     = outBufferSize - totalSamplesRead;
 			}
 		}
 	}
@@ -172,7 +213,34 @@ void TouchAudioRecordingStream::read( Minim::MultiChannelBuffer & buffer )
 	{
 		Minim::error("Tried to read from an unopened stream!");
 	}
+}
 
+//////////////////////////////////////////////////////
+void TouchAudioRecordingStream::loop( const int count )
+{
+	m_loopCount = count > -1 ? count : -1;
+	m_bIsPlaying = true;
+	m_bIsLooping = true;
+}
+
+//////////////////////////////////////////////////////
+void TouchAudioRecordingStream::setLoopPoints( const unsigned int start, const unsigned int stop )
+{
+	// convert millisecond positions to frame positions
+	m_loopStart = (float)start / 1000.f * m_fileFormat.getSampleRate();
+	m_loopStop  = (float)stop / 1000.f * m_fileFormat.getSampleRate();
+	// make sure our loop points are at least one buffer apart
+	if ( m_loopStop - m_loopStart < m_bufferSize )
+	{
+		m_loopStop = m_loopStart + m_bufferSize;
+		// if that extends beyond the end of the file
+		// back up the start point.
+		if ( m_loopStop > m_fileFrameLength )
+		{
+			m_loopStop = m_fileFrameLength;
+			m_loopStart = m_loopStop - m_bufferSize;
+		}
+	}
 }
 
 //////////////////////////////////////////////////////

@@ -32,6 +32,8 @@ namespace Minim
 		virtual ~Summer();
 	
 		UGenInput volume;
+        
+        int inputCount() const;
 
 	protected:
 		

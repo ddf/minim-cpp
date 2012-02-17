@@ -42,9 +42,9 @@ public:
 	
 	virtual unsigned int bufferSize() const { return m_bufferSize; }
 	
-	virtual void loop(const unsigned int count) {}
-	virtual void setLoopPoints(const unsigned int start, const unsigned int stop) {}
-	virtual unsigned int getLoopCount() const { return 0; }
+	virtual void loop(const int count);
+	virtual void setLoopPoints(const unsigned int start, const unsigned int stop);
+	virtual unsigned int getLoopCount() const { return m_loopCount; }
 	
 	virtual unsigned int getMillisecondPosition() const;
 	virtual void setMillisecondPosition(const unsigned int pos);
@@ -57,8 +57,27 @@ private:
 	
 	class TARSMetaData : public Minim::AudioMetaData
 	{
-	public:
-		TARSMetaData() : Minim::AudioMetaData() {}
+    public:
+		TARSMetaData(TouchAudioRecordingStream* pOwner) 
+		: Minim::AudioMetaData() 
+		, m_pOwner(pOwner)
+		{
+			
+		}
+		
+		virtual const char * fileName() const
+		{
+			static char fileNameCStr[128];
+			CFStringRef fileNameRef = CFURLCopyPath( m_pOwner->m_fileURL );
+			if ( CFStringGetCString(fileNameRef, fileNameCStr, 128, kCFStringEncodingUTF8) )
+			{
+				return fileNameCStr;
+			}
+			return "";
+		}
+		
+	private:
+		TouchAudioRecordingStream* m_pOwner;
 	};
 	
 	TARSMetaData m_metaData;
@@ -77,6 +96,13 @@ private:
 		
 	// are we "playing" or not
 	bool m_bIsPlaying;
+	bool m_bIsLooping;
+	
+	// how many more time we need to loop
+	int  m_loopCount;
+	// our loop points
+	SInt64  m_loopStart;
+	SInt64  m_loopStop;
 	
 	// how many sample frames we expect to be asked to read at a time
 	UInt32   m_bufferSize;

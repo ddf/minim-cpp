@@ -14,6 +14,7 @@
 #import  <AudioUnit/AudioOutputUnit.h>
 #import  <AudioToolbox/AudioServices.h>
 #include "CodeTimer.h"
+#include <Accelerate/Accelerate.h>
 
 const int kOutputBus = 0;
 
@@ -232,19 +233,44 @@ OSStatus TouchAudioOut::renderCallback( void                        *inRefCon,
 		if ( i == 0 )
 		{
 			AudioBuffer & outputBuffer = buffers->mBuffers[i];
-			SInt32* data = (SInt32*)outputBuffer.mData;
-
-			for( int c = 0; c < channelCount; ++c)
+			//SInt32* data = (SInt32*)outputBuffer.mData;
+			int* data   = (int*)outputBuffer.mData;
+			
+            //			converts floating point data to signed 32-bit integers.
+            //			void vDSP_vfixr32 (
+            //							   float *__vDSP_A,
+            //							   vDSP_Stride __vDSP_I,
+            //							   int *__vDSP_C,
+            //							   vDSP_Stride __vDSP_K,
+            //							   vDSP_Length __vDSP_N
+            //							   );
+			const float expand = 16777216;
+			float * left(NULL);
+			float * right(NULL);
+			
+			switch ( channelCount ) 
 			{
-				float * channel = buffer.getChannel(c);
-				for (int s = 0; s < bufferSize; ++s)
-				{
-					// there's got to be a faster way to make this conversion.
-					// need to go down the floating-point magic rat hole some day.
-					const float fsamp = channel[s];
-					const SInt32 sampleValue = fsamp * 16777216L;
-					data[s*channelCount + c] = sampleValue;
-				}
+				case 1:
+					left = buffer.getChannel(0);
+					vDSP_vsmul( left, 1, &expand, left, 1, bufferSize );
+					vDSP_vfixr32( left, 1, data, 1, bufferSize );
+					break;
+					
+				case 2:
+					left = buffer.getChannel(0);
+					right = buffer.getChannel(1);
+					vDSP_vsmul( left, 1, &expand, left, 1, bufferSize );
+					vDSP_vsmul( right, 1, &expand, right, 1, bufferSize );
+					
+					for( int i = 0, j = 0; i < bufferSize; ++i, j+=2 )
+					{
+						data[j]   = (int)left[i];
+						data[j+1] = (int)right[i];
+					}
+					break;
+					
+				default:
+					break;
 			}
 		}
 		else

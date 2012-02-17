@@ -19,6 +19,13 @@ extern void displayErrorAndExit( NSString* message, OSStatus status );
 // helper for creating a URL to a file, since that's what the Ext audio file stuff needs
 static CFURLRef getURLForFile( const char * filename )
 {
+    // don't try to lookup the empty string because 
+    // it will actually result in a valid file URL
+    if ( strlen(filename) == 0 )
+    {
+        return NULL;
+    }
+    
 	NSString * filePath = nil;
 	CFURLRef fileURL = NULL;
 	
@@ -146,7 +153,6 @@ Minim::AudioOut * TouchServiceProvider::getAudioOutput( const Minim::AudioFormat
 Minim::AudioRecordingStream * TouchServiceProvider::getAudioRecordingStream( const char * filename, int bufferSize, bool bInMemory )
 {
 	// we disregard bufferSize and inMemory for now.
-	
 	CFURLRef fileURL = getURLForFile(filename);
 	
 	// only make something if we found it

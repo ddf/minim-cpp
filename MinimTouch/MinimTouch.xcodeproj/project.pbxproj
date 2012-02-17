@@ -86,6 +86,7 @@
 		77BDF0E814C0E1F30090A200 /* FourierTransform.h in Headers */ = {isa = PBXBuildFile; fileRef = 77BDF0DF14C0E1F30090A200 /* FourierTransform.h */; };
 		77BDF0E914C0E1F30090A200 /* WindowFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77BDF0E014C0E1F30090A200 /* WindowFunction.cpp */; };
 		77BDF0EA14C0E1F30090A200 /* WindowFunction.h in Headers */ = {isa = PBXBuildFile; fileRef = 77BDF0E114C0E1F30090A200 /* WindowFunction.h */; };
+		77C6A9FD14EEC4FC00764378 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C6A9FC14EEC4FC00764378 /* Accelerate.framework */; };
 		77DEB7DE1490411C00C9FB09 /* Delay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77DEB7DC1490411C00C9FB09 /* Delay.cpp */; };
 		77DEB7DF1490411C00C9FB09 /* Delay.h in Headers */ = {isa = PBXBuildFile; fileRef = 77DEB7DD1490411C00C9FB09 /* Delay.h */; };
 		77DEB7E31490414800C9FB09 /* MoogFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77DEB7E11490414800C9FB09 /* MoogFilter.cpp */; };
@@ -174,6 +175,7 @@
 		77BDF0DF14C0E1F30090A200 /* FourierTransform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FourierTransform.h; path = "Frameworks/minim-cpp/src/FourierTransform.h"; sourceTree = DEVELOPER_DIR; };
 		77BDF0E014C0E1F30090A200 /* WindowFunction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WindowFunction.cpp; path = "Frameworks/minim-cpp/src/WindowFunction.cpp"; sourceTree = DEVELOPER_DIR; };
 		77BDF0E114C0E1F30090A200 /* WindowFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WindowFunction.h; path = "Frameworks/minim-cpp/src/WindowFunction.h"; sourceTree = DEVELOPER_DIR; };
+		77C6A9FC14EEC4FC00764378 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		77DEB7DC1490411C00C9FB09 /* Delay.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Delay.cpp; sourceTree = "<group>"; };
 		77DEB7DD1490411C00C9FB09 /* Delay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Delay.h; sourceTree = "<group>"; };
 		77DEB7E11490414800C9FB09 /* MoogFilter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MoogFilter.cpp; sourceTree = "<group>"; };
@@ -188,6 +190,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				77C6A9FD14EEC4FC00764378 /* Accelerate.framework in Frameworks */,
 				AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */,
 				6DAA3DE71155699A0095F300 /* AudioUnit.framework in Frameworks */,
 				6DAA3E2411556D160095F300 /* AudioToolbox.framework in Frameworks */,
@@ -208,6 +211,7 @@
 		0867D691FE84028FC02AAC07 /* MinimTouch */ = {
 			isa = PBXGroup;
 			children = (
+				77C6A9FC14EEC4FC00764378 /* Accelerate.framework */,
 				08FB77AEFE84172EC02AAC07 /* Classes */,
 				32C88DFF0371C24200C91783 /* Other Sources */,
 				0867D69AFE84028FC02AAC07 /* Frameworks */,
