@@ -17,6 +17,7 @@ Minim::FilePlayer::FilePlayer( AudioRecordingStream * pReadStream )
 , rate( *this, CONTROL, 1.0f )
 , m_pStream( pReadStream )
 , m_buffer( pReadStream->getFormat().getChannels(), pReadStream->bufferSize() )
+, m_streamFrameLength( pReadStream->getSampleFrameLength() )
 , m_outputPosition( 0 )
 {
     m_pStream->open();
@@ -123,9 +124,7 @@ unsigned int Minim::FilePlayer::getMillisecondPosition() const
 
 void Minim::FilePlayer::setMillisecondPosition( const unsigned int pos )
 {
-    printf( "Will acquire lock in setMillisecondPosition ... " );
     BMutexLock lock( m_mutex );
-    printf( "lock acquired.\n" );
     
     // before we go moving the stream, see if this position is actually in our current buffer.
     const unsigned int streamPos = m_pStream->getMillisecondPosition();

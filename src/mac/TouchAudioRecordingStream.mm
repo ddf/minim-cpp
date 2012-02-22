@@ -127,7 +127,7 @@ void TouchAudioRecordingStream::read( Minim::MultiChannelBuffer & buffer )
                     // make sure we aren't outside of our loop points
                     SInt64 currentFramePosition;
                     ExtAudioFileTell(m_audioFileRef, &currentFramePosition);
-                    if ( currentFramePosition < m_loopStart || currentFramePosition > m_loopStop )
+                    if ( currentFramePosition < m_loopStart || currentFramePosition >= m_loopStop )
                     {
                         ExtAudioFileSeek(m_audioFileRef, m_loopStart);
                         currentFramePosition = m_loopStart;
@@ -176,32 +176,34 @@ void TouchAudioRecordingStream::read( Minim::MultiChannelBuffer & buffer )
 				// 0 read means EOF, so we should stop playing if we aren't looping.
 				if ( samplesRead == 0 && !m_bIsLooping )
 				{
-					// might need to wrap back to beginning loop point if looping,
-					// but for now we just stop playing.
 					m_bIsPlaying = false;
 					return;
 				}
 				
-				// and now we should be able to de-interleave our read buffer into buffer
-				bool bIntegral = m_clientFormat.SampleWordSize() == sizeof(SInt16);
+				// and now we should be able to de-interleave our read buffer into our output buffer
+				const bool bIntegral = m_clientFormat.SampleWordSize() == sizeof(SInt16);
 				for(UInt32 c = 0; c < numberChannels; ++c)
 				{
 					float * channel = buffer.getChannel(c);
-					for(UInt32 i = 0; i < samplesRead; ++i)
-					{
-						const UInt32 offset = (i * numberChannels) + c; 
-						if ( bIntegral )
-						{
-							const SInt16 sample = ((SInt16*)m_readBuffer)[offset];
-							channel[totalSamplesRead + i] = (float)sample / 32767.f;
-						}
-						else 
-						{
-							const Float32 sample = ((Float32*)m_readBuffer)[offset];
-							channel[totalSamplesRead + i ] = sample;
-						}
-
-					}
+                    
+                    if ( bIntegral )
+                    {
+                        for(UInt32 i = 0; i < samplesRead; ++i)
+                        {
+                            const UInt32 offset = (i * numberChannels) + c; 
+                            const SInt16 sample = ((SInt16*)m_readBuffer)[offset];
+                            channel[totalSamplesRead + i] = (float)sample / 32767.f;
+                        }
+                    }
+                    else
+                    {
+                        for(UInt32 i = 0; i < samplesRead; ++i)
+                        {
+                            const UInt32 offset = (i * numberChannels) + c; 
+                            const Float32 sample = ((Float32*)m_readBuffer)[offset];
+                            channel[totalSamplesRead + i ] = sample;
+                        }   
+                    }
 				}
 				
 				totalSamplesRead += samplesRead;

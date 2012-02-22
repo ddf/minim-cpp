@@ -66,8 +66,6 @@ namespace Minim
 		{
 			return (unsigned int)( (float)frames / sampleRate() * 1000.f );
 		}
-        
-        BMutex                  m_mutex;
 		
 		// the stream we read from
 		AudioRecordingStream *  m_pStream;
@@ -76,10 +74,13 @@ namespace Minim
 		MultiChannelBuffer      m_buffer;
 		
 		// we keep track of where we should uGenerate from
-		int                     m_outputPosition;
+		float                   m_outputPosition;
         
         // how long the stream is
 		int                     m_streamFrameLength;
+        
+        // mutex for locking when in functions that access our stream or buffer
+        BMutex                  m_mutex;
 	};
 	
 	
