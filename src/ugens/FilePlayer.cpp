@@ -9,6 +9,7 @@
 
 #include "FilePlayer.h"
 #include <string.h> // for memset
+#include <stdio.h>
 
 Minim::FilePlayer::FilePlayer( AudioRecordingStream * pReadStream )
 : UGen()
@@ -94,7 +95,6 @@ void Minim::FilePlayer::uGenerate( float * channels, const int numberOfChannels 
 void Minim::FilePlayer::fillBuffer()
 {
     m_pStream->read( m_buffer );
-    m_outputPosition = 0;
 }
 
 unsigned int Minim::FilePlayer::getMillisecondPosition() const
@@ -123,7 +123,9 @@ unsigned int Minim::FilePlayer::getMillisecondPosition() const
 
 void Minim::FilePlayer::setMillisecondPosition( const unsigned int pos )
 {
+    printf( "Will acquire lock in setMillisecondPosition ... " );
     BMutexLock lock( m_mutex );
+    printf( "lock acquired.\n" );
     
     // before we go moving the stream, see if this position is actually in our current buffer.
     const unsigned int streamPos = m_pStream->getMillisecondPosition();
