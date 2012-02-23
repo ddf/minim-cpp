@@ -84,6 +84,21 @@ void UGen::UGenInput::setChannelCount( const int numChannels )
 		mIncoming->setAudioChannelCount( numChannels );
 	}
 }
+    
+void UGen::UGenInput::setIncomingUGen(Minim::UGen* inUGen )
+{
+    mIncoming = inUGen;
+    if ( mInputType == AUDIO )
+    {
+        if ( mIncoming )
+        {
+            mIncoming->setAudioChannelCount( mChannelCount );
+        }
+        
+        // nuke old values
+        memset(mLastValues, 0, sizeof(float)*mChannelCount);
+    }
+}
 
 ///////////////////////////////////////////////////
 UGen::UGen()

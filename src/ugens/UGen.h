@@ -65,14 +65,7 @@ protected:
 		
 		inline void setSampleRate( float sampleRate ) { mIncoming->setSampleRate(sampleRate); }
 		
-		inline void setIncomingUGen( UGen * inUGen )
-		{
-			mIncoming = inUGen;
-			if ( mIncoming && mInputType == AUDIO )
-			{
-				mIncoming->setAudioChannelCount( mChannelCount );
-			}
-		}
+        void setIncomingUGen( UGen * inUGen );
 		
 		inline UGen * getIncomingUGen() const { return mIncoming; }
 		
