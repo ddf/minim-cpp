@@ -16,7 +16,7 @@ namespace Minim
 	{
 	public:
 		Constant( const float val = 1.0f )
-		: UGen(1)
+		: UGen()
 		, value( *this, CONTROL )
 		{
 			value.setLastValue( val );

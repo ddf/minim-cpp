@@ -233,41 +233,41 @@ OSStatus TouchAudioOut::renderCallback( void                        *inRefCon,
 		if ( i == 0 )
 		{
 			AudioBuffer & outputBuffer = buffers->mBuffers[i];
-			//SInt32* data = (SInt32*)outputBuffer.mData;
-			int* data   = (int*)outputBuffer.mData;
-			
-            //			converts floating point data to signed 32-bit integers.
-            //			void vDSP_vfixr32 (
-            //							   float *__vDSP_A,
-            //							   vDSP_Stride __vDSP_I,
-            //							   int *__vDSP_C,
-            //							   vDSP_Stride __vDSP_K,
-            //							   vDSP_Length __vDSP_N
-            //							   );
+			SInt32* data = (SInt32*)outputBuffer.mData;
+        
 			const float expand = 16777216;
-			float * left(NULL);
-			float * right(NULL);
-			
+		
+            // took out Accelerate calls because it was expanding 
+            // the floating point data to the integral range in place.
+            // this means that if someone is drawing the audio data,
+            // it is WAY larger than it should be. rather than 
+            // allocate additional memory to hold a copy of the 
+            // expanded samples, I just removed the vDSP calls.
+            // we were doing a for loop for stereo anyhow.
 			switch ( channelCount ) 
 			{
 				case 1:
-					left = buffer.getChannel(0);
-					vDSP_vsmul( left, 1, &expand, left, 1, bufferSize );
-					vDSP_vfixr32( left, 1, data, 1, bufferSize );
-					break;
+                {
+					const float * left = buffer.getChannel(0);
+                    for( int i = 0; i < bufferSize; ++i )
+                    {
+                        data[i] = (SInt32)(left[i] * expand);
+                    }
+                }
+                break;
 					
 				case 2:
-					left = buffer.getChannel(0);
-					right = buffer.getChannel(1);
-					vDSP_vsmul( left, 1, &expand, left, 1, bufferSize );
-					vDSP_vsmul( right, 1, &expand, right, 1, bufferSize );
+                {
+					const float * left = buffer.getChannel(0);
+					const float * right = buffer.getChannel(1);
 					
 					for( int i = 0, j = 0; i < bufferSize; ++i, j+=2 )
 					{
-						data[j]   = (int)left[i];
-						data[j+1] = (int)right[i];
+						data[j]   = (SInt32)(left[i] * expand);
+						data[j+1] = (SInt32)(right[i]* expand);
 					}
-					break;
+                }
+                break;
 					
 				default:
 					break;
