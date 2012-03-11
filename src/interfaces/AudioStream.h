@@ -28,6 +28,7 @@ namespace Minim
 	class AudioStream : public AudioResource
 	{
 	public:
+        virtual ~AudioStream() {}
 
 		/**
 		* Reads buffer.getBufferSize() sample frames and puts them into buffer's channels.

@@ -26,6 +26,8 @@ namespace Minim
 	class AudioResource
 	{
 	public:
+        virtual ~AudioResource() {}
+        
 		virtual void open() = 0;
 		virtual void close() = 0;
 		virtual const AudioFormat & getFormat() const = 0;

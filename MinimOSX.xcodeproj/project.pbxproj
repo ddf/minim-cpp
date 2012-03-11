@@ -271,8 +271,7 @@
 				6DD913ED1421A5F700729F2D /* FFT.h */,
 				6DD913EE1421A5F700729F2D /* FFT.cpp */,
 			);
-			name = src;
-			path = ../src;
+			path = src;
 			sourceTree = SOURCE_ROOT;
 		};
 		6DEFA2FC141ED6AF003783E8 /* interfaces */ = {
