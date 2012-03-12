@@ -110,6 +110,7 @@ void TouchAudioOut::open()
 	}
 	
 	// Enable playback
+#if TARGET_OS_IPHONE
 	UInt32 enableIO = 1;
 	status = AudioUnitSetProperty(mAudioUnit,
 								  kAudioOutputUnitProperty_EnableIO,
@@ -121,6 +122,7 @@ void TouchAudioOut::open()
 	{
 		displayErrorAndExit(@"AudioUnitSetProperty EnableIO (out)", status);
 	}
+#endif
 	
 	// Apply format
 	status = AudioUnitSetProperty(mAudioUnit,
@@ -233,9 +235,13 @@ OSStatus TouchAudioOut::renderCallback( void                        *inRefCon,
 		if ( i == 0 )
 		{
 			AudioBuffer & outputBuffer = buffers->mBuffers[i];
-			SInt32* data = (SInt32*)outputBuffer.mData;
+			AudioUnitSampleType* data = (AudioUnitSampleType*)outputBuffer.mData;
         
+#if CA_PREFER_FIXED_POINT
 			const float expand = 16777216;
+#else  
+            const float expand = 1;
+#endif
 		
             // took out Accelerate calls because it was expanding 
             // the floating point data to the integral range in place.
@@ -251,7 +257,7 @@ OSStatus TouchAudioOut::renderCallback( void                        *inRefCon,
 					const float * left = buffer.getChannel(0);
                     for( int i = 0; i < bufferSize; ++i )
                     {
-                        data[i] = (SInt32)(left[i] * expand);
+                        data[i] = (AudioUnitSampleType)(left[i] * expand);
                     }
                 }
                 break;
@@ -263,8 +269,8 @@ OSStatus TouchAudioOut::renderCallback( void                        *inRefCon,
 					
 					for( int i = 0, j = 0; i < bufferSize; ++i, j+=2 )
 					{
-						data[j]   = (SInt32)(left[i] * expand);
-						data[j+1] = (SInt32)(right[i]* expand);
+						data[j]   = (AudioUnitSampleType)(left[i] * expand);
+						data[j+1] = (AudioUnitSampleType)(right[i]* expand);
 					}
                 }
                 break;
