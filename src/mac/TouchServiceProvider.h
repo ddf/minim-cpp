@@ -20,12 +20,13 @@ public:
 #if TARGET_OS_IPHONE
 	struct AudioSessionParameters
 	{
-		AudioSessionParameters()
+        // default argument means we won't try to set the output buffer duration when starting the audio session.
+		AudioSessionParameters( float inBufferDuration = -1.0f )
 		: interruptRunLoop(NULL)
 		, interruptRunLoopMode(NULL)
 		, interruptListener(NULL)
 		, interruptUserData(NULL)
-		, outputBufferDuration(-1.f) // means we won't attempt to set the property
+		, outputBufferDuration( inBufferDuration )
 		, audioCategory(kAudioSessionCategory_MediaPlayback)
 		, setActiveImmediately(true)
 		{
