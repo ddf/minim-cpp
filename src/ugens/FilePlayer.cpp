@@ -98,6 +98,13 @@ void Minim::FilePlayer::fillBuffer()
     m_pStream->read( m_buffer );
 }
 
+void Minim::FilePlayer::copyBufferChannel( float * outSamples, const int channel )
+{
+    BMutexLock lock( m_mutex );
+    
+    memcpy(outSamples, m_buffer.getChannel(channel), sizeof(float)*m_buffer.getBufferSize());
+}
+
 unsigned int Minim::FilePlayer::getMillisecondPosition() const
 {
     // the stream will always be ahead of where *we* are, since we read it a buffer at a time

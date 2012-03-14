@@ -99,6 +99,12 @@ void Minim::MoogFilter::uGenerate( float * out, const int numChannels )
 		
 		b[4] = ( b[3] + t1 ) * p - b[4] * f;
 		b[4] = b[4] - b[4] * b[4] * b[4] * 0.166667f; // clipping
+        
+        // inelegantly squash denormals
+        if ( isnan(b[4]) )
+        {
+            memset(b, 0, sizeof(float)*5);
+        }
 		
 		b[0] = in;
 		

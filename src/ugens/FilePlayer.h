@@ -40,7 +40,7 @@ namespace Minim
 		unsigned int getMillisecondPosition() const;
 		inline unsigned int getMillisecondLength() const { return m_pStream->getMillisecondLength(); }
         
-        const char * fileName() const
+        inline const char * fileName() const
 		{
 			if ( m_pStream )
 			{
@@ -48,6 +48,14 @@ namespace Minim
 			}
 			return "";
 		}
+        
+        inline int bufferSize() const
+        {
+            return m_buffer.getBufferSize();
+        }
+        
+        // assumes that outSamples is large enough to hold bufferSize() samples.
+        void copyBufferChannel( float * outSamples, const int channel );
 		
 	protected:
 		virtual void uGenerate( float * channels, const int numberOfChannels );
