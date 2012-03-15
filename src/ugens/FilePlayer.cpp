@@ -114,6 +114,9 @@ unsigned int Minim::FilePlayer::getMillisecondPosition() const
     const unsigned int streamPos = m_pStream->getMillisecondPosition();
     // how many milliseconds do we have left in our buffer?
     unsigned int millisLeft = framesToMillis(m_buffer.getBufferSize() - m_outputPosition);
+    
+    // printf( "streamPos is %u, buffer size is %d, output position is %f, and millisLeft is %u\n", streamPos, m_buffer.getBufferSize(), m_outputPosition, millisLeft );
+    
     // we might have more time left in our buffer than the stream is reporting as its
     // position, which means that it looped and we haven't got past the loop point in the buffer yet.
     // so we need to make sure we don't generate a negative number
