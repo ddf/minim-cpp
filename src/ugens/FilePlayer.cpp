@@ -105,6 +105,20 @@ void Minim::FilePlayer::copyBufferChannel( float * outSamples, const int channel
     memcpy(outSamples, m_buffer.getChannel(channel), sizeof(float)*m_buffer.getBufferSize());
 }
 
+unsigned long Minim::FilePlayer::getSampleFramePosition() const
+{
+    // follows same logic as getMillisecondPosition below
+    const unsigned long streamPos  = m_pStream->getSampleFramePosition();
+    unsigned int        framesLeft = m_buffer.getBufferSize() - m_outputPosition;
+    if ( streamPos < framesLeft )
+    {
+        framesLeft -= streamPos;
+        return m_streamFrameLength - framesLeft;
+    }
+    
+    return streamPos - framesLeft;
+}
+
 unsigned int Minim::FilePlayer::getMillisecondPosition() const
 {
     // the stream will always be ahead of where *we* are, since we read it a buffer at a time

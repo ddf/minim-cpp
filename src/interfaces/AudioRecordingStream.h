@@ -114,6 +114,11 @@ namespace Minim
 		 * @return the length of the source, in milliseconds
 		 */
 		virtual int getMillisecondLength() const = 0;
+        
+        /**
+         * Returns the position of the source in sample frames.
+         */
+        virtual unsigned long getSampleFramePosition() const = 0;
 		
 		/**
 		 * Returns the length of the source in sample frames.

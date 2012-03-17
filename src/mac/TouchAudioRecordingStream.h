@@ -46,10 +46,12 @@ public:
 	virtual void setLoopPoints(const unsigned int start, const unsigned int stop);
 	virtual unsigned int getLoopCount() const { return m_loopCount; }
 	
-	virtual unsigned int getMillisecondPosition() const;
-	virtual void setMillisecondPosition(const unsigned int pos);
-	virtual int getMillisecondLength() const { return m_fileMillisLength; }
-	virtual long getSampleFrameLength() const { return m_fileFrameLength; }
+	virtual unsigned int    getMillisecondPosition() const;
+	virtual void            setMillisecondPosition( const unsigned int pos );
+	virtual int             getMillisecondLength() const { return m_fileMillisLength; }
+    
+    virtual unsigned long   getSampleFramePosition() const;
+	virtual long            getSampleFrameLength()   const { return m_fileFrameLength; }
 	
 	virtual const Minim::AudioMetaData & getMetaData() const { return m_metaData; }
 	

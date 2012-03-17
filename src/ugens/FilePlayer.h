@@ -36,9 +36,12 @@ namespace Minim
         inline void loop( int howMany ) { m_pStream->loop(howMany); }
 		inline bool isLooping() const { return m_pStream->isLooping(); }
 		
-		void setMillisecondPosition( const unsigned int pos );
-		unsigned int getMillisecondPosition() const;
+		void                setMillisecondPosition( const unsigned int pos );
+		unsigned int        getMillisecondPosition() const;
 		inline unsigned int getMillisecondLength() const { return m_pStream->getMillisecondLength(); }
+        
+        unsigned long       getSampleFramePosition() const;
+        long                getSampleFrameLength() const { return m_streamFrameLength; }
         
         inline const char * fileName() const
 		{

@@ -157,11 +157,12 @@ namespace Minim
 	
 	float MultiChannelBuffer::getSample( const int inChannel, const float sampleNum ) const
 	{
-		const int lowSample = (int)sampleNum;
-		const int hiSample  = lowSample + 1;
-		const float lerpVal = sampleNum - lowSample;
+		const int   lowSampleIdx = (int)sampleNum;
+		const float lerpVal      = sampleNum - lowSampleIdx;
+        const float lowSample    = mChannels[inChannel][lowSampleIdx];
+        const float highSample   = mChannels[inChannel][lowSampleIdx+1];
 		
-		return mChannels[inChannel][lowSample] * (1.f - lerpVal) + mChannels[inChannel][hiSample] * lerpVal;
+        return lowSample + (highSample - lowSample)*lerpVal;
 	}
 
 } // namespace Minim

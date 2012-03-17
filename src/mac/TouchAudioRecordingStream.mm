@@ -271,3 +271,15 @@ void TouchAudioRecordingStream::setMillisecondPosition( const unsigned int pos )
 	}
 }
 
+//////////////////////////////////////////////////////
+unsigned long TouchAudioRecordingStream::getSampleFramePosition() const
+{
+    SInt64 position(0);
+    if ( m_audioFileRef )
+    {
+        ExtAudioFileTell( m_audioFileRef, &position );
+    }
+    
+    return position;
+}
+
