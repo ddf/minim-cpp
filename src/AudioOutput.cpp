@@ -70,7 +70,7 @@ namespace Minim
 
 	void AudioOutput::SummerStream::read( MultiChannelBuffer & buffer )
 	{
-		CodeTimer timer("Buffer underrun in AudioOutput: ", mBufferMicrosecondLength );
+		// CodeTimer timer("Buffer underrun in AudioOutput: ", mBufferMicrosecondLength );
 		
 		const int nChannels = buffer.getChannelCount();
 		const int bsize = buffer.getBufferSize();
