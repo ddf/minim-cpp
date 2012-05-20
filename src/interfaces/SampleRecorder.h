@@ -28,6 +28,8 @@ namespace Minim
 	class SampleRecorder : public AudioListener
 	{
 	public:
+        virtual ~SampleRecorder() {}
+        
 		/**
 		* Returns the full path to the file this is saving to, if it exists.
 		* If this is not saving to a file, an empty <code>String</code> will be 
