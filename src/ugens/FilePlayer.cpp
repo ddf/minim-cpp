@@ -102,7 +102,14 @@ void Minim::FilePlayer::copyBufferChannel( float * outSamples, const int channel
 {
     BMutexLock lock( m_mutex );
     
-    memcpy(outSamples, m_buffer.getChannel(channel), sizeof(float)*m_buffer.getBufferSize());
+    if ( isPlaying() )
+    {
+        memcpy(outSamples, m_buffer.getChannel(channel), sizeof(float)*m_buffer.getBufferSize());
+    }
+    else 
+    {
+        memset(outSamples, 0, sizeof(float)*m_buffer.getBufferSize());
+    }
 }
 
 unsigned long Minim::FilePlayer::getSampleFramePosition() const
