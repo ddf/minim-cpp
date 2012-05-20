@@ -7,6 +7,9 @@
  *
  */
 
+#ifndef Minim_FourierTransform_h
+#define Minim_FourierTransform_h
+
 #include <math.h>
 #include "WindowFunction.h"
 
@@ -423,3 +426,5 @@ namespace Minim
 		}
 	};
 };
+
+#endif // Minim_FourierTransform_h
