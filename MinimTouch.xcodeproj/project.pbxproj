@@ -73,6 +73,7 @@
 		6DE5FFFA129F56EE00BF2732 /* CAStreamBasicDescription.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DE5FFF8129F56EE00BF2732 /* CAStreamBasicDescription.cpp */; };
 		6DE5FFFB129F56EE00BF2732 /* CAStreamBasicDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DE5FFF9129F56EE00BF2732 /* CAStreamBasicDescription.h */; };
 		6DE5FFFF129F5E3C00BF2732 /* CADebugMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DE5FFFE129F5E3C00BF2732 /* CADebugMacros.h */; };
+		771538ED156868AE005A50C7 /* BitCrush.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 771538EC156868AE005A50C7 /* BitCrush.cpp */; };
 		7741E35D1492E73C00F660A7 /* ADSR.h in Headers */ = {isa = PBXBuildFile; fileRef = 7741E35C1492E73C00F660A7 /* ADSR.h */; };
 		7741E3601492EB1700F660A7 /* ADSR.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7741E35F1492EB1700F660A7 /* ADSR.cpp */; };
 		779771C114EB6F3D002B2C9C /* Flanger.h in Headers */ = {isa = PBXBuildFile; fileRef = 779771C014EB6F3D002B2C9C /* Flanger.h */; };
@@ -162,6 +163,8 @@
 		6DE5FFF8129F56EE00BF2732 /* CAStreamBasicDescription.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CAStreamBasicDescription.cpp; path = src/mac/CAStreamBasicDescription.cpp; sourceTree = SOURCE_ROOT; };
 		6DE5FFF9129F56EE00BF2732 /* CAStreamBasicDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CAStreamBasicDescription.h; path = src/mac/CAStreamBasicDescription.h; sourceTree = SOURCE_ROOT; };
 		6DE5FFFE129F5E3C00BF2732 /* CADebugMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CADebugMacros.h; path = src/mac/CADebugMacros.h; sourceTree = SOURCE_ROOT; };
+		771538EA156867CF005A50C7 /* BitCrush.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BitCrush.h; sourceTree = "<group>"; };
+		771538EC156868AE005A50C7 /* BitCrush.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BitCrush.cpp; sourceTree = "<group>"; };
 		7741E35C1492E73C00F660A7 /* ADSR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADSR.h; sourceTree = "<group>"; };
 		7741E35F1492EB1700F660A7 /* ADSR.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ADSR.cpp; sourceTree = "<group>"; };
 		779771C014EB6F3D002B2C9C /* Flanger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flanger.h; sourceTree = "<group>"; };
@@ -347,6 +350,8 @@
 				6D33B3AF1307A280006EE9DD /* Waveshaper.h */,
 				6DCC146C1145C6E400727A0A /* Wavetable.cpp */,
 				6DCC146B1145C6E400727A0A /* Wavetable.h */,
+				771538EA156867CF005A50C7 /* BitCrush.h */,
+				771538EC156868AE005A50C7 /* BitCrush.cpp */,
 			);
 			name = ugens;
 			path = src/ugens;
@@ -497,6 +502,7 @@
 				77BDF0E714C0E1F30090A200 /* FourierTransform.cpp in Sources */,
 				77BDF0E914C0E1F30090A200 /* WindowFunction.cpp in Sources */,
 				779771C414EB7081002B2C9C /* Flanger.cpp in Sources */,
+				771538ED156868AE005A50C7 /* BitCrush.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

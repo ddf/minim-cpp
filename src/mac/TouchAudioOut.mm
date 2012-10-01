@@ -238,9 +238,9 @@ OSStatus TouchAudioOut::renderCallback( void                        *inRefCon,
 			AudioUnitSampleType* data = (AudioUnitSampleType*)outputBuffer.mData;
         
 #if CA_PREFER_FIXED_POINT
-			const float expand = 16777216;
+			static const float expand = 1 << kAudioUnitSampleFractionBits;
 #else  
-            const float expand = 1;
+            static const float expand = 1;
 #endif
 		
             // took out Accelerate calls because it was expanding 

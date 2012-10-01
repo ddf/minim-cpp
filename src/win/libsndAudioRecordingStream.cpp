@@ -124,6 +124,21 @@ void libsndAudioRecordingStream::setMillisecondPosition( const unsigned int pos 
 	}
 }
 
+unsigned long libsndAudioRecordingStream::getSampleFramePosition() const 
+{
+	if ( m_sndFile )
+	{
+		sf_count_t pos = sf_seek( m_sndFile, 0, SEEK_CUR );
+		if ( pos == -1 )
+		{
+			return 0;
+		}
+		return (unsigned long)pos;
+	}
+
+	return 0;
+}
+
 void libsndAudioRecordingStream::read( Minim::MultiChannelBuffer & buffer )
 {
 	if ( m_sndFile )

@@ -43,13 +43,14 @@ public:
 	virtual void pause();
 	virtual bool isPlaying() const { return m_bPlaying; }
 	virtual unsigned int bufferSize() const { return m_bufferSize; }
-	virtual void loop(const unsigned int count) {}
+	virtual void loop(const int count) {}
 	virtual void setLoopPoints(const unsigned int start, const unsigned int stop) {}
 	virtual unsigned int getLoopCount() const { return 0; }
 	virtual unsigned int getMillisecondPosition() const { return m_millisPosition; }
 	virtual void setMillisecondPosition(const unsigned int pos);
 	virtual int getMillisecondLength() const { return m_millisLength; }
 	virtual long getSampleFrameLength() const;
+	virtual unsigned long getSampleFramePosition() const;
 	virtual const Minim::AudioMetaData & getMetaData() const { return m_metaData; }
 
 private:

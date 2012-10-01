@@ -148,6 +148,16 @@ void mpg123AudioRecordingStream::setMillisecondPosition( const unsigned int pos 
 	}
 }
 
+unsigned long mpg123AudioRecordingStream::getSampleFramePosition() const 
+{
+	if ( m_sndFile )
+	{
+		return mpg123_tellframe( m_sndFile );
+	}
+
+	return 0;
+}
+
 void mpg123AudioRecordingStream::read( Minim::MultiChannelBuffer & buffer )
 {
 	if ( m_sndFile )
