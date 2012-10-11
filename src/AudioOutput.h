@@ -43,6 +43,7 @@ namespace Minim
 		inline float getVolume() const { return mSummerStream.getVolume(); }
         
         inline void setTempo( const float tempo ) { mNoteManager.setTempo( tempo ); }
+        inline float getTempo() const { return mNoteManager.getTempo(); }
 
 	private:
 		// UGen is our friend so that it can get to our summer

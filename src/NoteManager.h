@@ -35,6 +35,11 @@ namespace Minim
 		{
 			m_tempo = tempo;
 		}
+        
+        inline float getTempo() const
+        {
+            return m_tempo;
+        }
 		
 		inline void setNoteOffset(const float noteOffset)
 		{
