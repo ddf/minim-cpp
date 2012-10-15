@@ -25,7 +25,7 @@ public:
 	virtual const Minim::AudioFormat & getFormat() const { return mAudioFormat; }
 	
 	// AudioOut implementation
-	virtual const int bufferSize() const { return mBufferSize; }
+	virtual const int bufferSize() const { return mBuffer.getBufferSize(); }
 	
 	virtual void setAudioStream( Minim::AudioStream * stream );
 	virtual void setAudioListener( Minim::AudioListener * listen );
@@ -49,7 +49,6 @@ private:
 	AudioStreamBasicDescription mStreamDesc;
 	
 	Minim::AudioFormat mAudioFormat;
-	int				   mBufferSize;
 	
 	// we'll reuse this in the render callback to read from the stream
 	Minim::MultiChannelBuffer mBuffer;

@@ -188,7 +188,7 @@ Minim::SampleRecorder * TouchServiceProvider::getSampleRecorder( Minim::AudioSou
 	if ( pathToFile )
 	{
 		
-		Minim::SampleRecorder * pRecorder = new CASampleRecorder( pathToFile, sourceToRecord->getFormat(), sourceToRecord->buffer().getBufferSize() );
+		Minim::SampleRecorder * pRecorder = new CASampleRecorder( pathToFile, sourceToRecord->getFormat() );
 		
 		return pRecorder;
 	}

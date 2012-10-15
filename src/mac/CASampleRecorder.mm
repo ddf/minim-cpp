@@ -9,15 +9,12 @@
 
 #include "CASampleRecorder.h"
 
-CASampleRecorder::CASampleRecorder( NSString * pathToFile, const Minim::AudioFormat & sourceFormat, const int bufferSize )
+CASampleRecorder::CASampleRecorder( NSString * pathToFile, const Minim::AudioFormat & sourceFormat )
 : m_filePath( pathToFile )
 , m_audioFile( NULL )
 , m_bRecording( false )
-, m_bufferSize( bufferSize )
-, m_writeBuffer( NULL )
 {
 	[m_filePath retain];
-	m_writeBuffer = new SInt16[ bufferSize * sourceFormat.getChannels() ];
 	
 	m_sourceFormat.SetCanonical( sourceFormat.getChannels(), true );
 	m_sourceFormat.mSampleRate = sourceFormat.getSampleRate();
@@ -28,7 +25,6 @@ CASampleRecorder::~CASampleRecorder()
 {
 	[m_filePath release];
 	ExtAudioFileDispose( m_audioFile );
-	delete[] m_writeBuffer;
 }
 
 const char * CASampleRecorder::filePath() const
@@ -80,27 +76,31 @@ void CASampleRecorder::save()
 
 void CASampleRecorder::samples( const Minim::MultiChannelBuffer & buffer )
 {
-	if ( !m_bRecording || buffer.getBufferSize() != m_bufferSize )
+	if ( !m_bRecording )
 	{
 		return;
 	}
+
+    const int numChan       = m_sourceFormat.NumberChannels();
+    const int bufferSize    = buffer.getBufferSize();
+    SInt16 writeSamples[ bufferSize * numChan ];
 	
 	// interleave buffer into our write samples buffer
-	const int numChan = m_sourceFormat.NumberChannels();
+
 	for( int c = 0; c < numChan; ++c )
 	{
-		for( int s = 0; s < m_bufferSize; ++s )
+		for( int s = 0; s < bufferSize; ++s )
 		{
-			m_writeBuffer[ s*numChan + c ] = buffer.getChannel(c)[s] * 32767.f;
+			writeSamples[ s*numChan + c ] = buffer.getChannel(c)[s] * 32767.f;
 		}
 	}
 	
 	AudioBufferList fillBufList;
-	fillBufList.mNumberBuffers = 1;
+	fillBufList.mNumberBuffers              = 1;
 	fillBufList.mBuffers[0].mNumberChannels = numChan;
-	fillBufList.mBuffers[0].mDataByteSize = m_sourceFormat.FramesToBytes( m_bufferSize );
-	fillBufList.mBuffers[0].mData = m_writeBuffer;
-	UInt32 frames = m_bufferSize;
+	fillBufList.mBuffers[0].mDataByteSize   = m_sourceFormat.FramesToBytes( bufferSize );
+	fillBufList.mBuffers[0].mData           = writeSamples;
+	UInt32 frames                           = bufferSize;
 	
 	// printf("Writing %u frames of %d channel audio...\n", frames, numChan);
 	OSStatus error = ExtAudioFileWriteAsync(m_audioFile, frames, &fillBufList);
