@@ -107,14 +107,20 @@ void Minim::MoogFilter::uGenerate( float * out, const int numChannels )
         }
 		
 		b[0] = in;
-		
-		if ( type == LP )
-		{
-			out[i] = b[4];
-		}
-		else if ( type == HP )
-		{
-			out[i] = in - b[4];
-		}
+        
+        switch( type )
+        {
+            case HP:
+                out[i] = in - b[4];
+                break;
+                
+            case LP:
+                out[i] = b[4];
+                break;
+                
+            case BP:
+                out[i] = 3.0f * (b[3] - b[4]);
+                break;
+        }
 	}
 }

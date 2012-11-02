@@ -82,6 +82,8 @@
 		6DF5EBA1142533D400C75F19 /* Delay.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DF5EB9F142533D400C75F19 /* Delay.h */; };
 		6DF5EBA2142533D400C75F19 /* Delay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DF5EBA0142533D400C75F19 /* Delay.cpp */; };
 		77BDF0FB14C0EA7C0090A200 /* BMutex.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 77BDF0FA14C0EA7C0090A200 /* BMutex.hpp */; };
+		77D5411B1580E0C80061B98E /* BitCrush.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77D541191580E0C80061B98E /* BitCrush.cpp */; };
+		77D5411C1580E0C80061B98E /* BitCrush.h in Headers */ = {isa = PBXBuildFile; fileRef = 77D5411A1580E0C80061B98E /* BitCrush.h */; };
 		77F34AA1150EB3BC001FABAE /* ADSR.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77F34A9B150EB3BC001FABAE /* ADSR.cpp */; };
 		77F34AA2150EB3BC001FABAE /* ADSR.h in Headers */ = {isa = PBXBuildFile; fileRef = 77F34A9C150EB3BC001FABAE /* ADSR.h */; };
 		77F34AA3150EB3BC001FABAE /* Flanger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77F34A9D150EB3BC001FABAE /* Flanger.cpp */; };
@@ -171,6 +173,8 @@
 		6DF5EB9F142533D400C75F19 /* Delay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Delay.h; sourceTree = "<group>"; };
 		6DF5EBA0142533D400C75F19 /* Delay.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Delay.cpp; sourceTree = "<group>"; };
 		77BDF0FA14C0EA7C0090A200 /* BMutex.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BMutex.hpp; sourceTree = "<group>"; };
+		77D541191580E0C80061B98E /* BitCrush.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BitCrush.cpp; sourceTree = "<group>"; };
+		77D5411A1580E0C80061B98E /* BitCrush.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BitCrush.h; sourceTree = "<group>"; };
 		77F34A9B150EB3BC001FABAE /* ADSR.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ADSR.cpp; sourceTree = "<group>"; };
 		77F34A9C150EB3BC001FABAE /* ADSR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADSR.h; sourceTree = "<group>"; };
 		77F34A9D150EB3BC001FABAE /* Flanger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Flanger.cpp; sourceTree = "<group>"; };
@@ -324,6 +328,8 @@
 		6DEFA317141ED6AF003783E8 /* ugens */ = {
 			isa = PBXGroup;
 			children = (
+				77D541191580E0C80061B98E /* BitCrush.cpp */,
+				77D5411A1580E0C80061B98E /* BitCrush.h */,
 				77F34A9B150EB3BC001FABAE /* ADSR.cpp */,
 				77F34A9C150EB3BC001FABAE /* ADSR.h */,
 				77F34A9D150EB3BC001FABAE /* Flanger.cpp */,
@@ -423,6 +429,7 @@
 				77F34AA2150EB3BC001FABAE /* ADSR.h in Headers */,
 				77F34AA4150EB3BC001FABAE /* Flanger.h in Headers */,
 				77F34AA6150EB3BC001FABAE /* MoogFilter.h in Headers */,
+				77D5411C1580E0C80061B98E /* BitCrush.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -511,6 +518,7 @@
 				77F34AA1150EB3BC001FABAE /* ADSR.cpp in Sources */,
 				77F34AA3150EB3BC001FABAE /* Flanger.cpp in Sources */,
 				77F34AA5150EB3BC001FABAE /* MoogFilter.cpp in Sources */,
+				77D5411B1580E0C80061B98E /* BitCrush.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
