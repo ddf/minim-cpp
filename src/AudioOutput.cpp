@@ -19,7 +19,7 @@
 #include "AudioOutput.h"
 #include "AudioStream.h"
 #include "AudioFormat.h"
-#include "CodeTimer.h"
+//#include "CodeTimer.h"
 
 namespace Minim
 {

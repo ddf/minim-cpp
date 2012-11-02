@@ -20,7 +20,7 @@
 class CASampleRecorder : public Minim::SampleRecorder
 {
 public:
-	CASampleRecorder( NSString * pathToFile, const Minim::AudioFormat & sourceFormat, const int bufferSize );
+	CASampleRecorder( NSString * pathToFile, const Minim::AudioFormat & sourceFormat );
 	virtual ~CASampleRecorder();
 	
 	//--------------------------------------
@@ -51,11 +51,6 @@ private:
 	
 	// are we currently recording
 	bool			    m_bRecording;
-	
-	// how many sample frames we expect to be asked to write at a time
-	UInt32   m_bufferSize;
-	// where we write the data to
-	SInt16 * m_writeBuffer;
 };
 
 #endif // CASAMPLERECORDER_H

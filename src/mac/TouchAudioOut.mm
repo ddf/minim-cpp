@@ -20,7 +20,6 @@ const int kOutputBus = 0;
 
 TouchAudioOut::TouchAudioOut( const Minim::AudioFormat & format, int bufferSize )
 : mAudioFormat(format)
-, mBufferSize(bufferSize)
 , mBuffer( format.getChannels(), bufferSize )
 , mListener( NULL )
 {
