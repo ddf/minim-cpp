@@ -81,6 +81,7 @@
 		6DEFA37B141ED6AF003783E8 /* Wavetable.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DEFA336141ED6AF003783E8 /* Wavetable.h */; };
 		6DF5EBA1142533D400C75F19 /* Delay.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DF5EB9F142533D400C75F19 /* Delay.h */; };
 		6DF5EBA2142533D400C75F19 /* Delay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DF5EBA0142533D400C75F19 /* Delay.cpp */; };
+		776A5A4218451FE800119698 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 776A5A4118451FE800119698 /* Cocoa.framework */; };
 		77BDF0FB14C0EA7C0090A200 /* BMutex.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 77BDF0FA14C0EA7C0090A200 /* BMutex.hpp */; };
 		77F34AA1150EB3BC001FABAE /* ADSR.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77F34A9B150EB3BC001FABAE /* ADSR.cpp */; };
 		77F34AA2150EB3BC001FABAE /* ADSR.h in Headers */ = {isa = PBXBuildFile; fileRef = 77F34A9C150EB3BC001FABAE /* ADSR.h */; };
@@ -88,7 +89,6 @@
 		77F34AA4150EB3BC001FABAE /* Flanger.h in Headers */ = {isa = PBXBuildFile; fileRef = 77F34A9E150EB3BC001FABAE /* Flanger.h */; };
 		77F34AA5150EB3BC001FABAE /* MoogFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77F34A9F150EB3BC001FABAE /* MoogFilter.cpp */; };
 		77F34AA6150EB3BC001FABAE /* MoogFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 77F34AA0150EB3BC001FABAE /* MoogFilter.h */; };
-		D2AAC088055469A000DB518D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -170,6 +170,7 @@
 		6DEFA336141ED6AF003783E8 /* Wavetable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Wavetable.h; sourceTree = "<group>"; };
 		6DF5EB9F142533D400C75F19 /* Delay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Delay.h; sourceTree = "<group>"; };
 		6DF5EBA0142533D400C75F19 /* Delay.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Delay.cpp; sourceTree = "<group>"; };
+		776A5A4118451FE800119698 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		77BDF0FA14C0EA7C0090A200 /* BMutex.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BMutex.hpp; sourceTree = "<group>"; };
 		77F34A9B150EB3BC001FABAE /* ADSR.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ADSR.cpp; sourceTree = "<group>"; };
 		77F34A9C150EB3BC001FABAE /* ADSR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADSR.h; sourceTree = "<group>"; };
@@ -186,7 +187,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D2AAC088055469A000DB518D /* Cocoa.framework in Frameworks */,
+				776A5A4218451FE800119698 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -204,6 +205,7 @@
 		0867D691FE84028FC02AAC07 /* MinimOSX */ = {
 			isa = PBXGroup;
 			children = (
+				776A5A4118451FE800119698 /* Cocoa.framework */,
 				08FB77AEFE84172EC02AAC07 /* Classes */,
 				32C88DFF0371C24200C91783 /* Other Sources */,
 				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
@@ -452,7 +454,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0500;
 			};
 			buildConfigurationList = 1DEB922208733DC00010E9CD /* Build configuration list for PBXProject "MinimOSX" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -521,7 +523,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -539,7 +540,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
