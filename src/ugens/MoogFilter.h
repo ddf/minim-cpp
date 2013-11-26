@@ -20,7 +20,8 @@ namespace Minim
 		enum Type
 		{
 			HP,
-			LP
+			LP,
+            BP
 		};
 		
 		MoogFilter( float cutoffFrequencyInHz, float normalizedResonance, Type filterType );

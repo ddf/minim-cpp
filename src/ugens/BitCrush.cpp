@@ -36,7 +36,7 @@ void Minim::BitCrush::uGenerate(float* out, const int numChannels)
     if ( sampleCounter <= 0 )
     {
         memcpy(sampledFrame, audio.getLastValues(), sizeof(float)*numChannels);
-        sampleCounter = (int)(sampleRate() / fmax(bitRate.getLastValue(),0));
+        sampleCounter = (int)(sampleRate() / fmax(bitRate.getLastValue(),1));
     }
     
     const int res       = 1 << (int)bitRes.getLastValue();
