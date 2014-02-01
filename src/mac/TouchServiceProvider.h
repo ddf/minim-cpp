@@ -31,6 +31,17 @@ public:
 		, setActiveImmediately(true)
 		{
 		}
+        
+        AudioSessionParameters( float inBufferDuration, CFRunLoopRef inRunLoop, CFStringRef inRunLoopMode, AudioSessionInterruptionListener inListener, void* inUserData, UInt32 inAudioCategory, bool inActiveImmediately )
+        : interruptRunLoop(inRunLoop )
+        , interruptRunLoopMode( inRunLoopMode )
+        , interruptListener( inListener )
+        , interruptUserData( inUserData )
+        , outputBufferDuration( inBufferDuration )
+        , audioCategory( inAudioCategory )
+        , setActiveImmediately( inActiveImmediately )
+        {
+        }
 		
 		
 		// arguments for AudioSessionInitialize
