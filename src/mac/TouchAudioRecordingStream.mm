@@ -57,7 +57,12 @@ void TouchAudioRecordingStream::open()
 		ExtAudioFileSetProperty( m_audioFileRef, kExtAudioFileProperty_ClientDataFormat, size, &m_clientFormat );
 		
 		UInt32 propSize = sizeof(m_fileFrameLength);
-		ExtAudioFileGetProperty(m_audioFileRef, kExtAudioFileProperty_FileLengthFrames, &propSize, &m_fileFrameLength);
+		OSStatus result = ExtAudioFileGetProperty(m_audioFileRef, kExtAudioFileProperty_FileLengthFrames, &propSize, &m_fileFrameLength);
+        if ( result )
+        {
+            extern void displayErrorAndExit( NSString* message, OSStatus status );
+            displayErrorAndExit( @"Error getting the FileLengthFrames property!", result );
+        }
 		m_fileMillisLength = (UInt32)( (Float64)m_fileFrameLength / m_fileFormat.getFrameRate() * 1000.f );
 		
 		// allocate the buffer we'll use for reading
