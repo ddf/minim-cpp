@@ -126,6 +126,9 @@
     <ClInclude Include="src\BMutex.hpp">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\win\RtAudioOut.h">
+      <Filter>Win</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\AudioOutput.cpp">
@@ -204,6 +207,9 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="src\win\mpg123AudioRecordingStream.cpp">
+      <Filter>Win</Filter>
+    </ClCompile>
+    <ClCompile Include="src\win\RtAudioOut.cpp">
       <Filter>Win</Filter>
     </ClCompile>
   </ItemGroup>
