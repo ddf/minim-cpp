@@ -11,6 +11,11 @@
 #include <string>
 #include <math.h>
 
+#if WIN32
+#include <float.h>
+#define isnan(x) _isnan(x)
+#endif
+
 Minim::MoogFilter::MoogFilter( float cutoffFrequencyInHz, float normalizedResonance, Minim::MoogFilter::Type filterType )
 : UGen()
 , audio( *this, AUDIO )

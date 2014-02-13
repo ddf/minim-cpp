@@ -37,6 +37,6 @@ namespace Minim
 	  virtual AudioOut * getAudioOutput( const AudioFormat & outputFormat, int outputBufferSize );
 	  virtual AudioSample * getAudioSample( const char * filename, int bufferSize );
 	  virtual AudioSample * getAudioSample( MultiChannelBuffer * samples, const AudioFormat & format, int bufferSize );
-	  virtual SampleRecorder * getSampleRecorder( AudioSource * sourceToRecord, const char * saveTo, const bool buffered ) { return 0; }
+	  virtual SampleRecorder * getSampleRecorder( AudioSource * sourceToRecord, const char * saveTo, const bool buffered );
 	};
 };

@@ -41,14 +41,16 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="$(SolutionDir)\src; $(SolutionDir)\src\interfaces; $(SolutionDir)\src\ugens"
-				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)\..\..\Minim\src&quot;;&quot;$(SolutionDir)\..\..\Minim\src\interfaces&quot;;&quot;$(SolutionDir)\..\..\Minim\src\ugens&quot;;&quot;$(SolutionDir)\..\..\Minim\libsndfile\include&quot;;&quot;$(SolutionDir)\..\..\Minim\mpg123&quot;;&quot;$(SolutionDir)\..\..\Minim\rtaudio\include&quot;;&quot;$(SolutionDir)\..\..\Minim\src\win&quot;"
+				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;WINDOWS"
+				StringPooling="true"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
+				RuntimeLibrary="0"
+				BufferSecurityCheck="false"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
-				DebugInformationFormat="4"
+				DebugInformationFormat="3"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -61,6 +63,8 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalDependencies="libsndfile-1.lib libmpg123-0.lib librtaudio.lib"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)\..\..\Minim\libsndfile\lib&quot;;&quot;$(SolutionDir)\..\..\Minim\mpg123&quot;;&quot;$(SolutionDir)\..\..\Minim\rtaudio\lib&quot;"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -84,7 +88,7 @@
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
 			CharacterSet="1"
-			WholeProgramOptimization="1"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -104,10 +108,14 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				EnableIntrinsicFunctions="true"
-				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
-				RuntimeLibrary="2"
-				EnableFunctionLevelLinking="true"
+				EnableIntrinsicFunctions="false"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)\..\..\Minim\src&quot;;&quot;$(SolutionDir)\..\..\Minim\src\interfaces&quot;;&quot;$(SolutionDir)\..\..\Minim\src\ugens&quot;;&quot;$(SolutionDir)\..\..\Minim\libsndfile\include&quot;;&quot;$(SolutionDir)\..\..\Minim\mpg123&quot;;&quot;$(SolutionDir)\..\..\Minim\rtaudio\include&quot;;&quot;$(SolutionDir)\..\..\Minim\src\win&quot;"
+				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;WINDOWS"
+				StringPooling="true"
+				ExceptionHandling="1"
+				RuntimeLibrary="0"
+				BufferSecurityCheck="false"
+				EnableFunctionLevelLinking="false"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
@@ -123,6 +131,8 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalDependencies="libsndfile-1.lib libmpg123-0.lib librtaudio.lib"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)\..\..\Minim\libsndfile\lib&quot;;&quot;$(SolutionDir)\..\..\Minim\mpg123&quot;;&quot;$(SolutionDir)\..\..\Minim\rtaudio\lib&quot;"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -147,6 +157,10 @@
 		<Filter
 			Name="Core"
 			>
+			<File
+				RelativePath=".\src\AudioFormat.cpp"
+				>
+			</File>
 			<File
 				RelativePath=".\src\AudioFormat.h"
 				>
@@ -240,6 +254,14 @@
 			Name="UGens"
 			>
 			<File
+				RelativePath=".\src\ugens\Delay.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ugens\Delay.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\ugens\FilePlayer.cpp"
 				>
 			</File>
@@ -261,6 +283,14 @@
 			</File>
 			<File
 				RelativePath=".\src\ugens\Line.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ugens\MoogFilter.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ugens\MoogFilter.h"
 				>
 			</File>
 			<File
@@ -365,6 +395,38 @@
 			</File>
 			<File
 				RelativePath=".\src\win\DirectSoundServiceProvider.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\win\libsndAudioRecordingStream.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\win\libsndAudioRecordingStream.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\win\libsndSampleRecorder.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\win\libsndSampleRecorder.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\win\mpg123AudioRecordingStream.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\win\mpg123AudioRecordingStream.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\win\RtAudioOut.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\win\RtAudioOut.h"
 				>
 			</File>
 		</Filter>

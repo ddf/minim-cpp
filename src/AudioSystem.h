@@ -35,20 +35,14 @@ namespace Minim
 	class AudioInput;
 	class AudioStream;
 	class MultiChannelBuffer;
+	class SampleRecorder;
+	class AudioSource;
 
 	class AudioSystem
 	{
 	public:
 
-		  /**
-		   * Creates an instance of Minim that will use the provided implementation for audio.
-		   * 
-		   * @param parent
-		   *              the PApplet that will be used for loading files
-		   * @param msp
-		   *              the MinimServiceProvider that will be used for returning audio resources
-		   */
-		AudioSystem( Minim::ServiceProvider * msp );
+		AudioSystem( const int outputBufferSize );
 
 		/// will delete the service provider
 		~AudioSystem();
@@ -189,7 +183,7 @@ namespace Minim
 
 		// the service provider we'll delegate to for the concrete implementations
 		// of the interfaces we need.
-		ServiceProvider * mServiceProvider;
+		class ServiceProvider * mServiceProvider;
 
 	};
 

@@ -17,11 +17,18 @@
  */
 
 #include "AudioSystem.h"
+#include "ServiceProvider.h"
 #include "AudioFormat.h"
 #include "AudioOut.h"
 #include "AudioRecordingStream.h"
 #include "AudioOutput.h"
 #include <stdio.h>
+
+#ifdef WINDOWS
+#include "DirectSoundServiceProvider.h"
+#else
+#include "TouchServiceProvider.h"
+#endif
 
 #ifndef NULL
 #define NULL 0
@@ -45,9 +52,17 @@ void debug( const char * msg )
     }
 }
 
-AudioSystem::AudioSystem(Minim::ServiceProvider *msp)
-: mServiceProvider(msp)
+AudioSystem::AudioSystem( const int outputBufferSize )
+: mServiceProvider(0)
 {
+#ifdef WINDOWS
+	mServiceProvider = new Minim::DirectSoundServiceProvider();
+#elif TARGET_OS_IPHONE
+	TouchServiceProvider::AudioSessionParameters sessionParams( (float)kOutputBufferSize / 44100.f );
+	mServiceProvider = new TouchServiceProvider(sessionParams);
+#else
+	mServiceProvider = new TouchServiceProvider();
+#endif
 	mServiceProvider->start();
 }
 
