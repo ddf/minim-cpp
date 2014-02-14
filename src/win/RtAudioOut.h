@@ -3,6 +3,7 @@
 #include "MultiChannelBuffer.h"
 #include "RtAudio.h"
 #include "BMutex.hpp"
+#include <string.h>
 
 class Minim::AudioStream;
 class Minim::AudioListener;
@@ -25,6 +26,7 @@ public:
 	virtual void open();
 	virtual void close();
 	virtual const Minim::AudioFormat & getFormat() const { return m_format; }
+	virtual const char * getDescription() const { return m_description.c_str(); }
 
 private:
 
@@ -38,5 +40,7 @@ private:
 	Minim::AudioStream*			m_stream;
 	Minim::AudioListener*		m_listener;
 	RtAudio						m_out;
+	// description of the audio device we wind up using
+	std::string					m_description;
 };
 

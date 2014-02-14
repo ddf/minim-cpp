@@ -9,6 +9,8 @@ RtAudioOut::RtAudioOut( const Minim::AudioFormat & outputFormat, int outputBuffe
 	, m_bufferSize( outputBufferSize )
 	, m_stream( 0 )
 	, m_listener( 0 )
+	, m_out()
+	, m_description( "RtAudioOut: " )
 {
 }
 
@@ -37,17 +39,77 @@ void RtAudioOut::open(void)
 	parameters.deviceId = m_out.getDefaultOutputDevice();
 	parameters.nChannels = m_format.getChannels();
 	parameters.firstChannel = 0;
+
+	RtAudio::StreamOptions options;
+	options.flags |= RTAUDIO_MINIMIZE_LATENCY;
+	options.numberOfBuffers = 2;
+
 	unsigned int sampleRate = (unsigned int)m_format.getSampleRate();
 	unsigned int bufferFrames = m_bufferSize;
 
-	try
+	const unsigned int numDevices = m_out.getDeviceCount();
+	// try to find a stream that that will support the size of buffer we want
+	// if we get to the end of the devices and don't find one, we jump back to default
+	bool bUseDefaultDevice = true;
+	for( unsigned int d = 0; d < m_out.getDeviceCount(); ++d )
 	{
-		m_out.openStream( &parameters, NULL, RTAUDIO_FLOAT32, sampleRate, &bufferFrames, &RtAudioOut::renderCallback, (void*)this );
-		m_out.startStream();
+		parameters.deviceId = d;
+		bufferFrames = m_bufferSize;
+		try
+		{	
+			m_out.openStream( &parameters, NULL, RTAUDIO_FLOAT32, sampleRate, &bufferFrames, &RtAudioOut::renderCallback, (void*)this, &options );
+			if ( bufferFrames <= m_bufferSize )
+			{
+				bUseDefaultDevice = false;
+				break;
+			}
+			else 
+			{
+				m_out.closeStream();
+			}
+		}
+		catch( RtError& e )
+		{
+			e.printMessage();
+		}
 	}
-	catch( RtError& e )
+
+	if ( bUseDefaultDevice )
 	{
-		e.printMessage();
+		parameters.deviceId = m_out.getDefaultOutputDevice();
+		bufferFrames = m_bufferSize;
+		try
+		{
+			m_out.openStream( &parameters, NULL, RTAUDIO_FLOAT32, sampleRate, &bufferFrames, &RtAudioOut::renderCallback, (void*)this, &options );
+		}
+		catch( RtError& e )
+		{
+			e.printMessage();
+		}
+	}
+
+	if ( m_out.isStreamOpen() )
+	{
+		m_bufferSize = bufferFrames;
+		try
+		{
+			m_out.startStream();
+
+			RtAudio::DeviceInfo info = m_out.getDeviceInfo(parameters.deviceId);
+			char desc[512];
+			sprintf( desc, "%s with buffer size %d", info.name.c_str(), m_bufferSize );
+			m_description += desc;
+		}
+		catch( RtError& e )
+		{
+			e.printMessage();
+			m_description += "FAILED TO START";
+		}
+	}
+	else 
+	{
+		m_bufferSize = 0;
+		m_description += "FAILED TO OPEN";
 	}
 }
 
@@ -59,15 +121,15 @@ void RtAudioOut::close(void)
 	{
 		// Stop the stream
 		m_out.stopStream();
+		
+		if ( m_out.isStreamOpen() )
+		{
+			m_out.closeStream();
+		}
 	}
 	catch (RtError& e) 
 	{
 		e.printMessage();
-	}
-
-	if ( m_out.isStreamOpen() )
-	{
-		m_out.closeStream();
 	}
 }
 
@@ -107,6 +169,7 @@ int RtAudioOut::renderCallback( void *outputBuffer, void *inputBuffer, unsigned 
 	BMutexLock lock( out->m_mutex );
 
 	out->m_buffer.setBufferSize( nBufferFrames );
+	out->m_bufferSize = nBufferFrames;
 
 	if ( out->m_stream )
 	{
