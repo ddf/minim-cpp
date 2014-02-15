@@ -23,6 +23,7 @@ public:
 	virtual void open();
 	virtual void close();
 	virtual const Minim::AudioFormat & getFormat() const { return mAudioFormat; }
+    virtual const char * getDescription() const { return "CoreAudio RemoteIO"; }
 	
 	// AudioOut implementation
 	virtual const int bufferSize() const { return mBuffer.getBufferSize(); }

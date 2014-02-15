@@ -20,12 +20,12 @@ Minim::AudioFormat::AudioFormat( float sampleRate, int numberOfChannels )
 	CAStreamBasicDescription streamDesc;
 	streamDesc.mSampleRate = 44100.0f;
 	streamDesc.SetAUCanonical( numberOfChannels, true );
-	mChannels = mStreamDesc.mChannelsPerFrame;
+	mChannels = streamDesc.mChannelsPerFrame;
 	mSampleRate = streamDesc.mSampleRate;
 	mFrameRate = streamDesc.mSampleRate;
-	mFrameSize = mStreamDesc.mBytesPerFrame;
-	mSampleSizeInBits = mStreamDesc.mBitsPerChannel;
-	mBigEndian = (mStreamDesc.mFormatFlags & kLinearPCMFormatFlagIsBigEndian);	
+	mFrameSize = streamDesc.mBytesPerFrame;
+	mSampleSizeInBits = streamDesc.mBitsPerChannel;
+	mBigEndian = (streamDesc.mFormatFlags & kLinearPCMFormatFlagIsBigEndian);
 }
 
 #endif

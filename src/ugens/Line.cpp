@@ -21,6 +21,11 @@ namespace Minim
 	, m_bIsActivated( false )
 	{
 	}
+    
+    Line::~Line()
+    {
+        
+    }
 	
 	void Line::activate()
 	{

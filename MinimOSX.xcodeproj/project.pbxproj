@@ -85,6 +85,7 @@
 		77BDF0FB14C0EA7C0090A200 /* BMutex.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 77BDF0FA14C0EA7C0090A200 /* BMutex.hpp */; };
 		77D5411B1580E0C80061B98E /* BitCrush.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77D541191580E0C80061B98E /* BitCrush.cpp */; };
 		77D5411C1580E0C80061B98E /* BitCrush.h in Headers */ = {isa = PBXBuildFile; fileRef = 77D5411A1580E0C80061B98E /* BitCrush.h */; };
+		77D90FEC18AEED7F00828469 /* AudioFormat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77D90FEB18AEED7F00828469 /* AudioFormat.cpp */; };
 		77F34AA1150EB3BC001FABAE /* ADSR.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77F34A9B150EB3BC001FABAE /* ADSR.cpp */; };
 		77F34AA2150EB3BC001FABAE /* ADSR.h in Headers */ = {isa = PBXBuildFile; fileRef = 77F34A9C150EB3BC001FABAE /* ADSR.h */; };
 		77F34AA3150EB3BC001FABAE /* Flanger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77F34A9D150EB3BC001FABAE /* Flanger.cpp */; };
@@ -176,6 +177,7 @@
 		77BDF0FA14C0EA7C0090A200 /* BMutex.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BMutex.hpp; sourceTree = "<group>"; };
 		77D541191580E0C80061B98E /* BitCrush.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BitCrush.cpp; sourceTree = "<group>"; };
 		77D5411A1580E0C80061B98E /* BitCrush.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BitCrush.h; sourceTree = "<group>"; };
+		77D90FEB18AEED7F00828469 /* AudioFormat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioFormat.cpp; sourceTree = "<group>"; };
 		77F34A9B150EB3BC001FABAE /* ADSR.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ADSR.cpp; sourceTree = "<group>"; };
 		77F34A9C150EB3BC001FABAE /* ADSR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADSR.h; sourceTree = "<group>"; };
 		77F34A9D150EB3BC001FABAE /* Flanger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Flanger.cpp; sourceTree = "<group>"; };
@@ -264,6 +266,7 @@
 		6DEFA2F1141ED6AF003783E8 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				77D90FEB18AEED7F00828469 /* AudioFormat.cpp */,
 				77BDF0FA14C0EA7C0090A200 /* BMutex.hpp */,
 				6DEFA2F2141ED6AF003783E8 /* AudioFormat.h */,
 				6DEFA2F3141ED6AF003783E8 /* AudioOutput.cpp */,
@@ -501,6 +504,7 @@
 				6DEFA35B141ED6AF003783E8 /* NoteManager.cpp in Sources */,
 				6DEFA35E141ED6AF003783E8 /* FilePlayer.cpp in Sources */,
 				6DEFA360141ED6AF003783E8 /* Frequency.cpp in Sources */,
+				77D90FEC18AEED7F00828469 /* AudioFormat.cpp in Sources */,
 				6DEFA363141ED6AF003783E8 /* Line.cpp in Sources */,
 				6DEFA365141ED6AF003783E8 /* Multiplier.cpp in Sources */,
 				6DEFA367141ED6AF003783E8 /* Noise.cpp in Sources */,
