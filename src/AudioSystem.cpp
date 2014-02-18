@@ -58,7 +58,7 @@ AudioSystem::AudioSystem( const int outputBufferSize )
 #ifdef WINDOWS
 	mServiceProvider = new Minim::DirectSoundServiceProvider();
 #elif TARGET_OS_IPHONE
-	TouchServiceProvider::AudioSessionParameters sessionParams( (float)kOutputBufferSize / 44100.f );
+	TouchServiceProvider::AudioSessionParameters sessionParams( (float)outputBufferSize / 44100.f );
 	mServiceProvider = new TouchServiceProvider(sessionParams);
 #else
 	mServiceProvider = new TouchServiceProvider();
