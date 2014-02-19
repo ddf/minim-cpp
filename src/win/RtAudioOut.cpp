@@ -135,6 +135,8 @@ void RtAudioOut::close(void)
 
 void RtAudioOut::pauseProcessing()
 {
+	if ( !m_out.isStreamRunning() ) return;
+
 	BMutexLock lock( m_mutex );
 
 	try
@@ -149,6 +151,8 @@ void RtAudioOut::pauseProcessing()
 
 void RtAudioOut::resumeProcessing()
 {
+	if ( m_out.isStreamRunning() ) return;
+
 	BMutexLock lock( m_mutex );
 
 	try
