@@ -47,45 +47,17 @@ void RtAudioOut::open(void)
 	unsigned int sampleRate = (unsigned int)m_format.getSampleRate();
 	unsigned int bufferFrames = m_bufferSize;
 
-	const unsigned int numDevices = m_out.getDeviceCount();
-	// try to find a stream that that will support the size of buffer we want
-	// if we get to the end of the devices and don't find one, we jump back to default
-	bool bUseDefaultDevice = true;
-	for( unsigned int d = 0; d < m_out.getDeviceCount(); ++d )
+	parameters.deviceId = m_out.getDefaultOutputDevice();
+	bufferFrames = m_bufferSize;
+	try
 	{
-		parameters.deviceId = d;
-		bufferFrames = m_bufferSize;
-		try
-		{	
-			m_out.openStream( &parameters, NULL, RTAUDIO_FLOAT32, sampleRate, &bufferFrames, &RtAudioOut::renderCallback, (void*)this, &options );
-			if ( bufferFrames <= m_bufferSize )
-			{
-				bUseDefaultDevice = false;
-				break;
-			}
-			else 
-			{
-				m_out.closeStream();
-			}
-		}
-		catch( RtError& e )
-		{
-			e.printMessage();
-		}
+		m_out.openStream( &parameters, NULL, RTAUDIO_FLOAT32, sampleRate, &bufferFrames, &RtAudioOut::renderCallback, (void*)this, &options );
 	}
-
-	if ( bUseDefaultDevice )
+	catch( RtError& e )
 	{
-		parameters.deviceId = m_out.getDefaultOutputDevice();
-		bufferFrames = m_bufferSize;
-		try
-		{
-			m_out.openStream( &parameters, NULL, RTAUDIO_FLOAT32, sampleRate, &bufferFrames, &RtAudioOut::renderCallback, (void*)this, &options );
-		}
-		catch( RtError& e )
-		{
-			e.printMessage();
-		}
+		m_description += "FAILED TO OPEN OUTPUT: ";
+		m_description += e.getMessage();
+		m_bufferSize = 0;
 	}
 
 	if ( m_out.isStreamOpen() )
@@ -102,14 +74,10 @@ void RtAudioOut::open(void)
 		}
 		catch( RtError& e )
 		{
-			e.printMessage();
-			m_description += "FAILED TO START";
+			m_description += "FAILED TO START OUTPUT: ";
+			m_description += e.getMessage();
+			m_bufferSize   = 0;
 		}
-	}
-	else 
-	{
-		m_bufferSize = 0;
-		m_description += "FAILED TO OPEN";
 	}
 }
 
