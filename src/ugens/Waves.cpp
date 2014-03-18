@@ -22,6 +22,7 @@
 
 #define  _USE_MATH_DEFINES // required in windows to get constants like M_PI
 #include <math.h>
+#include <stdlib.h>
 
 static const int tableSize = 8192;
 static const int tSby2 = tableSize/2;
