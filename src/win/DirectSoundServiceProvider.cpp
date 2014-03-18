@@ -20,6 +20,8 @@
 #include "DirectSoundServiceProvider.h"
 #include "libsndAudioRecordingStream.h"
 #include "mpg123AudioRecordingStream.h"
+#include "libsndSampleRecorder.h"
+#include "RtAudioOut.h"
 
 #ifndef NULL
 #define NULL 0
@@ -78,7 +80,7 @@ namespace Minim
 
 	AudioOut * DirectSoundServiceProvider::getAudioOutput( const AudioFormat & outputFormat, int outputBufferSize )
 	{
-		return NULL;
+		return new RtAudioOut( outputFormat, outputBufferSize );
 	}
 
 	AudioSample * DirectSoundServiceProvider::getAudioSample( const char * filename, int bufferSize )
@@ -89,5 +91,10 @@ namespace Minim
 	AudioSample * DirectSoundServiceProvider::getAudioSample( MultiChannelBuffer * samples, const AudioFormat & format, int bufferSize )
 	{
 		return NULL;
+	}
+
+	SampleRecorder * DirectSoundServiceProvider::getSampleRecorder( AudioSource * sourceToRecord, const char * saveTo, const bool buffered )
+	{
+		return new libsndSampleRecorder( sourceToRecord, saveTo );
 	}
 }

@@ -19,6 +19,7 @@ namespace Minim
 	public:
 		
 		explicit Line( const float transitionTime = 1.0f, const float beginAmplitude = 1.0f, const float endAmplitude = 0.f );
+        virtual ~Line();
 		
 		/**
 		 * Start the Line's transition.

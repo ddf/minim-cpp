@@ -43,7 +43,7 @@ namespace Minim
             timeStepSize = 1.0f / sampleRate();
         }
         
-        virtual void uGenerate( float* channels, int numChannels );
+        virtual void uGenerate( float* channels, const int numChannels );
         
     private:
         

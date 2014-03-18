@@ -46,7 +46,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>src;src\interfaces;libsndfile\include;src\ugens;mpg123</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;src\interfaces;libsndfile\include;src\ugens;rtaudio\include;mpg123;src\Win</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;WINDOWS;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -57,10 +57,10 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Lib>
-      <AdditionalDependencies>libsndfile-1.lib;libmpg123-0.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libsndfile-1.lib;libmpg123-0.lib;librtaudio.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>libsndfile\lib;mpg123;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>libsndfile\lib;mpg123;rtaudio\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -74,13 +74,13 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>src;src\interfaces;libsndfile\include;src\ugens;mpg123</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>rtaudio\include;src;src\interfaces;libsndfile\include;src\ugens;mpg123;src\Win</AdditionalIncludeDirectories>
     </ClCompile>
     <Lib>
-      <AdditionalDependencies>libsndfile-1.lib;libmpg123-0.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libsndfile-1.lib;libmpg123-0.lib;librtaudio.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>libsndfile\lib;mpg123;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>libsndfile\lib;mpg123;rtaudio\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -92,6 +92,7 @@
     <ClInclude Include="src\BMutex.hpp" />
     <ClInclude Include="src\FFT.h" />
     <ClInclude Include="src\FourierTransform.h" />
+    <ClInclude Include="src\interfaces\SampleRecorder.h" />
     <ClInclude Include="src\MultiChannelBuffer.h" />
     <ClInclude Include="src\NoteManager.h" />
     <ClInclude Include="src\interfaces\AudioListener.h" />
@@ -100,11 +101,12 @@
     <ClInclude Include="src\interfaces\AudioRecordingStream.h" />
     <ClInclude Include="src\interfaces\AudioResource.h" />
     <ClInclude Include="src\interfaces\AudioStream.h" />
-    <ClInclude Include="src\interfaces\SampleRecoder.h" />
     <ClInclude Include="src\interfaces\ServiceProvider.h" />
+    <ClInclude Include="src\ugens\Delay.h" />
     <ClInclude Include="src\ugens\Frequency.h" />
     <ClInclude Include="src\ugens\Instrument.h" />
     <ClInclude Include="src\ugens\Line.h" />
+    <ClInclude Include="src\ugens\MoogFilter.h" />
     <ClInclude Include="src\ugens\Multiplier.h" />
     <ClInclude Include="src\ugens\Noise.h" />
     <ClInclude Include="src\ugens\Oscil.h" />
@@ -120,9 +122,12 @@
     <ClInclude Include="src\WindowFunction.h" />
     <ClInclude Include="src\win\DirectSoundServiceProvider.h" />
     <ClInclude Include="src\win\libsndAudioRecordingStream.h" />
+    <ClInclude Include="src\win\libsndSampleRecorder.h" />
     <ClInclude Include="src\win\mpg123AudioRecordingStream.h" />
+    <ClInclude Include="src\win\RtAudioOut.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\AudioFormat.cpp" />
     <ClCompile Include="src\AudioOutput.cpp" />
     <ClCompile Include="src\AudioRecorder.cpp" />
     <ClCompile Include="src\AudioSource.cpp" />
@@ -131,9 +136,11 @@
     <ClCompile Include="src\FourierTransform.cpp" />
     <ClCompile Include="src\MultiChannelBuffer.cpp" />
     <ClCompile Include="src\NoteManager.cpp" />
+    <ClCompile Include="src\ugens\Delay.cpp" />
     <ClCompile Include="src\ugens\FilePlayer.cpp" />
     <ClCompile Include="src\ugens\Frequency.cpp" />
     <ClCompile Include="src\ugens\Line.cpp" />
+    <ClCompile Include="src\ugens\MoogFilter.cpp" />
     <ClCompile Include="src\ugens\Multiplier.cpp" />
     <ClCompile Include="src\ugens\Noise.cpp" />
     <ClCompile Include="src\ugens\Oscil.cpp" />
@@ -148,7 +155,9 @@
     <ClCompile Include="src\WindowFunction.cpp" />
     <ClCompile Include="src\win\DirectSoundServiceProvider.cpp" />
     <ClCompile Include="src\win\libsndAudioRecordingStream.cpp" />
+    <ClCompile Include="src\win\libsndSampleRecorder.cpp" />
     <ClCompile Include="src\win\mpg123AudioRecordingStream.cpp" />
+    <ClCompile Include="src\win\RtAudioOut.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

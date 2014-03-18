@@ -31,6 +31,7 @@ namespace Minim
 		virtual void open() = 0;
 		virtual void close() = 0;
 		virtual const AudioFormat & getFormat() const = 0;
+		virtual const char * getDescription() const { return "AudioResource"; }
 	};
 
 };

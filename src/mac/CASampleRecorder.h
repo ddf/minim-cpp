@@ -48,6 +48,7 @@ private:
 	
 	// actual file we are writing to.
 	ExtAudioFileRef		m_audioFile;
+    long                m_sampleFramesRecorded;
 	
 	// are we currently recording
 	bool			    m_bRecording;

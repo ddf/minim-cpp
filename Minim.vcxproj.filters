@@ -54,9 +54,6 @@
     <ClInclude Include="src\interfaces\AudioStream.h">
       <Filter>Core\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="src\interfaces\SampleRecoder.h">
-      <Filter>Core\Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="src\interfaces\ServiceProvider.h">
       <Filter>Core\Interfaces</Filter>
     </ClInclude>
@@ -125,6 +122,21 @@
     </ClInclude>
     <ClInclude Include="src\BMutex.hpp">
       <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\win\RtAudioOut.h">
+      <Filter>Win</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ugens\Delay.h">
+      <Filter>UGens</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ugens\MoogFilter.h">
+      <Filter>UGens</Filter>
+    </ClInclude>
+    <ClInclude Include="src\win\libsndSampleRecorder.h">
+      <Filter>Win</Filter>
+    </ClInclude>
+    <ClInclude Include="src\interfaces\SampleRecorder.h">
+      <Filter>Core\Interfaces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -204,6 +216,21 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="src\win\mpg123AudioRecordingStream.cpp">
+      <Filter>Win</Filter>
+    </ClCompile>
+    <ClCompile Include="src\win\RtAudioOut.cpp">
+      <Filter>Win</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AudioFormat.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ugens\Delay.cpp">
+      <Filter>UGens</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ugens\MoogFilter.cpp">
+      <Filter>UGens</Filter>
+    </ClCompile>
+    <ClCompile Include="src\win\libsndSampleRecorder.cpp">
       <Filter>Win</Filter>
     </ClCompile>
   </ItemGroup>

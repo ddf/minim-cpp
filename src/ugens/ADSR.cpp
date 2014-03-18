@@ -75,7 +75,7 @@ void Minim::ADSR::unpatchAfterRelease( Minim::UGen* from )
 }
 
 //-----------------------------
-void Minim::ADSR::uGenerate( float* channels, int numChannels )
+void Minim::ADSR::uGenerate( float* channels, const int numChannels )
 {
     if ( !isTurnedOn )
     {

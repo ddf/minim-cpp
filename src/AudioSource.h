@@ -36,6 +36,7 @@ namespace Minim
 		float sampleRate() const;
 
 		const AudioFormat & getFormat() const { return mOutput->getFormat(); }
+		const char * getDescription() const { return mOutput->getDescription(); }
 
 		void close();
 		

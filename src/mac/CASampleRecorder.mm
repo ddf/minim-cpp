@@ -12,6 +12,7 @@
 CASampleRecorder::CASampleRecorder( NSString * pathToFile, const Minim::AudioFormat & sourceFormat )
 : m_filePath( pathToFile )
 , m_audioFile( NULL )
+, m_sampleFramesRecorded(0)
 , m_bRecording( false )
 {
 	[m_filePath retain];
@@ -54,6 +55,7 @@ void CASampleRecorder::beginRecord()
 		
 		ExtAudioFileSetProperty(m_audioFile, kExtAudioFileProperty_ClientDataFormat, sizeof(m_sourceFormat), &m_sourceFormat);
 		
+        m_sampleFramesRecorded = 0;
 		m_bRecording = true;
 	}
 }
@@ -70,6 +72,15 @@ bool CASampleRecorder::isRecording() const
 
 void CASampleRecorder::save()
 {
+    UInt32 propSize = sizeof(m_sampleFramesRecorded);
+    printf( "Saving recording with %ld frames recorded.\n", m_sampleFramesRecorded );
+    OSStatus result = ExtAudioFileSetProperty(m_audioFile, kExtAudioFileProperty_FileLengthFrames, propSize, &m_sampleFramesRecorded);
+    if ( result )
+    {
+        extern void displayErrorAndExit( NSString* message, OSStatus status );
+        displayErrorAndExit( @"Error setting the FileLengthFrames property!", result );
+    }
+    
 	ExtAudioFileDispose( m_audioFile );
 	m_audioFile = NULL;
 }
@@ -83,7 +94,8 @@ void CASampleRecorder::samples( const Minim::MultiChannelBuffer & buffer )
 
     const int numChan       = m_sourceFormat.NumberChannels();
     const int bufferSize    = buffer.getBufferSize();
-    SInt16 writeSamples[ bufferSize * numChan ];
+    AudioSampleType writeSamples[ bufferSize * numChan ];
+    const float sampleScale = (m_sourceFormat.mFormatFlags & kAudioFormatFlagIsSignedInteger) ? 32767.0f : 1.0f;
 	
 	// interleave buffer into our write samples buffer
 
@@ -91,7 +103,7 @@ void CASampleRecorder::samples( const Minim::MultiChannelBuffer & buffer )
 	{
 		for( int s = 0; s < bufferSize; ++s )
 		{
-			writeSamples[ s*numChan + c ] = buffer.getChannel(c)[s] * 32767.f;
+			writeSamples[ s*numChan + c ] = buffer.getChannel(c)[s] * sampleScale;
 		}
 	}
 	
@@ -109,4 +121,6 @@ void CASampleRecorder::samples( const Minim::MultiChannelBuffer & buffer )
 		extern void displayErrorAndExit( NSString* message, OSStatus status );
 		displayErrorAndExit( @"Error writing to the file asynchronously!", error );
 	}
+    
+    m_sampleFramesRecorded += buffer.getBufferSize();
 }
