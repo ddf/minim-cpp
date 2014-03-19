@@ -88,7 +88,7 @@ namespace Minim
 		float                   m_outputPosition;
         
         // how long the stream is
-		int                     m_streamFrameLength;
+		long                    m_streamFrameLength;
         
         // mutex for locking when in functions that access our stream or buffer
         BMutex                  m_mutex;

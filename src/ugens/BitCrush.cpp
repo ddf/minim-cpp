@@ -1,4 +1,4 @@
-//
+
 //  BitCrush.cpp
 //  minim-cpp
 //
@@ -39,7 +39,7 @@ void Minim::BitCrush::uGenerate(float* out, const int numChannels)
         sampleCounter = (int)(sampleRate() / fmax(bitRate.getLastValue(),1));
     }
     
-    const int res       = 1 << (int)bitRes.getLastValue();
+    const unsigned res      =  1 << ((int)bitRes.getLastValue() - 1);
     for( int i = 0; i < numChannels; ++i )
     {
         int       samp      = (int)(res * sampledFrame[i]);

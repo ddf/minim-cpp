@@ -118,7 +118,7 @@ float AudioSystem::loadFileIntoBuffer( const char * filename, MultiChannelBuffer
 		buffer.setChannelCount( channelCount );
 		// how many samples to read total
 		const long totalSampleCount = pStream->getSampleFrameLength();
-		buffer.setBufferSize( totalSampleCount );
+		buffer.setBufferSize( (int)totalSampleCount );
 		
 		// now read in chunks.
 		long totalSamplesRead = 0;
@@ -127,7 +127,7 @@ float AudioSystem::loadFileIntoBuffer( const char * filename, MultiChannelBuffer
 			// is the remainder smaller than our buffer?
 			if ( totalSampleCount - totalSamplesRead < readBufferSize )
 			{
-				readBuffer.setBufferSize( totalSampleCount - totalSamplesRead );
+				readBuffer.setBufferSize( (int)(totalSampleCount - totalSamplesRead) );
 			}
 			
 			pStream->read( readBuffer );

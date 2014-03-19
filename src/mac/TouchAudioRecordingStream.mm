@@ -143,7 +143,7 @@ void TouchAudioRecordingStream::read( Minim::MultiChannelBuffer & buffer )
                     if ( m_loopStop - currentFramePosition < samplesToRead )
                     {
                         // only read as many samples as we actually need
-                        samplesToRead = m_loopStop - currentFramePosition;
+                        samplesToRead = (UInt32)(m_loopStop - currentFramePosition);
                         
                         // no more looping, just stop
                         if ( m_loopCount == 0 )
