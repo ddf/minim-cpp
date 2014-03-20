@@ -51,14 +51,28 @@ void debug( const char * msg )
         printf("\nMinim Debug: %s\n", msg);
     }
 }
+    
+#if TARGET_OS_IPHONE
+static void interruptionHandler( void* inUserData, UInt32 inState )
+{
+    AudioSystem* system = (AudioSystem*)inUserData;
+    
+    InterruptionState state = inState == kAudioSessionBeginInterruption ? InterruptionStateBegin : InterruptionStateEnd;
+    system->handleInterruption( state );
+}
+#endif
 
-AudioSystem::AudioSystem( const int outputBufferSize )
+AudioSystem::AudioSystem( const int outputBufferSize, AudioInterruptionListener interruptionListener, void* interruptUserData )
 : mServiceProvider(0)
+, mInterruptionListener(interruptionListener)
+, mInterruptUserData(interruptUserData)
 {
 #ifdef WINDOWS
 	mServiceProvider = new Minim::DirectSoundServiceProvider();
 #elif TARGET_OS_IPHONE
 	TouchServiceProvider::AudioSessionParameters sessionParams( (float)outputBufferSize / 44100.f );
+    sessionParams.interruptListener = &interruptionHandler;
+    sessionParams.interruptUserData = this;
 	mServiceProvider = new TouchServiceProvider(sessionParams);
 #else
 	mServiceProvider = new TouchServiceProvider();
@@ -74,6 +88,15 @@ AudioSystem::~AudioSystem()
 
 void AudioSystem::debugOn() { g_bDebugOn = true; }
 void AudioSystem::debugOff() { g_bDebugOn = false; }
+    
+////////////////////////////////////////////////////
+void AudioSystem::handleInterruption(InterruptionState state)
+{
+    if ( mInterruptionListener )
+    {
+        mInterruptionListener( mInterruptUserData, state );
+    }
+}
 
 ////////////////////////////////////////////////////
 AudioPlayer * AudioSystem::loadFile( const char * filename, const int bufferSize )

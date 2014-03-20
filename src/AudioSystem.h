@@ -37,12 +37,20 @@ namespace Minim
 	class MultiChannelBuffer;
 	class SampleRecorder;
 	class AudioSource;
+    
+    enum InterruptionState
+    {
+        InterruptionStateBegin = 1,
+        InterruptionStateEnd = 0,
+    };
+    
+    typedef void (*AudioInterruptionListener)(void * inUserData, InterruptionState inInterruptionState);
 
 	class AudioSystem
 	{
 	public:
 
-		AudioSystem( const int outputBufferSize );
+		AudioSystem( const int outputBufferSize, AudioInterruptionListener interruptionListener = 0, void* interruptUserData = 0 );
 
 		/// will delete the service provider
 		~AudioSystem();
@@ -178,12 +186,18 @@ namespace Minim
 		  }
 
 		  AudioOutput * getAudioOutput( const AudioFormat & outputFormat, int outputBufferSize );
+        
+        void handleInterruption( InterruptionState state );
 
 	private:
 
 		// the service provider we'll delegate to for the concrete implementations
 		// of the interfaces we need.
-		class ServiceProvider * mServiceProvider;
+		class ServiceProvider *         mServiceProvider;
+        
+        // interruption listener, optionally set by the user
+        AudioInterruptionListener       mInterruptionListener;
+        void*                           mInterruptUserData;
 
 	};
 
