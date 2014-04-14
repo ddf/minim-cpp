@@ -7,6 +7,9 @@
  *
  */
 
+#ifndef MINIM_DELAY_H
+#define MINIM_DELAY_H
+
 #include "UGen.h"
 
 namespace Minim
@@ -42,3 +45,5 @@ namespace Minim
 		bool   passAudioOn;
 	};
 };
+
+#endif // MINIM_DELAY_H
