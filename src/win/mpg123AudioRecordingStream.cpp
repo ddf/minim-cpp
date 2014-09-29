@@ -20,7 +20,8 @@
 #include "AudioSystem.h"
 
 mpg123AudioRecordingStream::mpg123AudioRecordingStream( const char * filePath, const int bufferSize )
-: m_filePath( filePath )
+: m_metaData( this )
+, m_filePath( filePath )
 , m_bufferSize( bufferSize )
 , m_sndFile(NULL)
 , m_readBuffer(NULL)
@@ -87,7 +88,11 @@ void mpg123AudioRecordingStream::open()
 		}
 		else
 		{
-			Minim::error( mpg123_plain_strerror(err) );
+			std::string error( "libsndfile failed to open " );
+			error += m_filePath;
+			error += ": ";
+			error += mpg123_plain_strerror(err);
+			Minim::error( error.c_str() );
 		}
 	}
 }

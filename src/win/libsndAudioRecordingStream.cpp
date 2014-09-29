@@ -18,9 +18,11 @@
 
 #include "libsndAudioRecordingStream.h"
 #include "AudioSystem.h"
+#include <sstream>
 
 libsndAudioRecordingStream::libsndAudioRecordingStream( const char * filePath, const int bufferSize )
-: m_filePath( filePath )
+: m_metaData( this )
+, m_filePath( filePath )
 , m_bufferSize( bufferSize )
 , m_sndFile(NULL)
 , m_readBuffer(NULL)
@@ -52,11 +54,36 @@ void libsndAudioRecordingStream::open()
 {
 	if ( !m_sndFile )
 	{
+		std::stringstream msg;
+		msg << "attempting to open " << m_filePath << " with libsndfile";
+		Minim::debug( msg.str().c_str() );
+
 		m_fileInfo.format = 0;
 		m_sndFile = sf_open( m_filePath.c_str(), SFM_READ, &m_fileInfo );
 
 		if ( m_sndFile )
 		{
+			SF_FORMAT_INFO finfo;
+			finfo.format = m_fileInfo.format;
+			finfo.name   = "";
+			finfo.extension = "";
+
+			int result = sf_command( NULL, SFC_GET_FORMAT_INFO, &finfo, sizeof(finfo) );
+
+			if ( result )
+			{
+				std::stringstream error;
+				error << "libsndfile opened " << m_filePath << " but file format appears invalid: " << finfo.format;
+				Minim::error( error.str().c_str() );
+			}
+
+			msg.str("");
+			msg << m_filePath << " opened with format=" << finfo.name
+				<< " samplerate=" << m_fileInfo.samplerate
+				<< " channels=" << m_fileInfo.channels
+				<< " frames=" << m_fileInfo.frames;
+			Minim::debug( msg.str().c_str() );
+
 			m_audioFormat.setFromSFInfo( m_fileInfo );
 
 			// now we can make our read buffer
@@ -69,7 +96,9 @@ void libsndAudioRecordingStream::open()
 		}
 		else
 		{
-			Minim::error( sf_strerror(m_sndFile) );
+			std::stringstream error;
+			error << "libsndfile failed to open " << m_filePath << ": " << sf_strerror(NULL);
+			Minim::error( error.str().c_str() );
 		}
 	}
 }
@@ -78,6 +107,10 @@ void libsndAudioRecordingStream::close()
 {
 	if ( m_sndFile )
 	{
+		std::stringstream msg;
+		msg << "Closing libsndAudioRecordingStream for " << m_filePath;
+		Minim::debug( msg.str().c_str() );
+
 		sf_close( m_sndFile );
 		m_sndFile = NULL;
 

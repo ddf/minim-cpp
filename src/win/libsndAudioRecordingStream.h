@@ -40,7 +40,7 @@ public:
 	// AudioRecordingStream implementation
 	virtual void play();
 	virtual void pause();
-	virtual bool isPlaying() const { return m_bPlaying; }
+	virtual bool isPlaying() const { return m_bPlaying && m_sndFile; }
 	virtual unsigned int bufferSize() const { return m_bufferSize; }
 	virtual void loop(const int count) {}
 	virtual void setLoopPoints(const unsigned int start, const unsigned int stop) {}
@@ -67,6 +67,16 @@ private:
 
 	class SFMetaData : public Minim::AudioMetaData
 	{
+	public:
+		SFMetaData( libsndAudioRecordingStream* stream )
+		: m_stream(stream)
+		{
+		}
+
+		virtual int length() const { return m_stream->m_millisLength; }
+		virtual const char * fileName() const { return m_stream->m_filePath.c_str(); }
+
+		libsndAudioRecordingStream* m_stream;
 	};
 
 	SFMetaData m_metaData;

@@ -44,7 +44,7 @@ namespace Minim
 		if ( int err = mpg123_init() )
 		{
 			char msg[256];
-			printf( "mpg123 initialization failed with error: %s\n", mpg123_plain_strerror(err) );
+			sprintf( msg, "mpg123 initialization failed with error: %s\n", mpg123_plain_strerror(err) );
 			Minim::error( msg );
 		}
 	}

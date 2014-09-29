@@ -38,17 +38,43 @@ namespace Minim
 {
 	
 static bool g_bDebugOn = false;
+static LogFunc g_errorLog = 0;
+static LogFunc g_debugLog = 0;
+
+void setErrorLog( LogFunc func )
+{
+	g_errorLog = func;
+}
+
+void setDebugLog( LogFunc func )
+{
+	g_debugLog = func;
+}
     
 void error( const char * msg )
 {
-	printf("\nMinim Error: %s\n", msg);
+	if ( g_errorLog )
+	{
+		g_errorLog( msg );
+	}
+	else
+	{
+		printf("\nMinim Error: %s\n", msg);
+	}
 }
 	
 void debug( const char * msg )
 {
     if ( g_bDebugOn )
     {
-        printf("\nMinim Debug: %s\n", msg);
+		if ( g_debugLog )
+		{
+			g_debugLog( msg );
+		}
+		else
+		{
+			printf("\nMinim Debug: %s\n", msg);
+		}
     }
 }
 

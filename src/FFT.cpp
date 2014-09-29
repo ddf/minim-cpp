@@ -8,6 +8,7 @@
  */
 
 #include "FFT.h"
+#include "AudioSystem.h"
 #include <math.h>
 #include <cassert>
 #include <stdio.h>
@@ -47,7 +48,7 @@ void Minim::FFT::scaleBand(int i, float s)
 {
 	if (s < 0)
 	{
-		printf("Can't scale a frequency band by a negative value.");
+		Minim::debug("Can't scale a frequency band by a negative value.");
 		return;
 	}
 	
@@ -66,7 +67,7 @@ void Minim::FFT::setBand(int i, float a)
 {
 	if (a < 0)
 	{
-		printf("Can't set a frequency band to a negative value.");
+		Minim::debug("Can't set a frequency band to a negative value.");
 		return;
 	}
 	
