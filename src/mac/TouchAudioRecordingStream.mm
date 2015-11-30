@@ -37,45 +37,53 @@ TouchAudioRecordingStream::~TouchAudioRecordingStream()
 	close();
 }
 
+extern void displayErrorAndExit( NSString* message, OSStatus status );
+
 ////////////////////////////////////////////
 void TouchAudioRecordingStream::open()
 {
 	if ( !m_audioFileRef )
 	{
-		ExtAudioFileOpenURL(m_fileURL, &m_audioFileRef);
+		OSStatus result = ExtAudioFileOpenURL(m_fileURL, &m_audioFileRef);
 		
-		// get the source data format, so we can read at the proper sample rate
-		CAStreamBasicDescription fileFormat;
-		UInt32 size = sizeof(fileFormat);
-		ExtAudioFileGetProperty( m_audioFileRef, kExtAudioFileProperty_FileDataFormat, &size, &fileFormat );
-		
-		m_fileFormat.SetWithDesc( fileFormat );
-		
-		// tell the file the format we expect from reads
-		m_clientFormat.mSampleRate = fileFormat.mSampleRate;
-		m_clientFormat.SetCanonical( fileFormat.NumberChannels(), true );
-		ExtAudioFileSetProperty( m_audioFileRef, kExtAudioFileProperty_ClientDataFormat, size, &m_clientFormat );
-		
-		UInt32 propSize = sizeof(m_fileFrameLength);
-		OSStatus result = ExtAudioFileGetProperty(m_audioFileRef, kExtAudioFileProperty_FileLengthFrames, &propSize, &m_fileFrameLength);
-        if ( result )
+        if ( result == noErr )
         {
-            extern void displayErrorAndExit( NSString* message, OSStatus status );
-            displayErrorAndExit( @"Error getting the FileLengthFrames property!", result );
+            // get the source data format, so we can read at the proper sample rate
+            CAStreamBasicDescription fileFormat;
+            UInt32 size = sizeof(fileFormat);
+            ExtAudioFileGetProperty( m_audioFileRef, kExtAudioFileProperty_FileDataFormat, &size, &fileFormat );
+            
+            m_fileFormat.SetWithDesc( fileFormat );
+            
+            // tell the file the format we expect from reads
+            m_clientFormat.mSampleRate = fileFormat.mSampleRate;
+            m_clientFormat.SetCanonical( fileFormat.NumberChannels(), true );
+            ExtAudioFileSetProperty( m_audioFileRef, kExtAudioFileProperty_ClientDataFormat, size, &m_clientFormat );
+            
+            UInt32 propSize = sizeof(m_fileFrameLength);
+            result = ExtAudioFileGetProperty(m_audioFileRef, kExtAudioFileProperty_FileLengthFrames, &propSize, &m_fileFrameLength);
+            if ( result != noErr )
+            {
+                displayErrorAndExit( @"Error getting the FileLengthFrames property!", result );
+            }
+            m_fileMillisLength = (UInt32)( (Float64)m_fileFrameLength / m_fileFormat.getFrameRate() * 1000.f );
+            
+            // allocate the buffer we'll use for reading
+            if ( m_clientFormat.SampleWordSize() == sizeof(SInt16) )
+            {
+                m_readBuffer = new SInt16[ m_bufferSize * fileFormat.NumberChannels() ];
+            }
+            else if ( m_clientFormat.SampleWordSize() == sizeof(Float32) )
+            {
+                m_readBuffer = new Float32[ m_bufferSize * fileFormat.NumberChannels() ];
+            }
+            
+            m_loopStop = m_fileFrameLength;
         }
-		m_fileMillisLength = (UInt32)( (Float64)m_fileFrameLength / m_fileFormat.getFrameRate() * 1000.f );
-		
-		// allocate the buffer we'll use for reading
-		if ( m_clientFormat.SampleWordSize() == sizeof(SInt16) )
-		{
-			m_readBuffer = new SInt16[ m_bufferSize * fileFormat.NumberChannels() ];
-		}
-		else if ( m_clientFormat.SampleWordSize() == sizeof(Float32) )
-		{
-			m_readBuffer = new Float32[ m_bufferSize * fileFormat.NumberChannels() ];
-		}
-        
-        m_loopStop = m_fileFrameLength;
+        else
+        {
+            displayErrorAndExit( @"Error opening an audio stream.", result );
+        }
 	}
 }
 
