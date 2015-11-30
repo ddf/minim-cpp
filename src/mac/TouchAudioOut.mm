@@ -36,12 +36,7 @@ TouchAudioOut::TouchAudioOut( const Minim::AudioFormat & format, int bufferSize 
 	// Also, we use kAudioFormatFlagsCanonical here and not kAudioFormatFlagsAudioUnitCanonical
 	// because the latter flag is non-interleaved, but we need to interleave for stereo output.
 	// Using the flags below is consistent with the code found in CAStreamBasicDescription::SetAUCanonical.
-#if CA_PREFER_FIXED_POINT
-	mStreamDesc.mFormatFlags = kAudioFormatFlagsCanonical | (kAudioUnitSampleFractionBits << kLinearPCMFormatFlagsSampleFractionShift);
-#else
-	mStreamDesc.mFormatFlags = kAudioFormatFlagsCanonical;
-#endif
-	
+	mStreamDesc.mFormatFlags = kAudioFormatFlagsNativeFloatPacked;
 	mStreamDesc.mBytesPerPacket = format.getFrameSize(); // sizeof(AudioUnitSampleType);
 	mStreamDesc.mFramesPerPacket = 1;
 	mStreamDesc.mBytesPerFrame = format.getFrameSize(); // sizeof(AudioUnitSampleType);
@@ -234,13 +229,7 @@ OSStatus TouchAudioOut::renderCallback( void                        *inRefCon,
 		if ( i == 0 )
 		{
 			AudioBuffer & outputBuffer = buffers->mBuffers[i];
-			AudioUnitSampleType* data = (AudioUnitSampleType*)outputBuffer.mData;
-        
-#if CA_PREFER_FIXED_POINT
-			static const float expand = 1 << kAudioUnitSampleFractionBits;
-#else  
-            static const float expand = 1;
-#endif
+			Float32* data = (Float32*)outputBuffer.mData;
 		
             // took out Accelerate calls because it was expanding 
             // the floating point data to the integral range in place.
@@ -256,7 +245,7 @@ OSStatus TouchAudioOut::renderCallback( void                        *inRefCon,
 					const float * left = buffer.getChannel(0);
                     for( int i = 0; i < bufferSize; ++i )
                     {
-                        data[i] = (AudioUnitSampleType)(left[i] * expand);
+                        data[i] = (Float32)left[i];
                     }
                 }
                 break;
@@ -268,8 +257,8 @@ OSStatus TouchAudioOut::renderCallback( void                        *inRefCon,
 					
 					for( int i = 0, j = 0; i < bufferSize; ++i, j+=2 )
 					{
-						data[j]   = (AudioUnitSampleType)(left[i] * expand);
-						data[j+1] = (AudioUnitSampleType)(right[i]* expand);
+						data[j]   = (Float32)left[i];
+						data[j+1] = (Float32)right[i];
 					}
                 }
                 break;

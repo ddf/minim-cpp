@@ -167,13 +167,8 @@ public:
 				// note: leaves sample rate untouched
 	{
 		mFormatID = kAudioFormatLinearPCM;
-#if CA_ENV_MACOSX
 		int sampleSize = sizeof(Float32);
 		mFormatFlags = kAudioFormatFlagsNativeFloatPacked;
-#else
-		int sampleSize = sizeof(AudioSampleType);
-		mFormatFlags = kAudioFormatFlagsCanonical;
-#endif
 		mBitsPerChannel = 8 * sampleSize;
 		mChannelsPerFrame = nChannels;
 		mFramesPerPacket = 1;
@@ -195,13 +190,9 @@ public:
 		UInt32 flagsMask = (kLinearPCMFormatFlagIsFloat | kLinearPCMFormatFlagIsBigEndian | kLinearPCMFormatFlagIsSignedInteger | kLinearPCMFormatFlagIsPacked | kLinearPCMFormatFlagIsAlignedHigh | kLinearPCMFormatFlagsSampleFractionMask);
 #endif
 		bool interleaved = (mFormatFlags & kAudioFormatFlagIsNonInterleaved) == 0;
-#if CA_ENV_MACOSX
+
 		unsigned sampleSize = sizeof(Float32);
 		reqFormatFlags = kAudioFormatFlagsNativeFloatPacked;
-#else
-		unsigned sampleSize = sizeof(AudioSampleType);
-		reqFormatFlags = kAudioFormatFlagsCanonical;
-#endif
 		UInt32 reqFrameSize = interleaved ? (mChannelsPerFrame * sampleSize) : sampleSize;
 
 		return ((mFormatFlags & flagsMask) == reqFormatFlags
@@ -214,18 +205,14 @@ public:
 	void	SetAUCanonical(UInt32 nChannels, bool interleaved)
 	{
 		mFormatID = kAudioFormatLinearPCM;
-#if CA_PREFER_FIXED_POINT
-		mFormatFlags = kAudioFormatFlagsCanonical | (kAudioUnitSampleFractionBits << kLinearPCMFormatFlagsSampleFractionShift);
-#else
-		mFormatFlags = kAudioFormatFlagsCanonical;
-#endif
+		mFormatFlags = kAudioFormatFlagsNativeFloatPacked;
 		mChannelsPerFrame = nChannels;
 		mFramesPerPacket = 1;
-		mBitsPerChannel = 8 * sizeof(AudioUnitSampleType);
+		mBitsPerChannel = 8 * sizeof(Float32);
 		if (interleaved)
-			mBytesPerPacket = mBytesPerFrame = nChannels * sizeof(AudioUnitSampleType);
+			mBytesPerPacket = mBytesPerFrame = nChannels * sizeof(Float32);
 		else {
-			mBytesPerPacket = mBytesPerFrame = sizeof(AudioUnitSampleType);
+			mBytesPerPacket = mBytesPerFrame = sizeof(Float32);
 			mFormatFlags |= kAudioFormatFlagIsNonInterleaved;
 		}
 	}
