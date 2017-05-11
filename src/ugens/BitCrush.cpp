@@ -17,6 +17,7 @@ Minim::BitCrush::BitCrush( float bitResolution, float bitRate )
 , sampledFrame(NULL)
 , sampleCounter(0)
 {
+	channelCountChanged();
 }
 
 void Minim::BitCrush::channelCountChanged() 
