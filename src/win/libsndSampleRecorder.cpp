@@ -1,5 +1,5 @@
 #include "libsndSampleRecorder.h"
-#include "AudioSystem.h"
+#include "Logging.h"
 
 libsndSampleRecorder::libsndSampleRecorder( Minim::AudioSource* sourceToRecord, const char * recordingPath )
 	: m_sndFile(0)

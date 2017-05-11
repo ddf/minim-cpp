@@ -17,7 +17,7 @@
  */
 
 #include "Waves.h"
-#include "AudioSystem.h"
+#include "Logging.h"
 #include <vector>
 
 #define  _USE_MATH_DEFINES // required in windows to get constants like M_PI

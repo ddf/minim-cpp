@@ -23,14 +23,6 @@
 
 namespace Minim
 {
-	typedef void(*LogFunc)(const char *);
-
-	void setErrorLog( LogFunc func );
-	void setDebugLog( LogFunc func );
-
-	void error(const char * errorMsg);
-	void debug(const char * debugMsg);
-
 	/// You must use an instance of AudioSystem to acquire all audio generating 
 	/// related classes.
 

@@ -17,7 +17,7 @@
  */
 
 #include "libsndAudioRecordingStream.h"
-#include "AudioSystem.h"
+#include "Logging.h"
 #include <sstream>
 
 libsndAudioRecordingStream::libsndAudioRecordingStream( const char * filePath, const int bufferSize )

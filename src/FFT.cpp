@@ -8,7 +8,7 @@
  */
 
 #include "FFT.h"
-#include "AudioSystem.h"
+#include "Logging.h"
 #include <math.h>
 #include <cassert>
 #include <stdio.h>

@@ -17,7 +17,7 @@
  */
 
 #include "mpg123AudioRecordingStream.h"
-#include "AudioSystem.h"
+#include "Logging.h"
 
 mpg123AudioRecordingStream::mpg123AudioRecordingStream( const char * filePath, const int bufferSize )
 : m_metaData( this )

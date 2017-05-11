@@ -17,7 +17,7 @@
  */
 
 #include "UGen.h"
-#include "AudioSystem.h"
+#include "Logging.h"
 #include "AudioOutput.h"
 #include <stdio.h> // for sprintf
 #include <string.h> // for memcpy

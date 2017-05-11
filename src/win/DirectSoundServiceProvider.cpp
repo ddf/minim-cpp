@@ -16,7 +16,7 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#include "AudioSystem.h"
+#include "Logging.h"
 #include "DirectSoundServiceProvider.h"
 #include "libsndAudioRecordingStream.h"
 #include "mpg123AudioRecordingStream.h"
