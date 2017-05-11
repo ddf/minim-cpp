@@ -138,6 +138,9 @@
     <ClInclude Include="src\interfaces\SampleRecorder.h">
       <Filter>Core\Interfaces</Filter>
     </ClInclude>
+    <ClInclude Include="src\Logging.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\AudioOutput.cpp">
@@ -232,6 +235,9 @@
     </ClCompile>
     <ClCompile Include="src\win\libsndSampleRecorder.cpp">
       <Filter>Win</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Logging.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
