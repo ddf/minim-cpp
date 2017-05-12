@@ -92,6 +92,8 @@
 		77F34AA4150EB3BC001FABAE /* Flanger.h in Headers */ = {isa = PBXBuildFile; fileRef = 77F34A9E150EB3BC001FABAE /* Flanger.h */; };
 		77F34AA5150EB3BC001FABAE /* MoogFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77F34A9F150EB3BC001FABAE /* MoogFilter.cpp */; };
 		77F34AA6150EB3BC001FABAE /* MoogFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 77F34AA0150EB3BC001FABAE /* MoogFilter.h */; };
+		77FDB72C1EC61198003C5357 /* Logging.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77FDB72A1EC61198003C5357 /* Logging.cpp */; };
+		77FDB72D1EC61198003C5357 /* Logging.h in Headers */ = {isa = PBXBuildFile; fileRef = 77FDB72B1EC61198003C5357 /* Logging.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -184,6 +186,8 @@
 		77F34A9E150EB3BC001FABAE /* Flanger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flanger.h; sourceTree = "<group>"; };
 		77F34A9F150EB3BC001FABAE /* MoogFilter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MoogFilter.cpp; sourceTree = "<group>"; };
 		77F34AA0150EB3BC001FABAE /* MoogFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoogFilter.h; sourceTree = "<group>"; };
+		77FDB72A1EC61198003C5357 /* Logging.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Logging.cpp; sourceTree = "<group>"; };
+		77FDB72B1EC61198003C5357 /* Logging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Logging.h; sourceTree = "<group>"; };
 		D2AAC07E0554694100DB518D /* libMinimOSX.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMinimOSX.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2F7E8BE07B2D77200F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
@@ -266,6 +270,8 @@
 		6DEFA2F1141ED6AF003783E8 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				77FDB72A1EC61198003C5357 /* Logging.cpp */,
+				77FDB72B1EC61198003C5357 /* Logging.h */,
 				77D90FEB18AEED7F00828469 /* AudioFormat.cpp */,
 				77BDF0FA14C0EA7C0090A200 /* BMutex.hpp */,
 				6DEFA2F2141ED6AF003783E8 /* AudioFormat.h */,
@@ -402,6 +408,7 @@
 				6DEFA34C141ED6AF003783E8 /* CADebugMacros.h in Headers */,
 				6DEFA34D141ED6AF003783E8 /* CAMath.h in Headers */,
 				6DEFA34E141ED6AF003783E8 /* CASampleRecorder.h in Headers */,
+				77FDB72D1EC61198003C5357 /* Logging.h in Headers */,
 				6DEFA351141ED6AF003783E8 /* CAStreamBasicDescription.h in Headers */,
 				6DEFA352141ED6AF003783E8 /* TouchAudioFormat.h in Headers */,
 				6DEFA353141ED6AF003783E8 /* TouchAudioOut.h in Headers */,
@@ -524,6 +531,7 @@
 				77F34AA1150EB3BC001FABAE /* ADSR.cpp in Sources */,
 				77F34AA3150EB3BC001FABAE /* Flanger.cpp in Sources */,
 				77F34AA5150EB3BC001FABAE /* MoogFilter.cpp in Sources */,
+				77FDB72C1EC61198003C5357 /* Logging.cpp in Sources */,
 				77D5411B1580E0C80061B98E /* BitCrush.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

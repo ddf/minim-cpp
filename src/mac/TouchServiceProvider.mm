@@ -6,7 +6,7 @@
 //  Copyright 2010 Compartmental. All rights reserved.
 //
 
-#include "AudioSystem.h"
+#include "Logging.h"
 #include "TouchServiceProvider.h"
 #include "TouchAudioOut.h"
 #include "Wavetable.h"

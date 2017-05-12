@@ -8,7 +8,7 @@
  */
 
 #include "TouchAudioRecordingStream.h"
-#include "AudioSystem.h"
+#include "Logging.h"
 
 ////////////////////////////////////////////
 TouchAudioRecordingStream::TouchAudioRecordingStream( CFURLRef fileURL, const int bufferSize )

@@ -93,6 +93,8 @@
 		77DEB7DF1490411C00C9FB09 /* Delay.h in Headers */ = {isa = PBXBuildFile; fileRef = 77DEB7DD1490411C00C9FB09 /* Delay.h */; };
 		77DEB7E31490414800C9FB09 /* MoogFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77DEB7E11490414800C9FB09 /* MoogFilter.cpp */; };
 		77DEB7E41490414800C9FB09 /* MoogFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 77DEB7E21490414800C9FB09 /* MoogFilter.h */; };
+		77FDB7301EC611DF003C5357 /* Logging.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77FDB72E1EC611DF003C5357 /* Logging.cpp */; };
+		77FDB7311EC611DF003C5357 /* Logging.h in Headers */ = {isa = PBXBuildFile; fileRef = 77FDB72F1EC611DF003C5357 /* Logging.h */; };
 		AA747D9F0F9514B9006C5449 /* MinimTouch_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AA747D9E0F9514B9006C5449 /* MinimTouch_Prefix.pch */; };
 		AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACBBE490F95108600F1A2B1 /* Foundation.framework */; };
 /* End PBXBuildFile section */
@@ -185,6 +187,8 @@
 		77DEB7DD1490411C00C9FB09 /* Delay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Delay.h; sourceTree = "<group>"; };
 		77DEB7E11490414800C9FB09 /* MoogFilter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MoogFilter.cpp; sourceTree = "<group>"; };
 		77DEB7E21490414800C9FB09 /* MoogFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoogFilter.h; sourceTree = "<group>"; };
+		77FDB72E1EC611DF003C5357 /* Logging.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Logging.cpp; path = src/Logging.cpp; sourceTree = "<group>"; };
+		77FDB72F1EC611DF003C5357 /* Logging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Logging.h; path = src/Logging.h; sourceTree = "<group>"; };
 		AA747D9E0F9514B9006C5449 /* MinimTouch_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MinimTouch_Prefix.pch; sourceTree = SOURCE_ROOT; };
 		AACBBE490F95108600F1A2B1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D2AAC07E0554694100DB518D /* libMinimTouch.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMinimTouch.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -238,6 +242,8 @@
 		08FB77AEFE84172EC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				77FDB72E1EC611DF003C5357 /* Logging.cpp */,
+				77FDB72F1EC611DF003C5357 /* Logging.h */,
 				77354A7618B2804100B8CE1C /* AudioFormat.cpp */,
 				6D966052113F756E0096AB83 /* AudioFormat.h */,
 				6D966053113F756E0096AB83 /* AudioOutput.cpp */,
@@ -384,6 +390,7 @@
 				6D96607B113F756E0096AB83 /* Summer.h in Headers */,
 				6D96607D113F756E0096AB83 /* UGen.h in Headers */,
 				6D6A9B3711432ED9003B59BA /* TouchServiceProvider.h in Headers */,
+				77FDB7311EC611DF003C5357 /* Logging.h in Headers */,
 				6D82014B11448761009404CA /* TouchAudioOut.h in Headers */,
 				6D8201E711449A7F009404CA /* Noise.h in Headers */,
 				6DCC14341145BC2500727A0A /* Frequency.h in Headers */,
@@ -506,6 +513,7 @@
 				77BDF0E714C0E1F30090A200 /* FourierTransform.cpp in Sources */,
 				77BDF0E914C0E1F30090A200 /* WindowFunction.cpp in Sources */,
 				779771C414EB7081002B2C9C /* Flanger.cpp in Sources */,
+				77FDB7301EC611DF003C5357 /* Logging.cpp in Sources */,
 				771538ED156868AE005A50C7 /* BitCrush.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
