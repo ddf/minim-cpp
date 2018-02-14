@@ -76,6 +76,22 @@ namespace Minim
 			return 0.54f - 0.46f * cosf(TWO_PI * index / (length - 1));
 		}
 	};
+
+	class HannWindow : public WindowFunction
+	{
+		virtual float value(int length, int index)
+		{
+			return 0.5f * (1.f - (float)cosf(TWO_PI * index / (length - 1.f)));
+		}
+	};
+
+	class BartlettHannWindow : public WindowFunction
+	{
+		virtual float value(int length, int index)
+		{
+			return (float)(0.62f - 0.48f * fabs((float)index / (length - 1) - 0.5f) - 0.38f * cos(TWO_PI * index / (length - 1)));
+		}
+	};
 	
 }
 

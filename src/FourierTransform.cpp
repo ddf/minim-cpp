@@ -13,6 +13,8 @@
 
 Minim::RectangularWindow Minim::FourierTransform::NONE;
 Minim::HammingWindow Minim::FourierTransform::HAMMING;
+Minim::HannWindow Minim::FourierTransform::HANN;
+Minim::BartlettHannWindow Minim::FourierTransform::BARTLETHANN;
 
 Minim::FourierTransform::FourierTransform(int ts, float sr)
 : m_timeSize( ts )

@@ -27,6 +27,9 @@ namespace Minim
 		static RectangularWindow NONE;
 		/** A constant indicating a <a href="http://en.wikipedia.org/wiki/Window_function#Hamming_window">Hamming window</a> should be used on sample buffers. */
 		static HammingWindow HAMMING;
+		/** <a href="http://en.wikipedia.org/wiki/Window_function#Hann_window">The Hann Window</a> */
+		static HannWindow HANN;
+		static BartlettHannWindow BARTLETHANN;
 		
 	protected:
 		
