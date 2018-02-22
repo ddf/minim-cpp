@@ -22,6 +22,8 @@ namespace Minim
 	, m_sampleCount( 0.f )
 	, m_bInterpolate( false )
 	{
+		m_currentSampleFrame[0] = 0;
+		m_nextSampleFrame[0] = 0;
 		value.setLastValue(tickRate);
 	}
 	
@@ -64,14 +66,17 @@ namespace Minim
 			delete [] m_currentSampleFrame;
 			delete [] m_nextSampleFrame;
 			
-			m_currentSampleFrame = new float[ getAudioChannelCount() ];
-			m_nextSampleFrame = new float[ getAudioChannelCount() ];
+			const int channels = getAudioChannelCount();
+			m_currentSampleFrame = new float[ channels ];
+			m_nextSampleFrame = new float[ channels ];
+			memset(m_currentSampleFrame, 0, sizeof(float)*channels);
+			memset(m_nextSampleFrame, 0, sizeof(float)*channels);
 			
 			if ( m_pAudio )
 			{
-				m_pAudio->setAudioChannelCount( getAudioChannelCount() );
-				m_pAudio->tick( m_currentSampleFrame, getAudioChannelCount() );
-				m_pAudio->tick( m_nextSampleFrame, getAudioChannelCount() );
+				m_pAudio->setAudioChannelCount( channels );
+				m_pAudio->tick( m_currentSampleFrame, channels);
+				m_pAudio->tick( m_nextSampleFrame, channels );
 				m_sampleCount = 0.f;
 			}
 		}
