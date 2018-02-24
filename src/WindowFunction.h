@@ -58,20 +58,28 @@ namespace Minim
 		 * @param length the length of the window
 		 * @return the shape of the window function
 		 */
-		float * generateCurve( int length );
+		float * generateCurve( int length ) const;
 
 		
-		virtual float value(int length, int index) = 0;
+		virtual float value(int length, int index) const = 0;
 	};
 	
 	class RectangularWindow : public WindowFunction
 	{
-		virtual float value(int length, int index) { return 1.0f; }
+		float value(int length, int index) const override { return 1.0f; }
+	};
+	
+	class TriangularWindow : public WindowFunction
+	{
+		float value(int length, int index) const override
+		{
+			return 2.f / length * (length / 2.f - fabs(index - (length - 1) / 2.f));
+		}
 	};
 	
 	class HammingWindow : public WindowFunction
 	{
-		virtual float value(int length, int index) 
+		float value(int length, int index) const override
 		{
 			return 0.54f - 0.46f * cosf(TWO_PI * index / (length - 1));
 		}
@@ -79,7 +87,7 @@ namespace Minim
 
 	class HannWindow : public WindowFunction
 	{
-		virtual float value(int length, int index)
+		float value(int length, int index) const override
 		{
 			return 0.5f * (1.f - (float)cosf(TWO_PI * index / (length - 1.f)));
 		}
@@ -87,7 +95,7 @@ namespace Minim
 
 	class BartlettHannWindow : public WindowFunction
 	{
-		virtual float value(int length, int index)
+		float value(int length, int index) const override
 		{
 			return (float)(0.62f - 0.48f * fabs((float)index / (length - 1) - 0.5f) - 0.38f * cos(TWO_PI * index / (length - 1)));
 		}

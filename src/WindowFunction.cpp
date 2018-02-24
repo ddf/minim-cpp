@@ -30,7 +30,7 @@ void Minim::WindowFunction::apply(float * samples, const int offset, const int s
 	}
 }
 
-float * Minim::WindowFunction::generateCurve( int length )
+float * Minim::WindowFunction::generateCurve( int length ) const
 {
 	float * samples = new float[length];
 	for (int n = 0; n < length; n++) 

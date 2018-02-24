@@ -12,6 +12,7 @@
 #include <string>
 
 Minim::RectangularWindow Minim::FourierTransform::NONE;
+Minim::TriangularWindow Minim::FourierTransform::TRIANGULAR;
 Minim::HammingWindow Minim::FourierTransform::HAMMING;
 Minim::HannWindow Minim::FourierTransform::HANN;
 Minim::BartlettHannWindow Minim::FourierTransform::BARTLETHANN;

@@ -25,6 +25,9 @@ namespace Minim
 	public:
 		/** A constant indicating no window should be used on sample buffers. Also referred as a <a href="http://en.wikipedia.org/wiki/Window_function#Rectangular_window">Rectangular window</a>. */
 		static RectangularWindow NONE;
+		/** A constant indicating a <a href="http://en.wikipedia.org/wiki/Window_function#Triangular_window">Triangular window</a> should be used on sample buffers.
+		*/
+		static TriangularWindow TRIANGULAR;
 		/** A constant indicating a <a href="http://en.wikipedia.org/wiki/Window_function#Hamming_window">Hamming window</a> should be used on sample buffers. */
 		static HammingWindow HAMMING;
 		/** <a href="http://en.wikipedia.org/wiki/Window_function#Hann_window">The Hann Window</a> */

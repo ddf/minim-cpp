@@ -28,6 +28,8 @@ namespace Minim
 		FFT(int timeSize, float sampleRate);
 		virtual ~FFT();
 		
+		inline void setSampleRate(float sr) { m_sampleRate = sr; }
+		
 		virtual void scaleBand(int i, float s);
 		virtual void setBand(int i, float a);
 		
