@@ -18,6 +18,7 @@ Minim::ADSR::ADSR( float maxAmp, float attTime, float decTime, float susLvl, flo
 , decayTime(decTime)
 , sustainLevel(susLvl)
 , releaseTime(relTime)
+, amplitude(befAmp)
 , beforeAmplitude(befAmp)
 , afterAmplitude(aftAmp)
 , isTurnedOn(false)
@@ -51,6 +52,8 @@ void Minim::ADSR::noteOn()
     
     timeFromOff = -1;
     isTurnedOff = false;
+
+	amplitude = beforeAmplitude;
 }
 
 //-----------------------------
