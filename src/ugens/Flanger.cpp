@@ -23,7 +23,7 @@ Minim::Flanger::Flanger(float delayLength, float lfoRate, float delayDepth, floa
 , dry( *this, CONTROL, dryAmplitude )
 , wet( *this, CONTROL, wetAmplitude )
 , delayBuffer( NULL )
-, outputFrame( 0 )
+, writeFrame( 0 )
 , bufferFrameLength( 0 )
 , step( 0 )
 , stepSize( 0 )
@@ -62,38 +62,39 @@ void Minim::Flanger::uGenerate(float* out, const int numChannels)
     assert( numChannels == getAudioChannelCount() );
     
     // generate lfo value
-    float lfo = SINE->value( step );
+    const float lfo = SINE->value( step );
     
     // modulate the delay amount using the lfo value.
-    // we always modulate tp a max of 5ms above the input delay.
-    float dep = depth.getLastValue() * 0.5f;
-    float delMS = delay.getLastValue() + ( lfo * dep + dep );
+    // we always modulate to a value larger than the input delay.
+    const float dep = depth.getLastValue() * 0.5f;
+    const float delMS = delay.getLastValue() + ( lfo * dep + dep );
+	const float feed = feedback.getLastValue();
     
     // how many sample frames is that?
     int delFrame = (int)( delMS * sampleRate() / 1000 );
     
-    for ( int i = 0; i < numChannels; ++i )
+    for ( int c = 0; c < numChannels; ++c )
     {
-        int outputIndex = outputFrame * getAudioChannelCount() + i;
-        float inSample = audio.getLastValues()[i];
-        float wetSample = delayBuffer[outputIndex];
-        // eat it
-        delayBuffer[outputIndex] = 0;
-        
-        // figure out where we need to place the delayed sample in our ring buffer
-        int delIndex = ( ( outputFrame + delFrame ) * getAudioChannelCount() + i ) % (bufferFrameLength * getAudioChannelCount());
-        delayBuffer[delIndex] = inSample + wetSample * feedback.getLastValue();
-        
-        // the output sample is in plus wet, each scaled by amplitude inputs
-        out[i] = inSample * dry.getLastValue() + wetSample * wet.getLastValue();
+		float inSample = audio.getLastValues()[c];
+
+		// seek backwards by our delay time
+		const int readFrame = (bufferFrameLength + writeFrame - delFrame) % bufferFrameLength;
+		const int readIdx = (readFrame*numChannels + c);
+
+		// grab the sample there
+		const float delaySample = delayBuffer[readIdx];
+
+		// where to record incoming audio and mix with feedback
+		const int writeIdx = writeFrame*numChannels + c;
+		delayBuffer[writeIdx] = inSample + delaySample*feed;
+
+		// audible output is the delayed signal scaled by wet mix.
+		// plus the incoming signal scaled by dry mix.
+		out[c] = inSample*dry.getLastValue() + delaySample*wet.getLastValue();
     }
     
     // next output frame
-    ++outputFrame;
-    if ( outputFrame == bufferFrameLength )
-    {
-        outputFrame = 0;
-    }
+	writeFrame = (writeFrame + 1) % bufferFrameLength;
     
     updateStepSize();
     
@@ -118,7 +119,7 @@ void Minim::Flanger::resetBuffer()
     int bufferSize  = sampleCount * getAudioChannelCount();
     delayBuffer = new float[bufferSize];
     memset( delayBuffer, 0, sizeof(float)*bufferSize );
-    outputFrame = 0;
+    writeFrame = 0;
     bufferFrameLength = sampleCount;
 }
 

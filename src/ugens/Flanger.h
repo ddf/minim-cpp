@@ -113,7 +113,7 @@ namespace Minim
         float getRate() const;
         
         float*		delayBuffer;
-        int			outputFrame;
+        int			writeFrame;
         int			bufferFrameLength;
         
         // ////////////
