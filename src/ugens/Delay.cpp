@@ -52,7 +52,14 @@ void Minim::Delay::uGenerate( float * out, const int numChannels )
 	else
 	{
 		// how many samples to delay the input - clamping to the maximum number of frames we can handle
-		const int delayFrames = std::min((int)(delTime.getLastValue()*sampleRate()), delayBufferFrames-1);
+		const float delayFrames = std::min(delTime.getLastValue()*sampleRate(), (float)delayBufferFrames-1);
+
+		// we need to use the fractional part to interpolate between two previous sample frames
+		// otherwise we will get artifacts.
+		const int firstFrame = (int)delayFrames;
+		const int secondFrame = firstFrame + 1;
+		const float frameLerp = delayFrames - firstFrame;
+
 		const float amp = delAmp.getLastValue();
 		const float feed = feedback.getLastValue();
 		const float wet = wetMix.getLastValue();
@@ -64,11 +71,13 @@ void Minim::Delay::uGenerate( float * out, const int numChannels )
 			const float inSample = audio.getLastValues()[c];
 
 			// seek backwards by our delay time
-			const int readFrame = (delayBufferFrames + delayBufferWriteFrame - delayFrames)%delayBufferFrames;
-			const int readIdx = (readFrame*numChannels + c);
+			const int readFrame1 = (delayBufferFrames + delayBufferWriteFrame - firstFrame) % delayBufferFrames;
+			const int readFrame2 = (delayBufferFrames + delayBufferWriteFrame - secondFrame) % delayBufferFrames;
+			const int readIdx1 = readFrame1*numChannels + c;
+			const int readIdx2 = readFrame2*numChannels + c;
 
 			// grab the sample there
-			const float delaySample = delayBuffer[readIdx]*amp;
+			const float delaySample = amp * (delayBuffer[readIdx1] + frameLerp*(delayBuffer[readIdx2] - delayBuffer[readIdx1]));
 
 			// where to record incoming audio and mix with feedback
 			const int writeIdx = delayBufferWriteFrame*numChannels + c;

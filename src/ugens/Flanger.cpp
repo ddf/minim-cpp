@@ -71,18 +71,25 @@ void Minim::Flanger::uGenerate(float* out, const int numChannels)
 	const float feed = feedback.getLastValue();
     
     // how many sample frames is that?
-    int delFrame = (int)( delMS * sampleRate() / 1000 );
+	const float delayFrames = (delMS * sampleRate() / 1000);
+	// we need to use the fractional part to interpolate between two previous sample frames
+	// otherwise we will get artifacts.
+	int firstFrame = (int)delayFrames;
+	const int secondFrame = firstFrame + 1;
+	const float frameLerp = delayFrames - firstFrame;
     
     for ( int c = 0; c < numChannels; ++c )
     {
 		float inSample = audio.getLastValues()[c];
 
 		// seek backwards by our delay time
-		const int readFrame = (bufferFrameLength + writeFrame - delFrame) % bufferFrameLength;
-		const int readIdx = (readFrame*numChannels + c);
+		const int readFrame1 = (bufferFrameLength + writeFrame - firstFrame) % bufferFrameLength;
+		const int readFrame2 = (bufferFrameLength + writeFrame - secondFrame) % bufferFrameLength;
+		const int readIdx1 = readFrame1*numChannels + c;
+		const int readIdx2 = readFrame2*numChannels + c;
 
 		// grab the sample there
-		const float delaySample = delayBuffer[readIdx];
+		const float delaySample = delayBuffer[readIdx1] + frameLerp*(delayBuffer[readIdx2] - delayBuffer[readIdx1]);
 
 		// where to record incoming audio and mix with feedback
 		const int writeIdx = writeFrame*numChannels + c;
