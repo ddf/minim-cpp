@@ -10,22 +10,19 @@
 #include "Delay.h"
 #include <algorithm>
 
-Minim::Delay::Delay( const float maxDT, const float ampFactor, const bool feedback, const bool passAudio )
+Minim::Delay::Delay( const float maxDT, const float ampFactor, const bool feedback )
 : UGen()
 , audio( *this, AUDIO )
 , delTime( *this, CONTROL )
 , delAmp( *this, CONTROL )
+, feedback(*this, CONTROL )
 , dryMix( *this, CONTROL )
 , wetMix( *this, CONTROL )
 , maxDelayTime( maxDT )
-, amplitudeFactor( ampFactor )
+, delayBuffer(nullptr)
+, delayBufferFrames(0)
+, delayBufferWriteFrame(0)
 , feedBackOn( feedback )
-, passAudioOn( passAudio )
-, iBufferIn( 0 )
-, iBufferOut( 0 )
-, bufferSize( 0 )
-, maxBufferSize( 0 )
-, delayBuffer( NULL )
 {
 	delTime.setLastValue(maxDT);
 	delAmp.setLastValue(ampFactor);
@@ -43,88 +40,60 @@ Minim::Delay::~Delay()
 
 void Minim::Delay::sampleRateChanged()
 {
-	if ( delayBuffer )
-	{
-		delete[] delayBuffer;
-        delayBuffer = NULL;
-	}
-	
-	if ( getAudioChannelCount() > 0 )
-	{
-		maxBufferSize = (int)( maxDelayTime*sampleRate()*getAudioChannelCount() );
-		delayBuffer = new float[maxBufferSize];
-		memset(delayBuffer, 0, sizeof(float)*maxBufferSize);
-		bufferSizeChanged();
-	}
-}
-
-void Minim::Delay::channelCountChanged()
-{
-	if ( delayBuffer )
-	{
-		delete[] delayBuffer;
-        delayBuffer = NULL;
-	}
-	
-	if ( sampleRate() > 0 )
-	{
-		maxBufferSize = (int)( maxDelayTime*sampleRate()*getAudioChannelCount() );
-		delayBuffer = new float[maxBufferSize];
-		memset(delayBuffer, 0, sizeof(float)*maxBufferSize);
-		bufferSizeChanged();
-	}
-}
-
-void Minim::Delay::bufferSizeChanged()
-{
-	const int oldBufferSize = bufferSize;
-	const int newBufferSize = (int)( delayTime*sampleRate()*getAudioChannelCount() );
-	if ( oldBufferSize != newBufferSize && newBufferSize > 0 )
-	{
-		if ( newBufferSize < oldBufferSize )
-		{
-			std::fill( delayBuffer + newBufferSize, delayBuffer + oldBufferSize, 0.0f );
-		}
-		bufferSize = newBufferSize;
-		iBufferOut = ( iBufferIn + getAudioChannelCount() ) % bufferSize;
-	}
+	allocateDelayBuffer();
 }
 
 void Minim::Delay::uGenerate( float * out, const int numChannels )
 {
-	// update the buffer indexes
-	delayTime = delTime.getLastValue();
-	bufferSizeChanged();
-	
-	// update the feedbackFactor
-	amplitudeFactor = delAmp.getLastValue();
-	
-	// apply to each channel
-	for (int c = 0; c < numChannels; ++c )
+	if (delayBuffer == nullptr)
 	{
-		float tmpIn = audio.getLastValues()[c];
-	
-		// pull sound out of the buffer
-		float tmpOut = amplitudeFactor*delayBuffer[ iBufferOut ];
-	
-		// put sound into the buffer
-		delayBuffer[ iBufferIn ] = tmpIn;
-		if ( feedBackOn ) 
-		{
-			delayBuffer[ iBufferIn ] += tmpOut; 
-		}
-	
-		tmpOut *= wetMix.getLastValue();
-	
-		iBufferIn  = ( iBufferIn  + 1 )%bufferSize;
-		iBufferOut = ( iBufferOut + 1 )%bufferSize;
-	
-		// pass the audio if necessary
-		if ( passAudioOn )
-		{
-			tmpOut += tmpIn * dryMix.getLastValue();
-		}
-		
-		out[c] = tmpOut;
+		UGen::fill(out, 0, numChannels);
 	}
+	else
+	{
+		// how many samples to delay the input - clamping to the maximum number of frames we can handle
+		const int delayFrames = std::min((int)(delTime.getLastValue()*sampleRate()), delayBufferFrames-1);
+		const float amp = delAmp.getLastValue();
+		const float feed = feedback.getLastValue();
+		const float wet = wetMix.getLastValue();
+		const float dry = dryMix.getLastValue();
+
+		// apply to each channel
+		for (int c = 0; c < numChannels; ++c)
+		{
+			const float inSample = audio.getLastValues()[c];
+
+			// seek backwards by our delay time
+			const int readFrame = (delayBufferFrames + delayBufferWriteFrame - delayFrames)%delayBufferFrames;
+			const int readIdx = (readFrame*numChannels + c);
+
+			// grab the sample there
+			const float delaySample = delayBuffer[readIdx]*amp;
+
+			// where to record incoming audio and mix with feedback
+			const int writeIdx = delayBufferWriteFrame*numChannels + c;
+			delayBuffer[writeIdx] = feedBackOn ? inSample + delaySample*feed : inSample;
+
+			// audible output is the delayed signal scaled by wet mix.
+			// plus the incoming signal scaled by dry mix.
+			out[c] = inSample*dry + delaySample*wet;
+		}
+
+		// advance the output frame
+		delayBufferWriteFrame = (delayBufferWriteFrame + 1) % delayBufferFrames;
+	}
+}
+
+void Minim::Delay::allocateDelayBuffer()
+{
+	if (delayBuffer != nullptr)
+	{
+		delete[] delayBuffer;
+	}
+
+	delayBufferFrames = (int)(maxDelayTime*sampleRate());
+	const size_t len = delayBufferFrames*audio.getChannelCount();
+	delayBuffer = new float[len];
+	memset(delayBuffer, 0, len * sizeof(float));
+	delayBufferWriteFrame = 0;
 }

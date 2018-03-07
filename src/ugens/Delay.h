@@ -17,32 +17,43 @@ namespace Minim
 	class Delay : public UGen
 	{
 	public:
-		explicit Delay( const float maxDelayTime = 0.25f, const float amplitudeFactor = 0.5f, const bool feedbackOn = false, const bool passAudioOn = true );
+		explicit Delay( const float maxDelayTime = 0.25f, const float amplitudeFactor = 0.5f, const bool feedbackOn = false);
 		virtual ~Delay();
 		
 		UGenInput audio;
 		UGenInput delTime;
+		// amplitude applied to delayed signal before outputting it
 		UGenInput delAmp;
+		// amplitude applied to delayed signal before feeding it back.
+		// this is stacked on top of delAmp and is only used if feedback is enabled
+		UGenInput feedback;
 		UGenInput dryMix;
 		UGenInput wetMix;
+
+		inline void setFeedbackOn(const bool on) { feedBackOn = on;  }
 		
 	protected:
-		virtual void sampleRateChanged();
-		virtual void channelCountChanged();
-		virtual void uGenerate( float * out, const int numChannels );
+		virtual void sampleRateChanged() override;
+		virtual void channelCountChanged() override { allocateDelayBuffer(); }
+		virtual void uGenerate( float * out, const int numChannels ) override;
 		
 	private:
-		void bufferSizeChanged();
+		// called if sample rate or channel count change
+		void allocateDelayBuffer();
+
+		// the maximum time in seconds that our delay buffere represents
+		const float maxDelayTime;
 		
-		float  delayTime;
-		float  maxDelayTime;
-		float  amplitudeFactor;
+		// an buffer of samples frames that represents maxDelayTime (channels are interleaved)
 		float* delayBuffer;
-		int    bufferSize;
-		int    maxBufferSize;
-		int    iBufferIn, iBufferOut;
+		// the number of samples frames in delayBuffer (note: not the array size!)
+		int    delayBufferFrames;
+
+		// the next output frame in delayBuffer
+		int delayBufferWriteFrame;
+		
+		// flag to include feedback
 		bool   feedBackOn;
-		bool   passAudioOn;
 	};
 };
 
