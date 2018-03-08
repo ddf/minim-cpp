@@ -205,7 +205,7 @@ void UGen::removeInput(Minim::UGen *input)
 ///////////////////////////////////////////////////
 void UGen::tick(float *channels, const int numChannels)
 {
-    assert( "Tried to tick a UGen with the wrong number of channels!" );
+    assert( numChannels <= getAudioChannelCount() && "Tried to tick a UGen with the wrong number of channels!" );
 	
 	if (0 == mCurrentTick) 
 	{	
