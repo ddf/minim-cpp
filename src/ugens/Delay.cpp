@@ -57,8 +57,12 @@ void Minim::Delay::uGenerate( float * out, const int numChannels )
 		// we need to use the fractional part to interpolate between two previous sample frames
 		// otherwise we will get artifacts.
 		const int firstFrame = (int)delayFrames;
-		const int secondFrame = firstFrame + 1;
 		const float frameLerp = delayFrames - firstFrame;
+		// since we are seeking backwards in the ring buffer, we first offset from the end of the buffer,
+		// this way an index that would be negative winds up as a positive number at the end.
+		// by doing % delayBufferFrames, we wrap positive indices into the buffer.
+		const int readFrame1 = (delayBufferFrames + delayBufferWriteFrame - firstFrame) % delayBufferFrames;
+		const int readFrame2 = (delayBufferFrames + delayBufferWriteFrame - firstFrame - 1) % delayBufferFrames;
 
 		const float amp = delAmp.getLastValue();
 		const float feed = feedback.getLastValue();
@@ -70,9 +74,7 @@ void Minim::Delay::uGenerate( float * out, const int numChannels )
 		{
 			const float inSample = audio.getLastValues()[c];
 
-			// seek backwards by our delay time
-			const int readFrame1 = (delayBufferFrames + delayBufferWriteFrame - firstFrame) % delayBufferFrames;
-			const int readFrame2 = (delayBufferFrames + delayBufferWriteFrame - secondFrame) % delayBufferFrames;
+			// seek backwards by our delay time			
 			const int readIdx1 = readFrame1*numChannels + c;
 			const int readIdx2 = readFrame2*numChannels + c;
 
