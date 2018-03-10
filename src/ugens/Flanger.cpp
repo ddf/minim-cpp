@@ -83,16 +83,21 @@ void Minim::Flanger::uGenerate(float* out, const int numChannels)
     {
 		float inSample = audio.getLastValues()[c];
 
-		// seek backwards by our delay time		
-		const int readIdx1 = readFrame1*numChannels + c;
-		const int readIdx2 = readFrame2*numChannels + c;
-
-		// grab the sample there
-		const float delaySample = delayBuffer[readIdx1] + frameLerp*(delayBuffer[readIdx2] - delayBuffer[readIdx1]);
-
 		// where to record incoming audio and mix with feedback
 		const int writeIdx = writeFrame*numChannels + c;
-		delayBuffer[writeIdx] = inSample + delaySample*feed;
+
+		// first write in sample into the delay buffer
+		// so that if readIdx1 is the same as writeIdx, we will use the correct value for interpolation.
+		// if we *don't* do this, we will wind up using whatever we put in the buffer bufferFrameLength frames in the past.
+		delayBuffer[writeIdx] = inSample;
+
+		// now seek backwards by our delay time to construct our fractional delay sample
+		const int readIdx1 = readFrame1*numChannels + c;
+		const int readIdx2 = readFrame2*numChannels + c;
+		const float delaySample = (1.0 - frameLerp)*delayBuffer[readIdx1] + frameLerp*delayBuffer[readIdx2];
+		
+		// accumulate feedback into the buffer
+		delayBuffer[writeIdx] += delaySample*feed;
 
 		// audible output is the delayed signal scaled by wet mix.
 		// plus the incoming signal scaled by dry mix.
