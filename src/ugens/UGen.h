@@ -205,8 +205,6 @@ protected:
 		// default implementation does nothing.
 	}
 	
-	inline float sampleRate() const { return mSampleRate; }
-	
 	/**
 	 * Helper function for sub-classes that want to set 
 	 * all channels of a sample frame to the same value.
@@ -219,6 +217,8 @@ protected:
     static void accum( float * accumFrame, const float * sampleFrame, const int numChannels, const float scale = 1.0f );
 
 public:
+
+	inline float sampleRate() const { return mSampleRate; }
 	
 	/**
 	 * Set the sample rate for this UGen.
