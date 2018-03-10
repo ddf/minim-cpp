@@ -27,6 +27,7 @@ Minim::MoogFilter::MoogFilter( float cutoffFrequencyInHz, float normalizedResona
 {
 	frequency.setLastValue(cutoffFrequencyInHz);
 	resonance.setLastValue(normalizedResonance);
+	channelCountChanged();
 }
 
 Minim::MoogFilter::~MoogFilter()
