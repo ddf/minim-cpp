@@ -74,6 +74,12 @@ void Minim::Delay::uGenerate( float * out, const int numChannels )
 		{
 			const float inSample = audio.getLastValues()[c];
 
+			// where to record incoming audio and mix with feedback.
+			// we write first in case our first read index is the same as the write index,
+			// which can happen the delay time is very small.
+			const int writeIdx = delayBufferWriteFrame*numChannels + c;
+			delayBuffer[writeIdx] = inSample;
+
 			// seek backwards by our delay time			
 			const int readIdx1 = readFrame1*numChannels + c;
 			const int readIdx2 = readFrame2*numChannels + c;
@@ -81,9 +87,11 @@ void Minim::Delay::uGenerate( float * out, const int numChannels )
 			// grab the sample there
 			const float delaySample = amp * (delayBuffer[readIdx1] + frameLerp*(delayBuffer[readIdx2] - delayBuffer[readIdx1]));
 
-			// where to record incoming audio and mix with feedback
-			const int writeIdx = delayBufferWriteFrame*numChannels + c;
-			delayBuffer[writeIdx] = feedBackOn ? inSample + delaySample*feed : inSample;
+			// add feedback signal if necessary
+			if (feedBackOn)
+			{
+				delayBuffer[writeIdx] += delaySample*feed;
+			}
 
 			// audible output is the delayed signal scaled by wet mix.
 			// plus the incoming signal scaled by dry mix.
