@@ -24,57 +24,53 @@
 #include <math.h>
 #include <stdlib.h>
 
-static const int tableSize = 8192;
-static const int tSby2 = tableSize/2;
-static const int tSby4 = tableSize/4;
-
 namespace Minim
 {
 	
 	namespace Waves 
 	{
-		Wavetable * PHASOR()
+		Wavetable * PHASOR(int tableSize)
 		{
 			float val[] = { 0, 1 };
 			int   dist[] = { tableSize };
 			return gen7( tableSize, val, 2, dist, 1 );
 		}
 		
-		Wavetable * SINE() 
+		Wavetable * SINE(int tableSize) 
 		{
 			float amp[] = { 1.f };
 			return gen10(tableSize, amp, 1);
 		}
 		
-		Wavetable * SAW()
+		Wavetable * SAW(int tableSize)
 		{
 			float val[] = { 0, -1, 1, 0 };
-			int dist[] = { tSby2, 0, tableSize - tSby2 };
+			int dist[] = { tableSize/2, 0, tableSize - tableSize/2 };
 			return gen7(tableSize, val, 4, dist, 3);
 		}
 		
-		Wavetable * SQUARE()
+		Wavetable * SQUARE(int tableSize)
 		{
 			float val[] = { -1, -1, 1, 1 };
-			int dist[] = { tSby2, 0, tableSize - tSby2 };
+			int dist[] = { tableSize/2, 0, tableSize - tableSize/2 };
 			return gen7(tableSize, val, 4, dist, 3);
 		}
 		
-		Wavetable * TRIANGLE()
+		Wavetable * TRIANGLE(int tableSize)
 		{
 			float val[] = { 0, 1, -1, 0 };
-			int dist[] = { tSby4, tSby2, tableSize - tSby2 - tSby4 };
+			int dist[] = { tableSize/4, tableSize/2, tableSize - tableSize/2 - tableSize/4 };
 			return gen7(tableSize, val, 4, dist, 3);
 		}
 		
-		Wavetable * QUARTERPULSE()
+		Wavetable * QUARTERPULSE(int tableSize)
 		{
 			float val[] = { -1, -1, 1, 1};
-			int dist[] = { tSby4, 0, tableSize - tSby4 };
+			int dist[] = { tableSize/4, 0, tableSize - tableSize/4 };
 			return gen7(tableSize, val, 4, dist, 3);
 		}
 		
-		Wavetable * pulse( float dutyCycle )
+		Wavetable * pulse( float dutyCycle, int tableSize )
 		{
 			//TODO exception for floats higher than 1
 			float val[] = { 1, 1, -1, -1 };
@@ -82,7 +78,45 @@ namespace Minim
 			return gen7(tableSize, val, 4, dist, 3);
 		}
         
-        Wavetable* randomNHarms( int numberOfHarms )
+		Wavetable * sawh(int numberOfHarmonics, int tableSize)
+		{
+			float* content = new float[numberOfHarmonics];
+			for (int i = 0; i < numberOfHarmonics; ++i)
+			{
+				content[i] = (float)((-2) / ((i + 1) * M_PI) * pow(-1, i + 1));
+			}
+			Wavetable* result = gen10(tableSize, content, numberOfHarmonics);
+			delete[] content;
+			return result;
+		}
+
+		Wavetable * squareh(int numberOfHarmonics, int tableSize)
+		{
+			float* content = new float[numberOfHarmonics + 1];
+			for (int i = 0; i < numberOfHarmonics; i += 2)
+			{
+				content[i] = 1.0f / (i + 1);
+				content[i + 1] = 0;
+			}
+			Wavetable* result = gen10(tableSize, content, numberOfHarmonics+1);
+			delete[] content;
+			return result;
+		}
+
+		Wavetable* triangleh(int numberOfHarmonics, int tableSize)
+		{
+			float* content = new float[numberOfHarmonics + 1];
+			for (int i = 0; i < numberOfHarmonics; i += 2)
+			{
+				content[i] = (float)(pow(-1, i / 2) * 8 / M_PI / M_PI / pow(i + 1, 2));
+				content[i + 1] = 0;
+			}
+			Wavetable* result = gen10(tableSize, content, numberOfHarmonics + 1);
+			delete[] content;
+			return result;
+		}
+
+		Wavetable* randomNHarms(int numberOfHarms, int tableSize)
         {            
             float* harmAmps = new float[numberOfHarms];
             for( int i = 0; i < numberOfHarms; i++ )

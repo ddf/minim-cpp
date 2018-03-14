@@ -25,27 +25,32 @@ namespace Minim
 {
 	namespace Waves 
 	{
-		Wavetable * PHASOR();
-		Wavetable * SINE();
-		Wavetable * SAW();
-		Wavetable * SQUARE();
-		Wavetable * TRIANGLE();
-		Wavetable * QUARTERPULSE();
+		enum
+		{
+			kDefaultTableSize = 8192
+		};
+
+		Wavetable * PHASOR(int tableSize = kDefaultTableSize);
+		Wavetable * SINE(int tableSize = kDefaultTableSize);
+		Wavetable * SAW(int tableSize = kDefaultTableSize);
+		Wavetable * SQUARE(int tableSize = kDefaultTableSize);
+		Wavetable * TRIANGLE(int tableSize = kDefaultTableSize);
+		Wavetable * QUARTERPULSE(int tablesSize = kDefaultTableSize);
 		
-		// TODO: all the rest
-		Wavetable * saw     ( int numberOfHarmonics );
-		Wavetable * square  ( int numberOfHarmonics );
-		Wavetable * triangle( int numberOfHarmonics );
+		Wavetable * sawh     ( int numberOfHarmonics, int tableSize = kDefaultTableSize );
+		Wavetable * squareh  ( int numberOfHarmonics, int tableSize = kDefaultTableSize );
+		Wavetable * triangleh( int numberOfHarmonics, int tableSize = kDefaultTableSize );
         
-		Wavetable *	pulse   ( float dutyCycle );
-		Wavetable * triangle( float dutyCycle );
-		Wavetable * saw     ( float dutyCycle );
-		Wavetable * square  ( float dutyCycle );
+		// #TODO duty cycle versions of basic waves
+		Wavetable *	pulse   ( float dutyCycle, int tableSize = kDefaultTableSize );
+		Wavetable * triangle( float dutyCycle, int tableSize = kDefaultTableSize );
+		Wavetable * saw     ( float dutyCycle, int tableSize = kDefaultTableSize );
+		Wavetable * square  ( float dutyCycle, int tableSize = kDefaultTableSize );
         
         // returns a wavetable built out of sine waves
         // with the requested number of harmonics, 
         // where the amplitude of each harmonic is random
-        Wavetable * randomNHarms( int numberOfHarmonics );
+        Wavetable * randomNHarms( int numberOfHarmonics, int tableSize = kDefaultTableSize );
 		
 		Wavetable * gen7( const int size, const float * val, const int nVal, const int * dist, const int nDist );
 		Wavetable * gen9( int size, 
