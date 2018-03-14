@@ -31,6 +31,9 @@ namespace Minim
 		UGenInput wetMix;
 
 		inline void setFeedbackOn(const bool on) { feedBackOn = on;  }
+
+		// zeroes the delay buffer and resets the write position
+		void reset();
 		
 	protected:
 		virtual void sampleRateChanged() override;

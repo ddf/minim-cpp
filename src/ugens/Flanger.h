@@ -95,6 +95,9 @@ namespace Minim
         Flanger(float delayLength, float lfoRate, float delayDepth, float feedbackAmplitude, float dryAmplitude, float wetAmplitude);
         
         virtual ~Flanger();
+
+		// zeroes the delay buffer, resets the write frame and restarts the lfo
+		void reset();
         
     protected:
         virtual void sampleRateChanged();

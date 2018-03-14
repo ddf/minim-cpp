@@ -38,6 +38,15 @@ Minim::Delay::~Delay()
 	}
 }
 
+void Minim::Delay::reset()
+{
+	if (delayBuffer != nullptr)
+	{
+		memset(delayBuffer, 0, sizeof(float)*delayBufferFrames*getAudioChannelCount());
+	}
+	delayBufferWriteFrame = 0;
+}
+
 void Minim::Delay::sampleRateChanged()
 {
 	allocateDelayBuffer();

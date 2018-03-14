@@ -40,6 +40,17 @@ Minim::Flanger::~Flanger()
     }
 }
 
+void Minim::Flanger::reset()
+{
+	if (delayBuffer != nullptr)
+	{
+		memset(delayBuffer, 0, sizeof(float)*bufferFrameLength*getAudioChannelCount());
+	}
+
+	writeFrame = 0;
+	step = 0;
+}
+
 void Minim::Flanger::channelCountChanged()
 {
     resetBuffer();
