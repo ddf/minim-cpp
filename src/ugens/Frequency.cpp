@@ -37,9 +37,15 @@ namespace Minim
 		return Frequency(hz);
 	}
 	
-    Frequency Frequency::ofMidiNote( int midiNote )
+    Frequency Frequency::ofMidiNote( float midiNote )
     {
         float hz = HZA4*powf( 2.0f, ( midiNote - MIDIA4 )/MIDIOCTAVE );
 		return Frequency(hz);
     }
+
+	float Frequency::asMidiNote() const
+	{
+		float midiNote = MIDIA4 + MIDIOCTAVE*(float)logf(mFreq / HZA4) / (float)logf(2.0);
+		return midiNote;
+	}
 }

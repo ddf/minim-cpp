@@ -27,8 +27,9 @@ namespace Minim
 	public:
 		
 		static Frequency ofHertz( float hz );
-        static Frequency ofMidiNote( int midiNote );
+        static Frequency ofMidiNote( float midiNote );
 		
+		float asMidiNote() const;
 		inline float asHz() const { return mFreq; }
 		
 		inline void setAsHz( const float hz ) { mFreq = hz; }
