@@ -28,7 +28,7 @@ namespace Minim
 		FFT(int timeSize, float sampleRate);
 		virtual ~FFT();
 		
-		inline void setSampleRate(float sr) { m_sampleRate = sr; }
+		inline void setSampleRate(float sr) { m_sampleRate = sr; m_bandWidth = (2.0f / m_timeSize) * (sr / 2.0f); }
 		
 		virtual void scaleBand(int i, float s);
 		virtual void setBand(int i, float a);
